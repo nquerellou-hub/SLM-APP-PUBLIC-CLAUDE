@@ -1,0 +1,8 @@
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.push-reminders]
+verify_jwt = false
+
+[functions.premium-prices]
+verify_jwt = false

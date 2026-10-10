@@ -1,0 +1,23 @@
+{
+  "name": "SLM Transfert",
+  "short_name": "SLM Transfert",
+  "description": "Courses, clients, factures et rentabilité pour chauffeurs VTC et taxis indépendants.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "lang": "fr-FR",
+  "background_color": "#0e1511",
+  "theme_color": "#0e1511",
+  "categories": ["business", "productivity", "finance"],
+  "shortcuts": [
+    { "name": "Nouvelle course", "url": "./#courses", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] },
+    { "name": "Finances", "url": "./#finances", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] }
+  ],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
