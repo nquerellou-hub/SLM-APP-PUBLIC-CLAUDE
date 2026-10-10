@@ -12,127 +12,185 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.jpg">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Overpass:wght@600;700;800&display=swap">
 <link rel="stylesheet" href="style.css">
+<script>
+/* Les éléments d’intro ne sont masqués que si les animations sont autorisées, et jamais plus de 2,5 s
+   (si GSAP ne se charge pas, la page s’affiche normalement). */
+(function(){var d=document.documentElement;d.classList.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("motion-pending");setTimeout(function(){d.classList.remove("motion-pending")},2500)}})();
+</script>
 <style>
-body{background:var(--bg)}
+:root{--hero:var(--panel-prem);--hero-mut:#a9c6b6;--mint:#a8e0c2}
+body.landing{background:transparent}
 .lw{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
-.lnav{position:fixed;top:0;left:0;right:0;z-index:50;padding:env(safe-area-inset-top,0px) 0 0;transition:background var(--d2),border-color var(--d2),backdrop-filter var(--d2);border-bottom:1px solid transparent}
-.lnav .lw{display:flex;align-items:center;gap:20px;height:68px}
-.lnav .brand{color:#fff} .lnav .brand small{color:var(--hero-mut)}
-.lnav nav{display:flex;gap:4px;margin-left:24px}
+.motion-pending [data-intro]{opacity:0}
+/* Apparitions (activées seulement quand GSAP tourne et que les animations sont permises) */
+.motion-on :is([data-reveal],[data-step],[data-feature-text],[data-price],[data-faq]){opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease) var(--d,0ms),transform .9s var(--ease) var(--d,0ms),border-color var(--d2),box-shadow var(--d2)}
+.motion-on .feat-row [data-feature-text]{transform:translateX(-36px)}
+.motion-on .feat-row.rev [data-feature-text]{transform:translateX(36px)}
+.motion-on [data-feature-mock]{opacity:0;scale:.96;rotate:2deg;translate:0 40px;transition:opacity .9s var(--ease) .1s,scale 1.1s var(--ease) .1s,rotate 1.1s var(--ease) .1s,translate 1.1s var(--ease) .1s}
+.motion-on .feat-row.rev [data-feature-mock]{rotate:-2deg}
+.motion-on :is([data-reveal],[data-step],[data-feature-text],[data-price],[data-faq]).in{opacity:1;transform:none}
+.motion-on [data-feature-mock].in{opacity:1;scale:1;rotate:0deg;translate:0 0}
+@media (max-width:860px){.motion-on .feat-row [data-feature-text],.motion-on .feat-row.rev [data-feature-text]{transform:translateY(26px)}}
+
+/* Navigation */
+.lnav{position:fixed;top:0;left:0;right:0;z-index:50;padding:env(safe-area-inset-top,0px) 10px 0}
+.lnav .lw{display:flex;align-items:center;gap:20px;height:64px;margin-top:10px;border-radius:20px;border:1px solid transparent;transition:background var(--d2),border-color var(--d2),box-shadow var(--d2)}
+.lnav .brand{color:#fff} .lnav .brand small{color:var(--hero-mut)} .lnav .brand::before{background-color:rgba(255,255,255,.14)}
+.lnav nav{display:flex;gap:2px;margin-left:24px}
 .lnav nav a{color:var(--hero-mut);font-weight:700;font-size:14px;padding:8px 12px;border-radius:10px;transition:color var(--d1),background var(--d1)}
-.lnav nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.lnav nav a:hover{color:#fff;background:rgba(255,255,255,.08)}
 .lnav .right{margin-left:auto;display:flex;gap:8px;align-items:center}
 .lnav .login{color:#fff;font-weight:700;font-size:14px;padding:8px 12px}
-body.scrolled .lnav{background:rgba(29,79,58,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:rgba(242,239,227,.08)}
+body.scrolled .lnav .lw{background:rgba(13,42,30,.72);backdrop-filter:saturate(1.4) blur(16px);-webkit-backdrop-filter:saturate(1.4) blur(16px);border-color:rgba(255,255,255,.1);box-shadow:0 18px 40px -24px rgba(0,0,0,.6)}
 @media (max-width:860px){.lnav nav,.lnav .login{display:none}}
-.night{background:var(--hero);color:#fff;position:relative;overflow:hidden;isolation:isolate}
-.night::before{content:"";position:absolute;z-index:-1;inset:-30% -10% auto auto;width:520px;height:520px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.16),transparent)}
-.night .btn.gold,.price.p .btn.gold,.l-hero .btn.gold,.lnav .btn.gold{background:#fff;color:#1d4f3a;box-shadow:0 12px 30px -14px rgba(0,0,0,.45)}
-.l-hero{position:relative;overflow:hidden;padding:calc(120px + env(safe-area-inset-top,0px)) 0 80px;background:var(--hero)}
-#lcanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.9}
+
+/* Panneaux verts (hero, calculateur, appel final) : un panneau de direction avec son filet blanc */
+.night,.l-hero{background:var(--hero);background-color:var(--night);color:#fff;position:relative;overflow:hidden;isolation:isolate}
+.sign{margin:10px;border-radius:32px;outline:1.5px solid rgba(255,255,255,.28);outline-offset:-10px}
+.night::before{content:"";position:absolute;z-index:-1;inset:-30% -10% auto auto;width:560px;height:560px;border-radius:50%;background:radial-gradient(closest-side,rgba(168,224,194,.14),transparent)}
+.night .btn.gold,.price.p .btn.gold,.l-hero .btn.gold,.lnav .btn.gold{background:#fff;color:#1c4b37;outline:none;box-shadow:0 12px 30px -14px rgba(0,0,0,.45)}
+.night .btn.gold:hover,.price.p .btn.gold:hover,.l-hero .btn.gold:hover,.lnav .btn.gold:hover{background:var(--champ-2)}
+
+/* Hero */
+.l-hero{padding:calc(130px + env(safe-area-inset-top,0px)) 0 90px}
+.l-hero::after{content:"";position:absolute;inset:0;z-index:-2;background-image:radial-gradient(rgba(255,255,255,.13) 1px,transparent 1.3px);background-size:26px 26px;-webkit-mask-image:radial-gradient(90% 80% at 70% 30%,#000 30%,transparent 80%);mask-image:radial-gradient(90% 80% at 70% 30%,#000 30%,transparent 80%)}
+.l-route{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.l-route .road{stroke:rgba(255,255,255,.05);stroke-width:46;fill:none;stroke-linecap:round}
+.l-route .lane{stroke:rgba(255,255,255,.32);stroke-width:2;fill:none;stroke-dasharray:10 16;stroke-linecap:round}
+.l-route .trace{stroke:var(--mint);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.l-route .car{fill:#fff;filter:drop-shadow(0 0 10px rgba(168,224,194,.9))}
+.l-route .pin{fill:var(--night);stroke:#fff;stroke-width:3}
 .l-hero .lw{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:center}
 @media (max-width:900px){.l-hero .lw{grid-template-columns:minmax(0,1fr)}}
-.l-hero h1{font-family:var(--f-display);font-weight:500;font-size:clamp(46px,7.6vw,96px);line-height:.94;letter-spacing:-.02em;color:#fff}
+.l-hero h1{font-family:var(--f-display);font-weight:800;font-size:clamp(44px,7.4vw,92px);line-height:.95;letter-spacing:-.045em;color:#fff}
+.l-hero h1 .ln{display:inline-block}
 .l-hero h1 em{color:var(--mint)}
-.l-hero .sub{color:var(--hero-mut);font-size:clamp(16px,1.7vw,19px);max-width:52ch;margin:22px 0 28px}
+.l-hero .sub{color:var(--hero-mut);font-size:clamp(16px,1.7vw,19px);max-width:52ch;margin:24px 0 30px}
 .l-hero .eyebrow{color:var(--mint)}
-.l-proof{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;color:var(--hero-mut);font-size:13px;font-weight:600}
+.l-proof{display:flex;gap:10px 18px;flex-wrap:wrap;margin-top:28px;color:var(--hero-mut);font-size:13px;font-weight:600}
 .l-proof span{display:inline-flex;align-items:center;gap:7px}
 .l-proof svg{color:var(--mint)}
-/* Téléphone animé */
-.phone{width:min(330px,82vw);aspect-ratio:9/19.3;margin:0 auto;border-radius:48px;padding:11px;background:linear-gradient(145deg,#2c3a30,#0b100c 45%,#27322a);box-shadow:0 0 0 1px rgba(255,255,255,.08),0 60px 100px -30px rgba(0,0,0,.85),0 0 140px -40px rgba(255,255,255,.35);transform:perspective(1400px) rotateY(-14deg) rotateX(5deg);transition:transform .9s var(--ease)}
-.phone:hover{transform:perspective(1400px) rotateY(-4deg) rotateX(2deg)}
+.l-hero .btn.secondary{background:rgba(255,255,255,.07);color:#fff;border-color:rgba(255,255,255,.2);box-shadow:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.l-hero .btn.secondary:hover{background:rgba(255,255,255,.13)}
+
+/* Téléphone de démonstration */
+.phone-wrap{perspective:1400px}
+.phone{width:min(330px,82vw);aspect-ratio:9/19.3;margin:0 auto;border-radius:48px;padding:11px;background:linear-gradient(145deg,#2a4a3b,#08140f 45%,#22392e);box-shadow:0 0 0 1px rgba(255,255,255,.1),0 60px 100px -30px rgba(0,0,0,.85),0 0 140px -40px rgba(168,224,194,.45);transform:rotateY(-14deg) rotateX(5deg);will-change:transform}
 @media (max-width:900px){.phone{transform:none}}
-.scr{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#f4f3ec;color:#17211a;font-size:12px}
+.scr{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#f3f7f4;color:#0f2219;font-size:12px}
 .scr .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:90px;height:24px;border-radius:20px;background:#000;z-index:5}
 .scr .sb{display:flex;justify-content:space-between;padding:13px 24px 0;font-weight:800;font-size:11px;height:40px}
 .scr .v{position:absolute;inset:40px 0 0;padding:6px 14px;display:flex;flex-direction:column;gap:9px;opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .7s var(--ease)}
 .scr .v.on{opacity:1;transform:none}
-.mini-next{border-radius:20px;padding:14px;background:#1f5c43;color:#fff}
-.mini-next .t{font-family:var(--f-display);font-size:40px;font-weight:600;line-height:.9}
-.mini-next small{opacity:.75;font-size:9.5px;letter-spacing:.14em;font-weight:800}
-.mini-card{background:#fff;border:1px solid rgba(23,33,26,.1);border-radius:16px;padding:11px 12px}
+.mini-next{border-radius:20px;padding:14px;background:var(--panel);color:#fff;outline:1px solid rgba(255,255,255,.3);outline-offset:-5px}
+.mini-next .t{font-family:var(--f-display);font-size:40px;font-weight:800;letter-spacing:-.04em;line-height:.9}
+.mini-next small{opacity:.8;font-size:9.5px;letter-spacing:.14em;font-weight:800}
+.mini-card{background:#fff;border:1px solid rgba(15,34,25,.09);border-radius:16px;padding:11px 12px;box-shadow:0 2px 10px -4px rgba(15,34,25,.08)}
 .mini-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .mini-pill{display:inline-flex;gap:5px;align-items:center;height:28px;padding:0 10px;border-radius:9px;background:rgba(255,255,255,.16);font-weight:800;font-size:10.5px}
-.mini-pill.w{background:#fff;color:#1f5c43}
+.mini-pill.w{background:#fff;color:#27634a}
 .wfm{display:grid;gap:7px;margin-top:6px}
 .wfm div{display:grid;grid-template-columns:1fr auto;gap:3px 8px;font-size:11px}
-.wfm i{grid-column:1/-1;height:8px;border-radius:5px;background:#ecebe3;position:relative;overflow:hidden}
-.wfm i b{position:absolute;top:0;bottom:0;border-radius:5px;background:#1f5c43;transform-origin:left}
-.wfm .n i b{background:#b0443a}.wfm .r i b{background:linear-gradient(90deg,#c9f2db,#ffffff)}
+.wfm i{grid-column:1/-1;height:8px;border-radius:5px;background:#edf3ef;position:relative;overflow:hidden}
+.wfm i b{position:absolute;top:0;bottom:0;border-radius:5px;background:#27634a;transform-origin:left}
+.wfm .n i b{background:#b0443a}.wfm .r i b{background:linear-gradient(90deg,#348a63,#a8e0c2)}
 .v.on .wfm i b{animation:barIn .9s var(--ease) both}
 .v.on .wfm div:nth-child(2) i b{animation-delay:.25s}.v.on .wfm div:nth-child(3) i b{animation-delay:.5s}.v.on .wfm div:nth-child(4) i b{animation-delay:.75s}
-.mini-reveal{border-radius:18px;padding:14px;background:linear-gradient(140deg,#348a63,#27634a 50%,#1b4a36);color:#fff}
-.mini-reveal .big{font-family:var(--f-display);font-size:38px;font-weight:600;line-height:1;margin:6px 0}
+.mini-reveal{border-radius:18px;padding:14px;background:linear-gradient(140deg,#348a63,#27634a 50%,#17402f);color:#fff;outline:1px solid rgba(255,255,255,.3);outline-offset:-5px}
+.mini-reveal .big{font-family:var(--f-display);font-size:38px;font-weight:800;letter-spacing:-.04em;line-height:1;margin:6px 0}
 .mini-bars{display:flex;align-items:flex-end;gap:5px;height:60px;margin-top:8px}
 .mini-bars i{flex:1;border-radius:5px 5px 2px 2px;background:rgba(255,255,255,.3);transform-origin:bottom}
-.mini-bars i:last-child{background:linear-gradient(#ffffff,#c9f2db)}
+.mini-bars i:last-child{background:linear-gradient(#ffffff,#a8e0c2)}
 .v.on .mini-bars i{animation:colIn .9s var(--ease) both}
-.dots-l{display:flex;gap:6px;justify-content:center;margin-top:18px}
-.dots-l i{width:7px;height:7px;border-radius:9px;background:rgba(242,239,227,.25);transition:width .3s,background .3s}
+.dots-l{display:flex;gap:6px;justify-content:center;margin-top:20px}
+.dots-l i{width:7px;height:7px;border-radius:9px;background:rgba(255,255,255,.25);cursor:pointer;transition:width .3s,background .3s}
 .dots-l i.on{width:22px;background:var(--mint)}
+
 /* Sections */
 .ls{padding-block:clamp(72px,10vw,128px)}
-.ls h2{font-family:var(--f-display);font-weight:500;font-size:clamp(36px,5.4vw,64px);line-height:1;letter-spacing:-.015em}
+.ls h2{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,5.2vw,62px);line-height:1;letter-spacing:-.04em}
 .ls h2 em{color:var(--brand)}
 .night .ls h2 em,.ls.night h2 em{color:var(--mint)}
-.ls .lede{color:var(--ink-2);max-width:60ch;font-size:17px;margin-top:16px}
+.ls .lede{color:var(--ink-2);max-width:60ch;font-size:17px;margin-top:18px}
 .ls.night .lede{color:var(--hero-mut)}
-.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:48px}
-@media (max-width:860px){.trio{grid-template-columns:minmax(0,1fr)}}
-.trio article{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-4);padding:24px;display:grid;gap:10px;align-content:start}
+
+/* Votre journée : une route qui relie les trois moments */
+.journey{position:relative;margin-top:56px}
+.journey .rail{position:absolute;left:24px;right:24px;top:22px;height:2px;background:repeating-linear-gradient(90deg,var(--line-2) 0 8px,transparent 8px 16px)}
+.journey .rail i{position:absolute;inset:0;background:var(--brand);transform-origin:left;transform:scaleX(var(--p,1))}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;position:relative}
+.trio article{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-4);padding:58px 24px 24px;display:grid;gap:10px;align-content:start;box-shadow:var(--shadow-1);transition:border-color var(--d2),box-shadow var(--d2)}
+.trio article::before{content:"";position:absolute;top:13px;left:24px;width:20px;height:20px;border-radius:50%;background:var(--surface);border:2.5px solid var(--line-2);transition:border-color var(--d2),background var(--d2),box-shadow var(--d2)}
+.trio article.lit::before{border-color:var(--brand);background:var(--brand);box-shadow:0 0 0 6px var(--brand-soft-2)}
+.trio article.lit{border-color:color-mix(in srgb,var(--brand) 24%,var(--line));box-shadow:var(--shadow-2)}
 .trio .when{font-size:11px;letter-spacing:.16em;font-weight:800;color:var(--brand)}
-.trio h3{font-size:20px;font-weight:800}
+.trio h3{font-size:20px;font-weight:800;letter-spacing:-.01em}
 .trio p{color:var(--ink-2)}
-.feat-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,6vw,80px);align-items:center;margin-top:72px}
+@media (max-width:860px){
+  .trio{grid-template-columns:minmax(0,1fr);padding-left:34px}
+  .journey .rail{left:10px;right:auto;top:20px;bottom:20px;width:2px;height:auto;background:repeating-linear-gradient(180deg,var(--line-2) 0 8px,transparent 8px 16px)}
+  .journey .rail i{transform-origin:top;transform:scaleY(var(--p,1))}
+  .trio article{padding:22px}
+  .trio article::before{top:24px;left:-34px}
+}
+.feat-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,6vw,80px);align-items:center;margin-top:88px}
 .feat-row.rev>:first-child{order:2}
 @media (max-width:860px){.feat-row,.feat-row.rev{grid-template-columns:minmax(0,1fr)}.feat-row.rev>:first-child{order:0}}
-.feat-row h3{font-family:var(--f-display);font-weight:600;font-size:clamp(30px,3.6vw,42px);line-height:1.02}
-.feat-row ul{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.feat-row h3{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,3.4vw,40px);line-height:1.04;letter-spacing:-.035em}
+.feat-row ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:11px}
 .feat-row li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;color:var(--ink-2)}
 .feat-row li svg{color:var(--brand);margin-top:2px}
-.mock .kpi b{font-size:clamp(20px,5vw,28px)}
-.mock{border-radius:var(--r-4);background:var(--surface-2);border:1px solid var(--line);padding:22px;display:grid;gap:12px;box-shadow:var(--shadow-2)}
+.mock .kpi b{font-size:clamp(20px,5vw,27px)}
+.mock{position:relative;isolation:isolate;border-radius:var(--r-4);background:color-mix(in srgb,var(--surface) 70%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);padding:22px;display:grid;gap:12px;box-shadow:var(--shadow-2)}
+.mock::before{content:"";position:absolute;z-index:-1;inset:12% -6% -8% 14%;border-radius:40px;background:radial-gradient(closest-side,color-mix(in srgb,var(--brand) 20%,transparent),transparent)}
+
 /* Calculateur */
 .calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);margin-top:44px;align-items:start}
 @media (max-width:860px){.calc{grid-template-columns:minmax(0,1fr)}}
-.calc .ctrl{display:grid;gap:20px}
-.calc label{display:flex;justify-content:space-between;font-size:14px;color:var(--hero-mut);font-weight:600;margin-bottom:8px}
+.calc .ctrl{display:grid;gap:22px}
+.calc label{display:flex;justify-content:space-between;font-size:14px;color:var(--hero-mut);font-weight:600;margin-bottom:10px}
 .calc output{color:#fff;font-weight:800;font-variant-numeric:tabular-nums}
-.calc input[type=range]{width:100%;accent-color:var(--mint)}
-.calc .calcout{border-radius:var(--r-4);padding:26px;background:rgba(255,255,255,.035);border:1px solid rgba(242,239,227,.1);display:grid;gap:16px}
-.calc .calcout .wf-row .track{background:rgba(255,255,255,.08)}
+.calc input[type=range]{width:100%;height:6px;border-radius:6px;background:rgba(255,255,255,.14);-webkit-appearance:none;appearance:none;accent-color:var(--mint);cursor:pointer}
+.calc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 0 0 5px rgba(168,224,194,.28),0 4px 10px rgba(0,0,0,.35);transition:box-shadow var(--d1)}
+.calc input[type=range]:active::-webkit-slider-thumb{box-shadow:0 0 0 9px rgba(168,224,194,.3),0 4px 10px rgba(0,0,0,.35)}
+.calc input[type=range]::-moz-range-thumb{width:22px;height:22px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 5px rgba(168,224,194,.28)}
+.calc input[type=range]:focus-visible{outline:2px solid var(--mint);outline-offset:6px}
+.calc .calcout{border-radius:var(--r-4);padding:26px;background:rgba(255,255,255,.05);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);display:grid;gap:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.calc .calcout .wf-row .track{background:rgba(255,255,255,.1)}
 .calc .calcout .wf-row .track i{animation:none;transition:width .5s var(--ease),left .5s var(--ease)}
-.calc .keep{font-family:var(--f-display);font-size:clamp(52px,8vw,80px);line-height:1;font-weight:600;color:var(--mint);font-variant-numeric:tabular-nums lining-nums}
+.calc .keep{font-family:var(--f-display);font-size:clamp(52px,8vw,82px);line-height:1;font-weight:800;letter-spacing:-.05em;color:var(--mint);font-variant-numeric:tabular-nums lining-nums}
+
 /* Tarifs */
 .price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:40px;max-width:900px}
 @media (max-width:760px){.price-grid{grid-template-columns:minmax(0,1fr)}}
-.price{border-radius:var(--r-4);padding:28px;border:1px solid var(--line);background:var(--surface);display:grid;gap:14px;align-content:start}
-.price.p{background:var(--hero);color:#fff;border-color:transparent;box-shadow:0 40px 80px -40px rgba(10,16,12,.8)}
-.price .amt{font-family:var(--f-display);font-size:56px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums lining-nums}
-.price .amt small{font-family:var(--f-ui);font-size:15px;font-weight:700;opacity:.7}
+.price{position:relative;border-radius:var(--r-4);padding:28px;border:1px solid var(--line);background:var(--surface);display:grid;gap:14px;align-content:start;box-shadow:var(--shadow-1)}
+.price.p{background:var(--hero);background-color:var(--night);color:#fff;border-color:transparent;box-shadow:0 40px 80px -40px rgba(8,30,21,.85);outline:1.5px solid rgba(255,255,255,.28);outline-offset:-8px}
+.price .amt{font-family:var(--f-display);font-size:56px;line-height:1;font-weight:800;letter-spacing:-.045em;font-variant-numeric:tabular-nums lining-nums}
+.price .amt small{font-family:var(--f-ui);font-size:15px;font-weight:700;opacity:.7;letter-spacing:0}
 .price ul{list-style:none;padding:0;margin:0;display:grid;gap:9px;font-size:14.5px}
 .price li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px}
 .price li svg{color:var(--brand);margin-top:2px}
 .price.p li svg{color:var(--mint)}
 .price.p .muted{color:var(--hero-mut)}
+.price.p .badge-premium{background:rgba(255,255,255,.14);color:var(--champ-2)}
 .l-faq{max-width:780px;margin-top:32px}
 .l-faq details{border-top:1px solid var(--line);padding:18px 0}
-.l-faq summary{cursor:pointer;font-weight:750;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.l-faq details:last-child{border-bottom:1px solid var(--line)}
+.l-faq summary{cursor:pointer;font-weight:750;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:12px;transition:color var(--d1)}
+.l-faq summary:hover{color:var(--brand)}
 .l-faq summary::-webkit-details-marker{display:none}
-.l-faq summary::after{content:"+";color:var(--brand);font-size:20px;line-height:1;transition:transform var(--d2)}
+.l-faq summary::after{content:"+";color:var(--brand);font-size:22px;line-height:1;transition:transform var(--d2) var(--ease)}
 .l-faq details[open] summary::after{transform:rotate(45deg)}
 .l-faq p{color:var(--ink-2);margin-top:10px;max-width:68ch}
-.l-cta{text-align:center;display:grid;justify-items:center;gap:20px}
-footer.lf{padding-block:40px;border-top:1px solid rgba(242,239,227,.08);color:var(--hero-mut);font-size:13px}
-footer.lf .lw{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.reveal-up{opacity:1;transform:none}
-.js .reveal-up{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .9s var(--ease)}
-.js .reveal-up.in{opacity:1;transform:none}
+.l-cta{text-align:center;display:grid;justify-items:center;gap:22px}
+.l-cta .eyebrow{justify-content:center}
+footer.lf{padding-block:40px;font-size:13px}
+footer.lf .lw{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--ink-3)}
+footer.lf a{color:var(--ink-2)}
 .sticky-cta{position:fixed;left:16px;right:16px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;display:none}
-@media (max-width:760px){body.scrolled .sticky-cta{display:block;animation:rise .4s var(--ease)}}
+@media (max-width:760px){body.scrolled .sticky-cta{display:flex;animation:rise .4s var(--ease)}}
 </style>
 </head>
 <body class="landing">
@@ -149,79 +207,82 @@ footer.lf .lw{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 <header class="lnav"><div class="lw"><a class="brand" href="#top">SLM<small>TRANSFERT</small></a><nav aria-label="Sections"><a href="#fonctions">Fonctions</a><a href="#marge">Votre marge</a><a href="#tarifs">Tarifs</a><a href="#faq">Questions</a></nav><div class="right"><a class="login" href="index.html#login">Se connecter</a><a class="btn gold sm" href="index.html#signup">Créer mon compte</a></div></div></header>
 
 <main id="top">
-<section class="l-hero"><canvas id="lcanvas" aria-hidden="true"></canvas><div class="lw">
-  <div><span class="eyebrow">Pour les chauffeurs VTC et taxis indépendants</span><h1>Vos courses, vos clients, <em>votre marge</em>.</h1><p class="sub">Planifiez, roulez, facturez en un geste. Et sachez enfin ce que chaque course vous rapporte, après commissions et kilomètres.</p>
-  <div class="btn-row" style="max-width:480px"><a class="btn gold lg" href="index.html#signup">Commencer gratuitement</a><a class="btn lg secondary" style="background:rgba(255,255,255,.06);color:#fff;border-color:rgba(242,239,227,.18)" href="#marge">Calculer ma marge</a></div>
-  <div class="l-proof"><span><svg><use href="#i-check2"/></svg>Gratuit, sans carte bancaire</span><span><svg><use href="#i-sync"/></svg>Téléphone et ordinateur</span><span><svg><use href="#i-shield"/></svg>Vos données exportables à tout moment</span></div></div>
-  <div><div class="phone" id="phone"><div class="scr"><div class="notch"></div><div class="sb"><span>08:12</span><span>5G</span></div>
-    <div class="v on"><div class="mini-row"><b style="font-family:var(--f-display);font-size:15px">SLM <span style="font-family:var(--f-ui);font-size:8px;letter-spacing:.24em;color:#4d5b50">TRANSFERT</span></b><span style="width:26px;height:26px;border-radius:50%;background:rgba(31,92,67,.15);display:grid;place-items:center;font-weight:800;color:#1f5c43;font-size:11px">K</span></div><b style="font-family:var(--f-display);font-size:26px;line-height:1">Bonjour, Karim.</b>
+<section class="l-hero sign">
+  <svg class="l-route" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path id="route-path" class="road" d="M-60 745C220 735 470 705 700 650S930 430 1010 255 1180 60 1280 20"/>
+    <path class="lane" d="M-60 745C220 735 470 705 700 650S930 430 1010 255 1180 60 1280 20"/>
+    <path class="trace" pathLength="1" d="M-60 745C220 735 470 705 700 650S930 430 1010 255 1180 60 1280 20"/>
+    <circle class="pin" cx="700" cy="650" r="8"/><circle class="pin" cx="1010" cy="255" r="8"/>
+    <circle class="car" r="6" cx="0" cy="0" transform="translate(-60 745)"/>
+  </svg>
+  <div class="lw">
+  <div><span class="eyebrow" data-intro>Pour les chauffeurs VTC et taxis indépendants</span><h1><span class="ln" data-intro>Vos courses,</span> <span class="ln" data-intro>vos clients,</span> <span class="ln" data-intro><em>votre marge</em>.</span></h1><p class="sub" data-intro>Planifiez, roulez, facturez en un geste. Et sachez enfin ce que chaque course vous rapporte, après commissions et kilomètres.</p>
+  <div class="btn-row" style="max-width:480px" data-intro><a class="btn gold lg" href="index.html#signup">Commencer gratuitement</a><a class="btn lg secondary" href="#marge">Calculer ma marge</a></div>
+  <div class="l-proof" data-intro><span><svg><use href="#i-check2"/></svg>Gratuit, sans carte bancaire</span><span><svg><use href="#i-sync"/></svg>Téléphone et ordinateur</span><span><svg><use href="#i-shield"/></svg>Vos données exportables à tout moment</span></div></div>
+  <div data-intro data-phone><div class="phone-wrap"><div class="phone" id="phone"><div class="scr"><div class="notch"></div><div class="sb"><span>08:12</span><span>5G</span></div>
+    <div class="v on"><div class="mini-row"><b style="font-family:var(--f-display);font-size:15px;font-weight:800">SLM <span style="font-family:var(--f-ui);font-size:8px;letter-spacing:.24em;color:#4a5d53">TRANSFERT</span></b><span style="width:26px;height:26px;border-radius:50%;background:rgba(39,99,74,.14);display:grid;place-items:center;font-weight:800;color:#27634a;font-size:11px">K</span></div><b style="font-family:var(--f-display);font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1">Bonjour, Karim.</b>
       <div class="mini-next"><small>PROCHAINE COURSE · DANS 1 H 10</small><div class="t" style="margin-top:6px">09:20</div><div style="margin:10px 0 4px;font-weight:700">Aéroport de Genève → Annecy</div><div class="mini-row"><span style="opacity:.8">Hôtel des Marquisats</span><b style="font-size:16px">95 €</b></div><div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><span class="mini-pill w"><svg style="width:12px;height:12px"><use href="#i-nav"/></svg>Itinéraire</span><span class="mini-pill"><svg style="width:12px;height:12px"><use href="#i-phone"/></svg>Appeler</span><span class="mini-pill">Terminer</span></div></div>
-      <div class="mini-card"><div class="mini-row"><span><b>11:45</b> Julie Durand</span><b>38 €</b></div><small style="color:#4d5b50">Gare d’Annecy → Talloires</small></div>
-      <div class="mini-card"><div class="mini-row"><span style="color:#7c887e;font-weight:700;font-size:10.5px">CHIFFRE D’AFFAIRES · OCTOBRE</span></div><b style="font-family:var(--f-display);font-size:28px">2 480 €</b></div></div>
-    <div class="v"><div style="text-align:center;display:grid;gap:4px;justify-items:center;padding-top:8px"><span style="width:52px;height:52px;border-radius:50%;background:#1f5c43;color:#fff;display:grid;place-items:center;box-shadow:0 0 0 8px rgba(31,92,67,.12)"><svg style="width:24px;height:24px"><use href="#i-check"/></svg></span><b style="font-family:var(--f-display);font-size:26px">Course terminée</b><span style="color:#4d5b50">Genève → Annecy · 95 € encaissés</span></div>
-      <div class="mini-card"><b>Où part l’argent de cette course</b><div class="wfm"><div><span>Recette</span><b>95,00 €</b><i><b style="left:0;width:100%"></b></i></div><div class="n"><span>Commission</span><b>− 0,00 €</b><i><b style="left:0;width:2%"></b></i></div><div class="n"><span>92 km × 0,32 €</span><b>− 29,44 €</b><i><b style="left:2%;width:31%"></b></i></div><div class="r"><span><b>Il vous reste</b></span><b style="color:#1f5c43">65,56 €</b><i><b style="left:0;width:69%"></b></i></div></div></div>
-      <div class="mini-card"><div class="mini-row"><span><b>Facture F-2026-0142</b><br><small style="color:#4d5b50">PDF prêt à envoyer</small></span><span style="background:rgba(44,122,83,.12);color:#2c7a53;font-weight:800;border-radius:99px;padding:3px 9px;font-size:10px">payée</span></div></div></div>
-    <div class="v"><div class="mini-reveal"><small style="color:#c9f2db;font-weight:800;letter-spacing:.14em;font-size:9.5px">CE QU’IL VOUS RESTE · OCTOBRE</small><div class="big">1 764 €</div><span style="color:rgba(255,255,255,.8);font-size:11px">Sur 2 480 € encaissés, après commissions et kilomètres.</span><div class="mini-bars"><i style="height:62%"></i><i style="height:70%"></i><i style="height:66%"></i><i style="height:78%"></i><i style="height:86%"></i><i style="height:100%"></i></div></div>
-      <div class="mini-card"><small style="color:#7c887e;font-weight:800;font-size:9.5px;letter-spacing:.12em">CLIENTS LES PLUS RENTABLES</small><div class="mini-row" style="margin-top:6px"><span>01 · Hôtel des Marquisats</span><b>612 €</b></div><div class="mini-row" style="margin-top:4px"><span>02 · Agence Lac & Alpes</span><b>438 €</b></div><div class="mini-row" style="margin-top:4px"><span>03 · Imperial Palace</span><b>371 €</b></div></div></div>
-  </div></div><div class="dots-l" id="ldots"><i class="on"></i><i></i><i></i></div><p style="text-align:center;color:var(--hero-mut);font-size:12px;margin-top:10px">Écrans de démonstration, montants d’exemple.</p></div>
+      <div class="mini-card"><div class="mini-row"><span><b>11:45</b> Julie Durand</span><b>38 €</b></div><small style="color:#4a5d53">Gare d’Annecy → Talloires</small></div>
+      <div class="mini-card"><div class="mini-row"><span style="color:#7b8c83;font-weight:700;font-size:10.5px">CHIFFRE D’AFFAIRES · OCTOBRE</span></div><b style="font-family:var(--f-display);font-size:28px;font-weight:800;letter-spacing:-.03em">2 480 €</b></div></div>
+    <div class="v"><div style="text-align:center;display:grid;gap:4px;justify-items:center;padding-top:8px"><span style="width:52px;height:52px;border-radius:50%;background:#27634a;color:#fff;display:grid;place-items:center;box-shadow:0 0 0 8px rgba(39,99,74,.12)"><svg style="width:24px;height:24px"><use href="#i-check"/></svg></span><b style="font-family:var(--f-display);font-size:26px;font-weight:800;letter-spacing:-.03em">Course terminée</b><span style="color:#4a5d53">Genève → Annecy · 95 € encaissés</span></div>
+      <div class="mini-card"><b>Où part l’argent de cette course</b><div class="wfm"><div><span>Recette</span><b>95,00 €</b><i><b style="left:0;width:100%"></b></i></div><div class="n"><span>Commission</span><b>− 0,00 €</b><i><b style="left:0;width:2%"></b></i></div><div class="n"><span>92 km × 0,32 €</span><b>− 29,44 €</b><i><b style="left:2%;width:31%"></b></i></div><div class="r"><span><b>Il vous reste</b></span><b style="color:#27634a">65,56 €</b><i><b style="left:0;width:69%"></b></i></div></div></div>
+      <div class="mini-card"><div class="mini-row"><span><b>Facture F-2026-0142</b><br><small style="color:#4a5d53">PDF prêt à envoyer</small></span><span style="background:rgba(35,122,82,.12);color:#237a52;font-weight:800;border-radius:99px;padding:3px 9px;font-size:10px">payée</span></div></div></div>
+    <div class="v"><div class="mini-reveal"><small style="color:#a8e0c2;font-weight:800;letter-spacing:.14em;font-size:9.5px">CE QU’IL VOUS RESTE · OCTOBRE</small><div class="big">1 764 €</div><span style="color:rgba(255,255,255,.8);font-size:11px">Sur 2 480 € encaissés, après commissions et kilomètres.</span><div class="mini-bars"><i style="height:62%"></i><i style="height:70%"></i><i style="height:66%"></i><i style="height:78%"></i><i style="height:86%"></i><i style="height:100%"></i></div></div>
+      <div class="mini-card"><small style="color:#7b8c83;font-weight:800;font-size:9.5px;letter-spacing:.12em">CLIENTS LES PLUS RENTABLES</small><div class="mini-row" style="margin-top:6px"><span>01 · Hôtel des Marquisats</span><b>612 €</b></div><div class="mini-row" style="margin-top:4px"><span>02 · Agence Lac & Alpes</span><b>438 €</b></div><div class="mini-row" style="margin-top:4px"><span>03 · Imperial Palace</span><b>371 €</b></div></div></div>
+  </div></div></div><div class="dots-l" id="ldots"><i class="on"></i><i></i><i></i></div><p style="text-align:center;color:var(--hero-mut);font-size:12px;margin-top:10px">Écrans de démonstration, montants d’exemple.</p></div>
 </div></section>
 
 <section class="ls" id="fonctions"><div class="lw">
-  <span class="eyebrow">Votre journée</span><h2>Du premier appel <em>à la facture payée</em>.</h2><p class="lede">Tout ce qu’un chauffeur indépendant gère entre deux trajets, au même endroit, pensé pour être utilisé d’une main.</p>
-  <div class="trio"><article class="reveal-up"><span class="when">AVANT LA COURSE</span><h3>Un agenda qui vous prévient</h3><p>Planifiez en quelques secondes, ou dictez la course. Rappels sur votre téléphone, même application fermée. Confirmation au client par WhatsApp ou SMS, déjà rédigée.</p></article><article class="reveal-up"><span class="when">PENDANT</span><h3>Tout sous le pouce</h3><p>Itinéraire Waze ou Maps, appel du client, message « je suis arrivé » : un seul geste depuis la course. Numéro de vol et notes toujours visibles.</p></article><article class="reveal-up"><span class="when">APRÈS</span><h3>La facture est déjà prête</h3><p>Terminez la course : la facture PDF est numérotée et prête à envoyer. Dépenses, TVA et cotisations estimées se calculent au fil du mois.</p></article></div>
-  <div class="feat-row reveal-up"><div><span class="eyebrow">Factures et devis</span><h3>Une facture conforme, sans ressaisie.</h3><ul><li><svg><use href="#i-check"/></svg><span>Numérotation continue, mentions légales, TVA ou franchise en base</span></li><li><svg><use href="#i-check"/></svg><span>Votre couleur, votre IBAN, vos conditions de paiement</span></li><li><svg><use href="#i-check"/></svg><span>Envoi en un geste par WhatsApp, SMS ou e-mail</span></li><li><svg><use href="#i-check"/></svg><span>Suivi des factures à encaisser</span></li></ul></div>
-    <div class="mock"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px;letter-spacing:.14em;color:var(--ink-3)">FACTURE</b><span class="pill ok">payée</span></div><b class="serif" style="font-size:44px;line-height:1">95,00 €</b><div class="kv"><div><span>N°</span><b>F-2026-0142</b></div><div><span>Client</span><b>Hôtel des Marquisats</b></div><div><span>Prestation</span><b>Genève → Annecy</b></div><div><span>TVA</span><b>Non applicable, art. 293 B</b></div></div></div></div>
-  <div class="feat-row rev reveal-up"><div><span class="eyebrow">Finances</span><h3>Votre mois, lisible en un coup d’œil.</h3><ul><li><svg><use href="#i-check"/></svg><span>Chiffre d’affaires, dépenses et net estimé par mois ou par année</span></li><li><svg><use href="#i-check"/></svg><span>Cotisations micro-BIC ou réelles, TVA collectée et déductible</span></li><li><svg><use href="#i-check"/></svg><span>Export Excel complet pour votre comptable</span></li><li><svg><use href="#i-check"/></svg><span>Échéances de vos documents : carte pro, assurance, contrôle technique</span></li></ul></div>
-    <div class="mock"><div class="kpis" style="grid-template-columns:1fr 1fr"><div class="kpi"><span>Recettes</span><b>2 480 €</b></div><div class="kpi"><span>Dépenses</span><b>612 €</b></div><div class="kpi"><span>Net estimé</span><b>1 342 €</b></div><div class="kpi"><span>Distance</span><b>1 240 km</b></div></div></div></div>
+  <span class="eyebrow" data-reveal>Votre journée</span><h2 data-reveal>Du premier appel <em>à la facture payée</em>.</h2><p class="lede" data-reveal>Tout ce qu’un chauffeur indépendant gère entre deux trajets, au même endroit, pensé pour être utilisé d’une main.</p>
+  <div class="journey" id="journey"><div class="rail" aria-hidden="true"><i id="journey-progress"></i></div><div class="trio"><article class="lit" data-step><span class="when">AVANT LA COURSE</span><h3>Un agenda qui vous prévient</h3><p>Planifiez en quelques secondes, ou dictez la course. Rappels sur votre téléphone, même application fermée. Confirmation au client par WhatsApp ou SMS, déjà rédigée.</p></article><article class="lit" data-step><span class="when">PENDANT</span><h3>Tout sous le pouce</h3><p>Itinéraire Waze ou Maps, appel du client, message « je suis arrivé » : un seul geste depuis la course. Numéro de vol et notes toujours visibles.</p></article><article class="lit" data-step><span class="when">APRÈS</span><h3>La facture est déjà prête</h3><p>Terminez la course : la facture PDF est numérotée et prête à envoyer. Dépenses, TVA et cotisations estimées se calculent au fil du mois.</p></article></div></div>
+  <div class="feat-row" data-feature><div data-feature-text><span class="eyebrow">Factures et devis</span><h3>Une facture conforme, sans ressaisie.</h3><ul><li><svg><use href="#i-check"/></svg><span>Numérotation continue, mentions légales, TVA ou franchise en base</span></li><li><svg><use href="#i-check"/></svg><span>Votre couleur, votre IBAN, vos conditions de paiement</span></li><li><svg><use href="#i-check"/></svg><span>Envoi en un geste par WhatsApp, SMS ou e-mail</span></li><li><svg><use href="#i-check"/></svg><span>Suivi des factures à encaisser</span></li></ul></div>
+    <div class="mock" data-feature-mock><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px;letter-spacing:.14em;color:var(--ink-3)">FACTURE</b><span class="pill ok">payée</span></div><b class="serif" style="font-size:44px;line-height:1">95,00 €</b><div class="kv"><div><span>N°</span><b>F-2026-0142</b></div><div><span>Client</span><b>Hôtel des Marquisats</b></div><div><span>Prestation</span><b>Genève → Annecy</b></div><div><span>TVA</span><b>Non applicable, art. 293 B</b></div></div></div></div>
+  <div class="feat-row rev" data-feature><div data-feature-text><span class="eyebrow">Finances</span><h3>Votre mois, lisible en un coup d’œil.</h3><ul><li><svg><use href="#i-check"/></svg><span>Chiffre d’affaires, dépenses et net estimé par mois ou par année</span></li><li><svg><use href="#i-check"/></svg><span>Cotisations micro-BIC ou réelles, TVA collectée et déductible</span></li><li><svg><use href="#i-check"/></svg><span>Export Excel complet pour votre comptable</span></li><li><svg><use href="#i-check"/></svg><span>Échéances de vos documents : carte pro, assurance, contrôle technique</span></li></ul></div>
+    <div class="mock" data-feature-mock><div class="kpis" style="grid-template-columns:1fr 1fr"><div class="kpi"><span>Recettes</span><b data-count="2480">2 480 €</b></div><div class="kpi"><span>Dépenses</span><b data-count="612">612 €</b></div><div class="kpi"><span>Net estimé</span><b data-count="1342">1 342 €</b></div><div class="kpi"><span>Distance</span><b data-count="1240" data-unit="km">1 240 km</b></div></div></div></div>
 </div></section>
 
-<section class="ls night" id="marge"><div class="lw">
-  <span class="eyebrow" style="color:var(--mint)">Calculez maintenant</span><h2>Votre chiffre d’affaires ne dit pas <em>ce qu’il vous reste</em>.</h2><p class="lede">Bougez les curseurs avec une de vos courses habituelles. C’est le calcul que SLM Premium fait automatiquement pour chacune de vos courses.</p>
-  <div class="calc"><div class="ctrl">
+<section class="ls night sign" id="marge"><div class="lw">
+  <span class="eyebrow" style="color:var(--mint)" data-reveal>Calculez maintenant</span><h2 data-reveal>Votre chiffre d’affaires ne dit pas <em>ce qu’il vous reste</em>.</h2><p class="lede" data-reveal>Bougez les curseurs avec une de vos courses habituelles. C’est le calcul que SLM Premium fait automatiquement pour chacune de vos courses.</p>
+  <div class="calc"><div class="ctrl" data-reveal>
     <div><label for="k-prix">Prix de la course <output id="o-prix"></output></label><input id="k-prix" type="range" min="15" max="400" step="5" value="85"></div>
     <div><label for="k-km">Kilomètres avec client <output id="o-km"></output></label><input id="k-km" type="range" min="2" max="300" step="1" value="46"></div>
     <div><label for="k-vide">Kilomètres à vide (retour) <output id="o-vide"></output></label><input id="k-vide" type="range" min="0" max="300" step="1" value="46"></div>
     <div><label for="k-comm">Commission de plateforme <output id="o-comm"></output></label><input id="k-comm" type="range" min="0" max="35" step="1" value="0"></div>
     <div><label for="k-cost">Coût par kilomètre <output id="o-cost"></output></label><input id="k-cost" type="range" min="0.15" max="0.60" step="0.01" value="0.32"></div></div>
-    <div class="calcout" aria-live="polite"><span class="eyebrow" style="color:var(--mint);margin:0">Il vous reste</span><div class="keep" id="keep">0 €</div><div class="wf" id="kwf"></div><p style="color:var(--hero-mut);font-size:13.5px" id="kmsg"></p><a class="btn gold" href="index.html#signup">Calculer sur toutes mes courses</a></div></div>
+    <div class="calcout" aria-live="polite" data-reveal><span class="eyebrow" style="color:var(--mint);margin:0">Il vous reste</span><div class="keep" id="keep">0 €</div><div class="wf" id="kwf"></div><p style="color:var(--hero-mut);font-size:13.5px" id="kmsg"></p><a class="btn gold" href="index.html#signup">Calculer sur toutes mes courses</a></div></div>
 </div></section>
 
 <section class="ls" id="tarifs"><div class="lw">
-  <span class="eyebrow">Tarifs</span><h2>Gratuit pour gérer. <em>Premium pour piloter.</em></h2><p class="lede">L’agenda, les clients, les factures et la comptabilité restent gratuits, sans limite de courses. Premium ajoute l’analyse de votre rentabilité.</p>
+  <span class="eyebrow" data-reveal>Tarifs</span><h2 data-reveal>Gratuit pour gérer. <em>Premium pour piloter.</em></h2><p class="lede" data-reveal>L’agenda, les clients, les factures et la comptabilité restent gratuits, sans limite de courses. Premium ajoute l’analyse de votre rentabilité.</p>
   <div class="seg" style="max-width:320px;margin-top:28px" id="bill-toggle"><button type="button" aria-pressed="true" data-p="annual">Annuel <b id="save-badge" style="color:var(--ok)"></b></button><button type="button" aria-pressed="false" data-p="monthly">Mensuel</button></div>
-  <div class="price-grid"><article class="price reveal-up"><span class="eyebrow" style="margin:0">Gratuit</span><div class="amt">0 €</div><p class="muted">Pour organiser son activité au quotidien.</p><ul><li><svg><use href="#i-check"/></svg>Agenda, rappels, itinéraires</li><li><svg><use href="#i-check"/></svg>Clients et historique</li><li><svg><use href="#i-check"/></svg>Factures et devis PDF</li><li><svg><use href="#i-check"/></svg>Dépenses, TVA, cotisations estimées</li><li><svg><use href="#i-check"/></svg>Export Excel, synchronisation</li></ul><a class="btn secondary block" href="index.html#signup">Créer mon compte</a></article>
-  <article class="price p reveal-up"><div style="display:flex;justify-content:space-between;align-items:center"><span class="eyebrow" style="margin:0;color:var(--mint)">Premium</span><span class="badge-premium"><svg style="width:12px;height:12px"><use href="#i-spark"/></svg> <span id="trial-badge">14 JOURS OFFERTS</span></span></div><div class="amt" id="p-amt">89 €<small> /an</small></div><p class="muted" id="p-sub">soit 7,41 € par mois</p><ul><li><svg><use href="#i-check"/></svg>Tout le plan Gratuit</li><li><svg><use href="#i-check"/></svg>Marge par course, par client, par mois</li><li><svg><use href="#i-check"/></svg>Rapport mensuel, tendance sur 6 mois</li><li><svg><use href="#i-check"/></svg>Dictée vocale des courses</li><li><svg><use href="#i-check"/></svg>Justificatifs photo des dépenses</li><li><svg><use href="#i-check"/></svg>Un mois offert par chauffeur parrainé</li></ul><a class="btn gold block" href="index.html#signup" id="p-cta">Essayer 14 jours gratuitement</a><p class="muted" style="font-size:12.5px">Sans engagement, résiliable depuis l’application. Paiement sécurisé Stripe.</p></article></div>
+  <div class="price-grid"><article class="price" data-price><span class="eyebrow" style="margin:0">Gratuit</span><div class="amt">0 €</div><p class="muted">Pour organiser son activité au quotidien.</p><ul><li><svg><use href="#i-check"/></svg>Agenda, rappels, itinéraires</li><li><svg><use href="#i-check"/></svg>Clients et historique</li><li><svg><use href="#i-check"/></svg>Factures et devis PDF</li><li><svg><use href="#i-check"/></svg>Dépenses, TVA, cotisations estimées</li><li><svg><use href="#i-check"/></svg>Export Excel, synchronisation</li></ul><a class="btn secondary block" href="index.html#signup">Créer mon compte</a></article>
+  <article class="price p" data-price><div style="display:flex;justify-content:space-between;align-items:center"><span class="eyebrow" style="margin:0;color:var(--mint)">Premium</span><span class="badge-premium"><svg style="width:12px;height:12px"><use href="#i-spark"/></svg> <span id="trial-badge">14 JOURS OFFERTS</span></span></div><div class="amt" id="p-amt">89 €<small> /an</small></div><p class="muted" id="p-sub">soit 7,41 € par mois</p><ul><li><svg><use href="#i-check"/></svg>Tout le plan Gratuit</li><li><svg><use href="#i-check"/></svg>Marge par course, par client, par mois</li><li><svg><use href="#i-check"/></svg>Rapport mensuel, tendance sur 6 mois</li><li><svg><use href="#i-check"/></svg>Dictée vocale des courses</li><li><svg><use href="#i-check"/></svg>Justificatifs photo des dépenses</li><li><svg><use href="#i-check"/></svg>Un mois offert par chauffeur parrainé</li></ul><a class="btn gold block" href="index.html#signup" id="p-cta">Essayer 14 jours gratuitement</a><p class="muted" style="font-size:12.5px">Sans engagement, résiliable depuis l’application. Paiement sécurisé Stripe.</p></article></div>
 </div></section>
 
-<section class="ls" id="faq" style="padding-top:0"><div class="lw"><span class="eyebrow">Questions</span><h2>Avant de <em>vous lancer</em>.</h2><div class="l-faq">
-  <details><summary>L’offre gratuite est-elle vraiment gratuite ?</summary><p>Oui, sans limite de courses ni de factures, et sans carte bancaire. Premium est une option pour analyser votre rentabilité.</p></details>
-  <details><summary>Comment fonctionne l’essai de Premium ?</summary><p>Tout est débloqué pendant l’essai et rien n’est prélevé. Résiliez avant la fin depuis l’application : aucun paiement. L’essai est réservé à un premier abonnement.</p></details>
-  <details><summary>Mes données sont-elles à moi ?</summary><p>Oui. Vous pouvez exporter à tout moment toute votre activité dans un classeur Excel, restaurable dans l’application.</p></details>
-  <details><summary>Ça marche sur iPhone, Android et ordinateur ?</summary><p>Oui, dans le navigateur. Installez-la sur l’écran d’accueil de votre téléphone pour l’ouvrir comme une application et recevoir les rappels de course.</p></details>
-  <details><summary>Les factures sont-elles conformes ?</summary><p>Numérotation continue, mentions obligatoires, TVA ou mention de franchise en base : les éléments sont prévus et personnalisables. Vérifiez-les avec votre comptable au démarrage.</p></details>
-  <details><summary>La marge affichée remplace-t-elle ma comptabilité ?</summary><p>Non. C’est une estimation avant frais fixes, cotisations et impôts, calculée avec votre coût au kilomètre. Elle sert à comparer vos courses et vos clients.</p></details>
+<section class="ls" id="faq" style="padding-top:0"><div class="lw"><span class="eyebrow" data-reveal>Questions</span><h2 data-reveal>Avant de <em>vous lancer</em>.</h2><div class="l-faq">
+  <details data-faq><summary>L’offre gratuite est-elle vraiment gratuite ?</summary><p>Oui, sans limite de courses ni de factures, et sans carte bancaire. Premium est une option pour analyser votre rentabilité.</p></details>
+  <details data-faq><summary>Comment fonctionne l’essai de Premium ?</summary><p>Tout est débloqué pendant l’essai et rien n’est prélevé. Résiliez avant la fin depuis l’application : aucun paiement. L’essai est réservé à un premier abonnement.</p></details>
+  <details data-faq><summary>Mes données sont-elles à moi ?</summary><p>Oui. Vous pouvez exporter à tout moment toute votre activité dans un classeur Excel, restaurable dans l’application.</p></details>
+  <details data-faq><summary>Ça marche sur iPhone, Android et ordinateur ?</summary><p>Oui, dans le navigateur. Installez-la sur l’écran d’accueil de votre téléphone pour l’ouvrir comme une application et recevoir les rappels de course.</p></details>
+  <details data-faq><summary>Les factures sont-elles conformes ?</summary><p>Numérotation continue, mentions obligatoires, TVA ou mention de franchise en base : les éléments sont prévus et personnalisables. Vérifiez-les avec votre comptable au démarrage.</p></details>
+  <details data-faq><summary>La marge affichée remplace-t-elle ma comptabilité ?</summary><p>Non. C’est une estimation avant frais fixes, cotisations et impôts, calculée avec votre coût au kilomètre. Elle sert à comparer vos courses et vos clients.</p></details>
 </div></div></section>
 
-<section class="ls night"><div class="lw l-cta"><span class="eyebrow" style="color:var(--mint)">Prêt à rouler</span><h2>Votre prochaine course mérite <em>mieux qu’un carnet</em>.</h2><a class="btn gold lg" href="index.html#signup">Créer mon compte gratuit</a><p style="color:var(--hero-mut);font-size:13px">Deux minutes pour démarrer. Vos données restent exportables.</p></div></section>
+<section class="ls night sign"><div class="lw l-cta"><span class="eyebrow" style="color:var(--mint)" data-reveal>Prêt à rouler</span><h2 data-reveal>Votre prochaine course mérite <em>mieux qu’un carnet</em>.</h2><a class="btn gold lg" href="index.html#signup" data-reveal>Créer mon compte gratuit</a><p style="color:var(--hero-mut);font-size:13px" data-reveal>Deux minutes pour démarrer. Vos données restent exportables.</p></div></section>
 </main>
-<footer class="lf night"><div class="lw"><span>© <span id="yr"></span> SLM Transfert</span><span><a href="index.html#login" style="color:var(--hero-mut)">Se connecter</a> · <a href="index.html#signup" style="color:var(--hero-mut)">Créer un compte</a></span></div></footer>
+<footer class="lf"><div class="lw"><span>© <span id="yr"></span> SLM Transfert</span><span><a href="index.html#login">Se connecter</a> · <a href="index.html#signup">Créer un compte</a></span></div></footer>
 <a class="btn gold lg block sticky-cta" href="index.html#signup">Commencer gratuitement</a>
 
 <script src="config.js"></script>
 <script>
-(()=>{document.documentElement.classList.add("js");const RM=matchMedia("(prefers-reduced-motion: reduce)").matches,$=s=>document.querySelector(s);
+(()=>{const RM=matchMedia("(prefers-reduced-motion: reduce)").matches,$=s=>document.querySelector(s);
 $("#yr").textContent=new Date().getFullYear();
 /* Parrainage : le code est gardé pour l’inscription dans l’application (même domaine). */
 try{const u=new URL(location.href),r=u.searchParams.get("ref");if(r){localStorage.setItem("slm_referral_code_pending",r.trim().toUpperCase());u.searchParams.delete("ref");history.replaceState(null,"",u.toString())}}catch{}
 addEventListener("scroll",()=>document.body.classList.toggle("scrolled",scrollY>40),{passive:true});
-/* Apparition au défilement */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.15});document.querySelectorAll(".reveal-up").forEach(el=>RM?el.classList.add("in"):io.observe(el));
-/* Téléphone : trois écrans en boucle */
-const vs=[...document.querySelectorAll(".scr .v")],ds=[...document.querySelectorAll("#ldots i")];let k=0;const show=i=>{vs.forEach((v,j)=>v.classList.toggle("on",j===i));ds.forEach((d,j)=>d.classList.toggle("on",j===i));k=i};if(!RM)setInterval(()=>show((k+1)%vs.length),3600);ds.forEach((d,i)=>d.addEventListener("click",()=>show(i)));
-/* Fond : trajet lumineux */
-const cv=$("#lcanvas"),x=cv.getContext("2d");let w,h;const size=()=>{const r=cv.getBoundingClientRect();w=r.width;h=r.height;cv.width=w*devicePixelRatio;cv.height=h*devicePixelRatio;x.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)};size();addEventListener("resize",size);
-const P=t=>{const s=1-t;return[w*(-.05*s*s*s+3*.3*t*s*s+3*.55*t*t*s+1.05*t*t*t),h*(.95*s*s*s+3*.6*t*s*s+3*.8*t*t*s+.15*t*t*t)]};let t0=performance.now(),vis=true;new IntersectionObserver(([e])=>{vis=e.isIntersecting;if(vis&&!RM)requestAnimationFrame(draw)}).observe(cv);
-function draw(now){const t=(now-t0)/1000;x.clearRect(0,0,w,h);x.fillStyle="rgba(255,255,255,.12)";for(let gx=0;gx<w;gx+=28)for(let gy=0;gy<h;gy+=28)x.fillRect(gx,gy+Math.sin(gx*.018+gy*.012+t*.4)*3,1.2,1.2);x.strokeStyle="rgba(255,255,255,.45)";x.lineWidth=2;x.beginPath();for(let i=0;i<=140;i++){const[a,b]=P(i/140);i?x.lineTo(a,b):x.moveTo(a,b)}x.stroke();for(let i=0;i<18;i++){const u=(t*.05+i/18)%1,[a,b]=P(u),g=x.createRadialGradient(a,b,0,a,b,11);g.addColorStop(0,"rgba(255,255,255,.95)");g.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=g;x.beginPath();x.arc(a,b,11,0,7);x.fill()}if(vis&&!RM)requestAnimationFrame(draw)}requestAnimationFrame(draw);
+/* Téléphone : trois écrans en boucle (mis en pause hors écran quand GSAP est chargé) */
+const vs=[...document.querySelectorAll(".scr .v")],ds=[...document.querySelectorAll("#ldots i")];let k=0,phoneTimer=null;const show=i=>{vs.forEach((v,j)=>v.classList.toggle("on",j===i));ds.forEach((d,j)=>d.classList.toggle("on",j===i));k=i};
+window.slmPhoneLoop=on=>{clearInterval(phoneTimer);phoneTimer=null;if(on&&!RM)phoneTimer=setInterval(()=>show((k+1)%vs.length),3600)};slmPhoneLoop(true);ds.forEach((d,i)=>d.addEventListener("click",()=>show(i)));
 /* Calculateur de marge */
 const eur=(v,d=2)=>v.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d})+" €";const ids=["prix","km","vide","comm","cost"];
 function calc(){const v=Object.fromEntries(ids.map(i=>[i,+$("#k-"+i).value]));$("#o-prix").textContent=eur(v.prix,0);$("#o-km").textContent=v.km+" km";$("#o-vide").textContent=v.vide+" km";$("#o-comm").textContent=v.comm+" %";$("#o-cost").textContent=eur(v.cost);
@@ -236,6 +297,61 @@ function renderPrice(){const save=pr.monthly>0&&pr.annual>0?Math.round((1-pr.ann
   $("#p-amt").innerHTML=plan==="annual"?`${f(pr.annual)}<small> /an</small>`:`${f(pr.monthly)}<small> /mois</small>`;$("#p-sub").textContent=plan==="annual"?`soit ${f(Math.floor(pr.annual/12*100)/100)} par mois`:"sans engagement";$("#trial-badge").textContent=pr.trialDays?`${pr.trialDays} JOURS OFFERTS`:"PREMIUM";$("#p-cta").textContent=pr.trialDays?`Essayer ${pr.trialDays} jours gratuitement`:"Passer à Premium";const seg=$("#bill-toggle"),on=seg.querySelector('[aria-pressed="true"]');let th=seg.querySelector(".thumb");if(!th){th=document.createElement("i");th.className="thumb";seg.prepend(th)}th.style.left=on.offsetLeft+"px";th.style.width=on.offsetWidth+"px"}
 document.querySelectorAll("#bill-toggle button").forEach(b=>b.addEventListener("click",()=>{plan=b.dataset.p;renderPrice()}));renderPrice();addEventListener("resize",renderPrice);
 fetch("https://ucmwtebwlbrmybxdjxlg.supabase.co/functions/v1/premium-prices",{headers:{apikey:"sb_publishable_Fc6ZGyUSjuHkdqCgAUtKiQ_qa9uWSQK"}}).then(r=>r.ok?r.json():null).then(d=>{if(d&&+d.monthly>0){pr={monthly:+d.monthly,annual:+d.annual||0,trialDays:Number.isFinite(+d.trial_days)?+d.trial_days:pr.trialDays};renderPrice()}}).catch(()=>{});
+})();
+</script>
+<!-- Animations de la landing : GSAP + ScrollTrigger + MotionPath (versions figées). Facultatif : sans eux, la page reste complète. -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
+<script>
+(()=>{const root=document.documentElement,done=()=>root.classList.remove("motion-pending");
+if(!window.gsap||!window.ScrollTrigger){done();return}
+gsap.registerPlugin(ScrollTrigger);if(window.MotionPathPlugin)gsap.registerPlugin(MotionPathPlugin);
+const mm=gsap.matchMedia();
+mm.add({motion:"(prefers-reduced-motion: no-preference)",desk:"(min-width: 901px)",mobile:"(max-width: 860px)"},ctx=>{
+  const{motion,desk,mobile}=ctx.conditions;
+  if(!motion){done();return}
+  gsap.defaults({ease:"power3.out",duration:.9});
+
+  /* 1. Intro du hero : le tracé se dessine, les lignes du titre montent, le téléphone arrive. */
+  const intro=gsap.timeline({onStart:done});
+  intro.fromTo(".l-route .trace",{strokeDashoffset:1},{strokeDashoffset:0,duration:2.2,ease:"power2.inOut"},0)
+    .fromTo(".l-route .pin",{scale:0,transformOrigin:"50% 50%"},{scale:1,duration:.5,stagger:.25,ease:"back.out(2)"},.6)
+    .fromTo(".l-hero .eyebrow,.l-hero .sub,.l-hero .btn-row,.l-hero .l-proof",{autoAlpha:0,y:18},{autoAlpha:1,y:0,stagger:.08},.1)
+    .fromTo(".l-hero h1 .ln",{autoAlpha:0,yPercent:60},{autoAlpha:1,yPercent:0,stagger:.09,duration:1},.15)
+    .fromTo("[data-phone]",{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:1.2},.35);
+
+  /* Voiture qui parcourt la route en boucle, en pause (avec le téléphone) quand le hero n’est plus visible. */
+  let drive=null;
+  if(window.MotionPathPlugin)drive=gsap.to(".l-route .car",{motionPath:{path:"#route-path",align:"#route-path",alignOrigin:[.5,.5]},duration:14,ease:"none",repeat:-1,delay:1.2});
+  ScrollTrigger.create({trigger:".l-hero",start:"top bottom",end:"bottom top",onToggle:self=>{drive&&(self.isActive?drive.play():drive.pause());window.slmPhoneLoop?.(self.isActive)}});
+
+  /* 2. Parallaxe douce : le téléphone se redresse en défilant (ordinateur seulement). */
+  if(desk){
+    gsap.fromTo("#phone",{rotateY:-14,rotateX:5},{rotateY:0,rotateX:0,y:-40,ease:"none",scrollTrigger:{trigger:".l-hero",start:"top top",end:"bottom top",scrub:.6}});
+    gsap.to(".l-route",{yPercent:8,ease:"none",scrollTrigger:{trigger:".l-hero",start:"top top",end:"bottom top",scrub:true}});
+  }
+
+  /* 3. Apparitions au défilement : ScrollTrigger pose une classe, la transition CSS anime.
+        État binaire et robuste (rafraîchissements, sauts d’ancre, redimensionnements). */
+  root.classList.add("motion-on");
+  const reveal=els=>els.forEach((el,i)=>{if(el.classList.contains("in"))return;el.style.setProperty("--d",Math.min(i,6)*80+"ms");el.classList.add("in");el.dispatchEvent(new CustomEvent("slm:in"))});
+  ScrollTrigger.batch("[data-reveal],[data-step],[data-feature-text],[data-feature-mock],[data-price],[data-faq]",{start:"top 88%",onEnter:reveal,onLeave:reveal,onEnterBack:reveal});
+
+  /* 4. La route de la journée se trace au défilement et allume chaque étape. */
+  const steps=gsap.utils.toArray("[data-step]");steps.forEach(s=>s.classList.remove("lit"));
+  gsap.fromTo("#journey-progress",{"--p":0},{"--p":1,ease:"none",scrollTrigger:{trigger:"#journey",start:mobile?"top 75%":"top 70%",end:mobile?"bottom 55%":"top 25%",scrub:.5}});
+  steps.forEach((s,i)=>ScrollTrigger.create({trigger:mobile?s:"#journey",start:mobile?"top 65%":`top ${70-i*20}%`,onEnter:()=>s.classList.add("lit"),onLeaveBack:()=>s.classList.remove("lit")}));
+
+  /* 5. Compteurs de la maquette « Finances » (la valeur finale est déjà écrite dans la page). */
+  document.querySelectorAll("[data-feature-mock]").forEach(mock=>{
+    mock.addEventListener("slm:in",()=>mock.querySelectorAll("[data-count]").forEach(b=>{const end=+b.dataset.count,unit=b.dataset.unit||"€",o={v:0};gsap.to(o,{v:end,duration:1.4,delay:.25,ease:"power2.out",onUpdate:()=>{b.textContent=Math.round(o.v).toLocaleString("fr-FR")+" "+unit},onComplete:()=>{b.textContent=end.toLocaleString("fr-FR")+" "+unit}})}),{once:true});
+    if(desk)gsap.to(mock,{y:-30,ease:"none",scrollTrigger:{trigger:mock.parentElement,start:"top bottom",end:"bottom top",scrub:true}});
+  });
+
+  return()=>{root.classList.remove("motion-on");steps.forEach(s=>s.classList.add("lit"));window.slmPhoneLoop?.(true)};
+});
+document.fonts?.ready?.then(()=>ScrollTrigger.refresh());
 })();
 </script>
 </body>
