@@ -33,6 +33,12 @@ Design et interactions uniquement : **aucun changement de données, de routes, d
 - Couleurs choisies pour résister au mode sombre forcé de Samsung Internet (qui ignore `color-scheme`) : plus de bouton blanc dans le premier écran ni dans la barre du bas.
 - L’ordinateur et le reste de la page ne changent pas.
 
+### V8.5.0 — landing « Outil de gestion » et mise en ligne auditée
+- `landing.html` : positionnement « outil de gestion des taxis et VTC indépendants », visite guidée de l’app (Agenda, Factures, Dépenses, Finances), fonctions en trois piliers + bandeau Premium, journée, comparatif Sans/Avec SLM, installation en trois cartes (Android/iPhone), tarifs, questions, éventail final. Jetons de mouvement partagés, mouvement réduit respecté, Lighthouse mobile accessibilité 100 / SEO 100.
+- `premium-prices` : tant que `STRIPE_PREMIUM_PRICE_ID` n’est pas défini, la fonction répond `{configured:false}` (200) au lieu d’une erreur ; l’app et la landing gardent les prix de `config.js`. Déployée avec `--no-verify-jwt`.
+- Migration `20261010180000_restrict_rpc_execute.sql` : `create_billing_account_for_user` n’est plus appelable via l’API, `claim_referral_code` réservé aux utilisateurs connectés (recommandations de l’analyseur Supabase). Appliquée en production.
+- Cache `slm-v8-5-0`.
+
 ### V8.4.0 — landing simple orientée installation
 `landing.html` remplace la landing « Itinéraire » par une page courte et visuelle, pensée d'abord pour le mobile : haut de page avec aperçu de l'application, 3 écrans clés, fonctions, guide d'installation (Android/iPhone détecté), tarifs, questions. Un seul bouton répété : « Installer l'application ». Il ouvre la vraie fenêtre d'installation PWA quand le navigateur la propose, sinon une fiche d'explications (iPhone : Partager → Sur l'écran d'accueil). La page enregistre `sw.js` pour rendre l'installation possible. Plus de GSAP sur la landing (CSS seul). Parrainage `?ref=` et prix `premium-prices` conservés. Cache `slm-v8-4-0`.
 
