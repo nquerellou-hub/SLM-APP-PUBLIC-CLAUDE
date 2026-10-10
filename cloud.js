@@ -4,6 +4,7 @@ const SB_KEY="sb_publishable_Fc6ZGyUSjuHkdqCgAUtKiQ_qa9uWSQK";
 const CLOUD_ARR=["courses","clients","depenses","factures","docs"];
 const TERMS_VERSION="2026-10-07-v1";
 const CLOUD_USAGE_EVENTS=new Set(["app_opened","page_home","page_courses","page_history","page_clients","page_plus","page_factures","page_compta","page_documents","page_billing","page_settings","page_tools","course_created","client_created","invoice_created","expense_created","premium_promo_shown","premium_cta_clicked","premium_gate_opened","checkout_started"]);
+let cloudRecovery=false;
 let sb=null,cloudUser=null,cloudBusy=false,cloudTimer=null,cloudMsg="",cloudPreparedUserId=null,cloudPreparing=null,cloudAuthReady=null,cloudStarting=false;
 /* « Rester connecté sur cet appareil » : la session est conservée (localStorage, comportement par défaut, inchangé)
    ou limitée à la fenêtre (sessionStorage). Le second réglage permet d’ouvrir cet appareil sans code. */
@@ -64,7 +65,7 @@ function cloudMerge(remote,local){
 async function cloudInit(){
   if(!sb)return cloudSet("Supabase indisponible (hors-ligne ?)");
   try{const{data}=await sb.auth.getSession();cloudUser=data.session?data.session.user:null}catch{cloudUser=null}
-  sb.auth.onAuthStateChange((_e,s)=>{cloudUser=s?s.user:null;cloudPreparedUserId=null;if(cloudUser){cloudPull();if(typeof adminCheckAccess==="function")adminCheckAccess();if(document.getElementById("cloud-auth-screen"))cloudOpenApp()}});
+  sb.auth.onAuthStateChange((_e,s)=>{cloudUser=s?s.user:null;if(_e==="PASSWORD_RECOVERY"){cloudRecovery=true;setTimeout(cloudRecoveryUI,0);return}if(cloudRecovery)return;cloudPreparedUserId=null;if(cloudUser){cloudPull();if(typeof adminCheckAccess==="function")adminCheckAccess();if(document.getElementById("cloud-auth-screen"))cloudOpenApp()}});
   if(cloudUser)cloudPull();
 }
 function cloudQueue(){if(!db||!sb||!cloudUser||cloudPreparedUserId!==cloudUser.id||db.meta?.ownerUserId!==cloudUser.id)return;ensureMeta();db.meta.dirtyAt=Math.max(Date.now(),(+db.meta.dirtyAt||0)+1);cloudSet("Modifications en attente de synchronisation…");clearTimeout(cloudTimer);cloudTimer=setTimeout(cloudPush,1800)}
@@ -131,8 +132,8 @@ async function cloudSignup(){
 function cloudSignupTermsChanged(input){const button=document.getElementById("cl_signup");if(button)button.disabled=!input?.checked}
 async function cloudForgotPassword(){if(!sb)return toast("Supabase indisponible");const email=(document.getElementById("cl_mail")||{}).value||"";if(!email.trim())return toast("Saisissez votre adresse e-mail d’abord");const{error}=await sb.auth.resetPasswordForEmail(email.trim(),{redirectTo:`${location.origin}${location.pathname}`});if(error)return toast("Envoi impossible : "+error.message);toast("E-mail de réinitialisation envoyé")}
 function cloudAuthSwitch(mode){const email=(document.getElementById("cl_mail")||{}).value||"";cloudAuthUI(mode).then(()=>{const field=document.getElementById("cl_mail");if(field)field.value=email})}
-async function cloudOpenApp(){if(cloudStarting)return;if(!cloudUser)return cloudAuthUI();cloudStarting=true;$("#lock").classList.remove("auth-lock");try{await boot();if(typeof adminCheckAccess==="function")adminCheckAccess();if(typeof billingAppReady==="function")billingAppReady()}catch(error){cloudSet("Impossible d’ouvrir l’application : "+(error?.message||"erreur locale"));await cloudAuthUI("login","Impossible d’ouvrir vos données. Vérifiez la connexion et réessayez.")}finally{cloudStarting=false}}
-async function cloudLogout(){try{localStorage.removeItem(SLM_NOPIN_KEY)}catch{}if(cloudUser&&db){ensureMeta();db.meta.ownerUserId=cloudUser.id;await store(cloudLocalKey(cloudUser.id),JSON.stringify(db))}if(typeof removePushForLogout==="function")await removePushForLogout();if(sb)await sb.auth.signOut();cloudUser=null;cloudPreparedUserId=null;cloudSet("Déconnecté");await cloudAuthUI("login","Vous êtes déconnecté.")}
+async function cloudOpenApp(){if(cloudRecovery)return cloudRecoveryUI();if(cloudStarting)return;if(!cloudUser)return cloudAuthUI();cloudStarting=true;$("#lock").classList.remove("auth-lock");try{await boot();if(typeof adminCheckAccess==="function")adminCheckAccess();if(typeof billingAppReady==="function")billingAppReady()}catch(error){cloudSet("Impossible d’ouvrir l’application : "+(error?.message||"erreur locale"));await cloudAuthUI("login","Impossible d’ouvrir vos données. Vérifiez la connexion et réessayez.")}finally{cloudStarting=false}}
+async function cloudLogout(){cloudRecovery=false;try{localStorage.removeItem(SLM_NOPIN_KEY)}catch{}if(cloudUser&&db){ensureMeta();db.meta.ownerUserId=cloudUser.id;await store(cloudLocalKey(cloudUser.id),JSON.stringify(db))}if(typeof removePushForLogout==="function")await removePushForLogout();if(sb)await sb.auth.signOut();cloudUser=null;cloudPreparedUserId=null;cloudSet("Déconnecté");await cloudAuthUI("login","Vous êtes déconnecté.")}
 async function cloudApplyImportedData(imported,userId){
   if(!sb||!cloudUser)throw new Error("Connectez-vous au compte destinataire avant la restauration.");
   const targetUserId=userId||cloudUser.id;
@@ -162,3 +163,15 @@ cloudAuthReady=cloudInit();
 setInterval(()=>{if(!document.hidden)cloudPull()},45000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)cloudPull()});
 window.addEventListener("online",()=>cloudPull());
+
+function cloudRecoveryUI(message=""){
+  document.body.classList.add('locked');hideSplash();if(mOpen){suspendedSheet=null;close_(true)}
+  document.getElementById('lock').innerHTML=`<div class="auth" id="cloud-auth-screen"><div class="auth-main"><div class="auth-box"><h1>Nouveau mot de passe</h1><p>Choisissez un mot de passe pour sécuriser votre compte.</p><form onsubmit="event.preventDefault();cloudSavePassword(this)"><div class="field"><label for="recovery-password">Nouveau mot de passe</label><input id="recovery-password" type="password" autocomplete="new-password" minlength="8" required></div><div class="field"><label for="recovery-confirm">Confirmer le mot de passe</label><input id="recovery-confirm" type="password" autocomplete="new-password" minlength="8" required></div><p id="recovery-status" role="alert">${esc(message)}</p><button class="btn block" type="submit">Enregistrer mon mot de passe</button><button class="btn secondary block" type="button" onclick="cloudLogout()">Retour à la connexion</button></form></div></div></div>`;
+  document.getElementById('recovery-password').focus();
+}
+async function cloudSavePassword(form){
+  if(!form.reportValidity())return;const pw=document.getElementById('recovery-password'),confirm=document.getElementById('recovery-confirm'),status=document.getElementById('recovery-status');
+  if(pw.value!==confirm.value){status.textContent='Les deux mots de passe doivent être identiques.';confirm.focus();return}
+  const button=form.querySelector('[type=submit]');button.disabled=true;
+  try{const{error}=await sb.auth.updateUser({password:pw.value});if(error)throw error;cloudRecovery=false;await cloudLogout();await cloudAuthUI('login','Mot de passe modifié. Connectez-vous avec votre nouveau mot de passe.')}catch(e){status.textContent='Impossible de modifier le mot de passe : '+(e?.message||'demandez un nouveau lien.')}finally{button.disabled=false}
+}

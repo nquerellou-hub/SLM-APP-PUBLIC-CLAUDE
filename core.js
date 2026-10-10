@@ -1,5 +1,5 @@
 /* SLM Transfert V8 — noyau de données (repris de la V7 pour rester compatible avec les comptes existants). */
-const APP_VERSION="8.0.0";
+const APP_VERSION="8.2.0";
 const APP_NAME="SLM Transfert";
 const $=s=>document.querySelector(s);
 const D_KEY="slm_data_v2",PIN_KEY="slm_pin",PIN_USER_PREFIX="slm_pin_user_",A_KEY="slm_auth",E_KEY="slm_enc_v1",OLD_KEY="slm_db_v1",T_KEY="slm_try";
@@ -52,7 +52,7 @@ function fixDb(){
   if(!Array.isArray(db.deleted))db.deleted=[];
   for(const k of ["courses","clients","depenses","factures","docs"])if(!Array.isArray(db[k]))db[k]=[];
   for(const k in def.settings)if(!(k in db.settings))db.settings[k]=JSON.parse(JSON.stringify(def.settings[k]));
-  db.meta.appVersion=APP_VERSION;
+  db.meta.appVersion=APP_VERSION;snapshotExistingInvoices();
   delete db.meta.lastBackup;
   delete db.settings.backupDays;
   db.meta.settingsAt=+db.meta.settingsAt||0;
@@ -118,19 +118,23 @@ function pdfStr(s){let o="";for(const ch of clean(s)){const c=ch.charCodeAt(0);i
 function wrap(s,size,maxW,bold){const out=[];for(const para of clean(s).split("\n")){let line="";for(const w of para.split(/\s+/)){const t=line?line+" "+w:w;if(tw(t,size,bold)<=maxW||!line)line=t;else{out.push(line);line=w}}out.push(line)}return out}
 const hex2=h=>{h=String(h||"#3d4a26").replace("#","");if(h.length===3)h=h.split("").map(x=>x+x).join("");return[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)/255)};
 const mixc=(a,b,t)=>a.map((v,i)=>v*(1-t)+b[i]*t);
-async function buildInvoicePdf(inv,cOver,coOver){const s=db.settings,c=cOver||cl(inv.client),co=coOver||db.courses.find(x=>x.id===inv.course)||null;
+function snapshotInvoice(inv){if(!inv||inv.snapshot)return inv;inv.snapshot=JSON.parse(JSON.stringify({settings:db.settings,client:cl(inv.client),course:db.courses.find(x=>x.id===inv.course)||null}));inv.snapshotAt=Date.now();inv._updatedAt=Math.max(inv.snapshotAt,+inv._updatedAt||0);return inv}
+function snapshotExistingInvoices(){for(const inv of db?.factures||[])snapshotInvoice(inv)}
+async function buildInvoicePdf(inv,cOver,coOver){const s=inv.snapshot?.settings||db.settings,c=cOver||inv.snapshot?.client||cl(inv.client),co=coOver||inv.snapshot?.course||db.courses.find(x=>x.id===inv.course)||null;
 const dev=inv.statut==="devis",paid=inv.statut==="payée",band=s.pdfStyle==="band";
 const G=[0.13,0.15,0.1],GR=[0.4,0.42,0.36],COL=hex2(s.pdfColor),WH=[1,1,1],LT=mixc(COL,WH,0.9),LN=mixc(COL,WH,0.6);
-let ops=[];const Y=t=>842-t;
-const rect=(x,t,w,h,col)=>ops.push(`${col.map(v=>v.toFixed(3)).join(" ")} rg ${x} ${Y(t+h)} ${w} ${h} re f`);
-const line=(x1,t1,x2,t2,col,wd)=>ops.push(`${col.map(v=>v.toFixed(3)).join(" ")} RG ${wd||0.6} w ${x1} ${Y(t1)} m ${x2} ${Y(t2)} l S`);
-const text=(str,x,t,size,col,bold,align)=>{let xx=x;const w=tw(str,size,bold);if(align==="r")xx=x-w;else if(align==="c")xx=x-w/2;ops.push(`BT /${bold?"F2":"F1"} ${size} Tf ${col.map(v=>v.toFixed(3)).join(" ")} rg ${xx.toFixed(2)} ${Y(t)} Td (${pdfStr(str)}) Tj ET`)};
+const pages=[[]];const Y=t=>842-t;
+const pageAt=t=>Math.max(0,Math.floor((t-40)/740));
+const emit=(page,op)=>{while(pages.length<=page)pages.push([]);pages[page].push(op)};
+const rect=(x,t,w,h,col)=>{let remaining=h,pos=t;while(remaining>0){const p=pageAt(pos),part=Math.min(remaining,780+p*740-pos);emit(p,`${col.map(v=>v.toFixed(3)).join(" ")} rg ${x} ${Y(pos-p*740+part)} ${w} ${part} re f`);pos+=part;remaining-=part}};
+const line=(x1,t1,x2,t2,col,wd)=>{const p=pageAt(t1);emit(p,`${col.map(v=>v.toFixed(3)).join(" ")} RG ${wd||0.6} w ${x1} ${Y(t1-p*740)} m ${x2} ${Y(t2-p*740)} l S`)};
+const text=(str,x,t,size,col,bold,align)=>{let xx=x;const w=tw(str,size,bold);if(align==="r")xx=x-w;else if(align==="c")xx=x-w/2;const p=pageAt(t);emit(p,`BT /${bold?"F2":"F1"} ${size} Tf ${col.map(v=>v.toFixed(3)).join(" ")} rg ${xx.toFixed(2)} ${Y(t-p*740)} Td (${pdfStr(str)}) Tj ET`)};
 const ttc=+inv.total||0,ht=s.tvaOn?ttc/(1+s.tva/100):ttc,tva=ttc-ht;
 let lg=null;
 const headTxt=band?WH:COL,headH=band?108:96;
 if(band)rect(0,0,595,108,COL);else{rect(0,92,595,3,COL)}
-if(lg){const hh=Math.min(66,150*lg.h/lg.w),ww=hh*lg.w/lg.h;ops.push(`q ${ww.toFixed(2)} 0 0 ${hh.toFixed(2)} 40 ${Y(20+hh)} cm /Im1 Do Q`)}
-else text(s.nom||"",40,56,20,headTxt,true);
+
+text(s.nom||"",40,56,20,headTxt,true);
 text(dev?(s.pdfTitleD||"DEVIS"):(s.pdfTitleF||"FACTURE"),555,52,28,headTxt,true,"r");text("N° "+inv.num,555,72,11,headTxt,false,"r");text("Date : "+fd(inv.date),555,86,10,headTxt,false,"r");
 let top=headH+22;
 if(s.pdfIntro){wrap(s.pdfIntro,10,515).forEach(w=>{text(w,40,top,10,GR,false);top+=13});top+=8}
@@ -161,20 +165,14 @@ top+=Math.max(70,(cols?0:30)+50);
 if(top<ly+90)top=ly+90;
 const ment=[s.tvaOn?"":"TVA non applicable, art. 293 B du CGI.",s.pdfShowMentions?s.mentions:""].filter(Boolean).join("\n");
 if(ment){text("MENTIONS",40,top,7.5,GR,true);top+=12;wrap(ment,8.5,515).forEach(w=>{text(w,40,top,8.5,GR,false);top+=11})}
-line(40,800,555,800,LN,0.6);
-text(s.pdfFooter||[s.nom,s.siret?"SIRET "+s.siret:"",s.email].filter(Boolean).join("  ·  "),297.5,816,8,GR,false,"c");
-const stream=(lg?ops:ops.filter(o=>!o.includes("/Im1"))).join("\n");
-const te=new TextEncoder(),parts=[],offs=[];let len=0;const push=u=>{parts.push(u);len+=u.length};const P=s=>push(te.encode(s));
-push(new Uint8Array([37,80,68,70,45,49,46,52,10,37,226,227,207,211,10]));
-const obj=(n,body)=>{offs[n]=len;P(`${n} 0 obj\n${body}\nendobj\n`)};
-obj(1,"<< /Type /Catalog /Pages 2 0 R >>");obj(2,"<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
-obj(3,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> ${lg?"/XObject << /Im1 7 0 R >>":""} >> /Contents 4 0 R >>`);
-obj(4,`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
-obj(5,"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>");obj(6,"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>");
-if(lg){offs[7]=len;P(`7 0 obj\n<< /Type /XObject /Subtype /Image /Width ${lg.w} /Height ${lg.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${lg.bytes.length} >>\nstream\n`);push(lg.bytes);P("\nendstream\nendobj\n")}
-const n=lg?8:7;const xo=len;P(`xref\n0 ${n}\n0000000000 65535 f \n`);for(let i=1;i<n;i++)P(String(offs[i]).padStart(10,"0")+" 00000 n \n");
-P(`trailer\n<< /Size ${n} /Root 1 0 R >>\nstartxref\n${xo}\n%%EOF\n`);
-return new Blob(parts,{type:"application/pdf"})}
+const footer=s.pdfFooter||[s.nom,s.siret?"SIRET "+s.siret:"",s.email].filter(Boolean).join(" · ");
+for(let i=0;i<pages.length;i++){const label=footer+` · ${i+1}/${pages.length}`;const size=Math.min(8,510/Math.max(1,tw(label,1,false)));pages[i].push(`${LN.join(' ')} RG .6 w 40 42 m 555 42 l S`,`BT /F1 ${size} Tf ${GR.join(' ')} rg 40 26 Td (${pdfStr(label)}) Tj ET`)}
+const te=new TextEncoder(),parts=[],offs=[];let len=0;const P=str=>{const bytes=te.encode(str);parts.push(bytes);len+=bytes.length};
+P('%PDF-1.4\n');const obj=(n,body)=>{offs[n]=len;P(`${n} 0 obj\n${body}\nendobj\n`)};
+obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,`<< /Type /Pages /Kids [${pages.map((_,i)=>(5+i*2)+' 0 R').join(' ')}] /Count ${pages.length} >>`);
+obj(3,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');obj(4,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+pages.forEach((ops,i)=>{const id=5+i*2,stream=ops.join('\n');obj(id,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${id+1} 0 R >>`);obj(id+1,`<< /Length ${te.encode(stream).length} >>\nstream\n${stream}\nendstream`)});
+const n=5+pages.length*2,xo=len;P(`xref\n0 ${n}\n0000000000 65535 f \n`);for(let i=1;i<n;i++)P(String(offs[i]).padStart(10,'0')+' 00000 n \n');P(`trailer\n<< /Size ${n} /Root 1 0 R >>\nstartxref\n${xo}\n%%EOF\n`);return new Blob(parts,{type:'application/pdf'})}
 
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
 const eur=n=>(+n||0).toLocaleString("fr-FR",{style:"currency",currency:"EUR"}).replace(/[\u202f\u00a0]/g," ");
@@ -191,8 +189,8 @@ const VARS=(c,fa)=>({client:cl(c.client).nom,date:fd(c.date),heure:c.heure||"--:
 const offs=()=>[...new Set(String(S().rappels??"").split(/[,;\s]+/).map(Number).filter(n=>Number.isInteger(n)&&n>0&&n<=43200))].sort((a,b)=>b-a);
 const labM=m=>m%60===0&&m>=60?(m/60)+" h":m>=60?Math.floor(m/60)+" h "+(m%60):m+" min";
 const sum=(a,f)=>a.reduce((s,x)=>s+(+f(x)||0),0);
-function stats(pred){const C=db.courses.filter(c=>pred(c.date)&&c.statut!=="annulée"),D=db.depenses.filter(d=>pred(d.date)),s=S();const ca=sum(C,c=>c.prix)+sum(C,c=>c.pourboire);const dep=sum(D,d=>d.montant);const km=sum(C,c=>c.km);
-const tvaC=s.tvaOn?ca-ca/(1+s.tva/100):0;const tvaD=s.tvaOn?sum(D,d=>d.tva):0;const social=socialEstimate(s,ca-tvaC,D),cot=social.amount;return{ca,dep,km,n:C.length,tvaC,tvaD,cot,social,net:ca-tvaC-dep-social.additional,C,D}}
+function stats(pred){const C=db.courses.filter(c=>pred(c.date)&&c.statut==="terminée"),D=db.depenses.filter(d=>pred(d.date)),s=S();const ca=sum(C,c=>c.prix)+sum(C,c=>c.pourboire);const dep=sum(D,d=>d.montant);const km=sum(C,c=>c.km);
+const tvaC=s.tvaOn?ca-ca/(1+s.tva/100):0;const tvaD=s.tvaOn?sum(D,d=>d.tva):0;const social=socialEstimate(s,ca-tvaC,D),cot=social.amount;return{ca,dep,km,n:C.length,tvaC,tvaD,cot,social,commissions:sum(C,c=>c.commission),net:ca-tvaC-dep-social.additional-sum(C,c=>c.commission),C,D}}
 function appLink(kind,addr){const q=enc(addr);
 if(kind==="waze"){const web=`https://waze.com/ul?q=${q}&navigate=yes`;return isAndroid?`intent://waze.com/ul?q=${q}&navigate=yes#Intent;scheme=https;package=com.waze;S.browser_fallback_url=${enc(web)};end`:web}
 const path=`maps/dir/?api=1&destination=${q}&travelmode=driving`;const web="https://www.google.com/"+path;return isAndroid?`intent://www.google.com/${path}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${enc(web)};end`:web}
@@ -211,7 +209,7 @@ function buildSheets(onlyPer){const P=onlyPer?inPer:()=>true;const D=s=>({v:seri
 const C=db.courses.filter(c=>P(c.date)).sort((a,b)=>(a.date+a.heure).localeCompare(b.date+b.heure));
 const sCourses={name:"Courses",widths:[12,8,22,16,30,30,16,12,12,8,12,12,12,30],rows:[["Date","Heure","Client","Téléphone","Départ","Arrivée","Type","Paiement","Statut","Km","Prix TTC","Pourboire","Commission","Notes"],...C.map(c=>[D(c.date),c.heure||"",cl(c.client).nom,cl(c.client).tel||"",c.depart||"",c.arrivee||"",c.type,c.paiement,c.statut,+c.km||0,E(c.prix),E(c.pourboire),E(c.commission),c.notes||""])]};
 const sCl={name:"Clients",widths:[24,12,16,26,30,16,10,14],rows:[["Nom","Type","Téléphone","Email","Adresse","SIRET","Nb courses","CA total"],...db.clients.map(c=>{const cc=db.courses.filter(x=>x.client===c.id&&x.statut!=="annulée"&&P(x.date));return[c.nom,c.type||"",c.tel||"",c.email||"",c.adresse||"",c.siret||"",cc.length,E(sum(cc,x=>x.prix))]})]};
-const sF={name:"Factures",widths:[16,12,22,44,14,12],rows:[["N°","Date","Client","Désignation","Total TTC","Statut"],...db.factures.filter(f=>P(f.date)).map(f=>[f.num,D(f.date),cl(f.client).nom,f.desc||"",E(f.total),f.statut])]};
+const sF={name:"Factures",widths:[16,12,22,44,14,12],rows:[["N°","Date","Client","Désignation","Total TTC","Statut"],...db.factures.filter(f=>P(f.date)).map(f=>[f.num,D(f.date),(f.snapshot?.client||cl(f.client)).nom,f.desc||"",E(f.total),f.statut])]};
 const sD={name:"Dépenses",widths:[12,18,36,14,12],rows:[["Date","Catégorie","Description","Montant TTC","dont TVA"],...db.depenses.filter(d=>P(d.date)).sort((a,b)=>a.date.localeCompare(b.date)).map(d=>[D(d.date),d.cat,d.desc||"",E(d.montant),E(d.tva)])]};
 const months=[...new Set([...db.courses.filter(c=>P(c.date)).map(c=>c.date.slice(0,7)),...db.depenses.filter(c=>P(c.date)).map(c=>c.date.slice(0,7))])].sort();
 const sR={name:"Résumé mensuel",widths:[12,10,10,14,14,16,14],rows:[["Mois","Courses","Km","CA TTC","Dépenses","Cotisations estimées","Net estimé"],...months.map(m=>{const s=stats(d=>d.slice(0,7)===m);return[m,s.n,s.km,E(s.ca),E(s.dep),E(s.cot),E(s.net)]})]};
@@ -226,7 +224,7 @@ let xlsxParserPromise=null,pendingExcelRestore=null,pendingExcelName="";
 function loadXlsxParser(){if(window.XLSX?.read)return Promise.resolve(window.XLSX);if(!xlsxParserPromise)xlsxParserPromise=new Promise((resolve,reject)=>{const script=document.createElement("script");script.src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";script.onload=()=>window.XLSX?.read?resolve(window.XLSX):reject(new Error("Le lecteur Excel ne s’est pas chargé."));script.onerror=()=>reject(new Error("Lecture Excel indisponible. Vérifiez la connexion internet et réessayez."));document.head.appendChild(script)});return xlsxParserPromise.catch(error=>{xlsxParserPromise=null;throw error})}
 function openExcelImport(){if(!cloudUser)return toast("Connectez-vous à votre compte avant d’importer un fichier.");document.getElementById("slm-excel-import")?.click()}
 async function importExcelFile(file){if(!file)return;if(!cloudUser){toast("Connectez-vous à votre compte avant d’importer un fichier.");return}try{const XLSX=await loadXlsxParser(),workbook=XLSX.read(await file.arrayBuffer(),{cellDates:false});const sheet=workbook.Sheets.SLM_Restauration;if(!sheet)throw new Error("Ce fichier ne contient pas les données de restauration SLM. Choisissez un export complet créé par l’application.");const rows=XLSX.utils.sheet_to_json(sheet,{header:1,defval:"",raw:true});if(String(rows[0]?.[0]||"")!=="SLM_BACKUP"||String(rows[0]?.[1])!=="1")throw new Error("Format de restauration non reconnu.");const expected=Number(rows[4]?.[1]);if(!Number.isInteger(expected)||expected<1)throw new Error("Fichier Excel incomplet.");const chunks=new Map();for(const row of rows.slice(7)){const index=Number(row?.[0]);if(Number.isInteger(index)&&index>0&&typeof row[1]==="string")chunks.set(index,row[1])}if(chunks.size!==expected)throw new Error("La feuille de restauration est incomplète. Utilisez le fichier Excel original, sans le modifier.");let json="";for(let i=1;i<=expected;i++){if(!chunks.has(i))throw new Error("Un bloc de données manque dans le fichier.");json+=chunks.get(i)}const data=JSON.parse(json);if(!validBackup(data))throw new Error("Les données du fichier ne sont pas compatibles avec SLM Transfert.");for(const key of ["courses","clients","depenses","factures","docs"])if((data[key]||[]).some(row=>!row||typeof row!=="object"||!row.id))throw new Error("Une fiche du fichier n’a pas d’identifiant. L’import est annulé pour éviter les doublons.");pendingExcelRestore=data;pendingExcelName=file.name;showExcelImportPreview(data,file.name)}catch(error){toast(error?.message||"Impossible de lire ce fichier Excel.")}finally{const input=document.getElementById("slm-excel-import");if(input)input.value=""}}
-async function applyExcelImport(mode){if(!pendingExcelRestore)return;if(!cloudUser)return toast("Connectez-vous au compte destinataire avant de restaurer.");if(!["replace","merge"].includes(mode))return;const userId=cloudUser.id,source=JSON.parse(JSON.stringify(pendingExcelRestore));let next=source;if(mode==="merge"){next=JSON.parse(JSON.stringify(db));const importedKeys=new Set();for(const key of ["courses","clients","depenses","factures","docs"]){const rows=new Map((next[key]||[]).map(row=>[row.id,row]));for(const row of source[key]||[]){const old=rows.get(row.id);if(!old||(+row._updatedAt||0)>(+old._updatedAt||0))rows.set(row.id,row);importedKeys.add(key+":"+row.id)}next[key]=Array.from(rows.values())}next.settings=Object.assign({},next.settings||{},source.settings||{});next.notified=Object.assign({},next.notified||{},source.notified||{});next.deleted=(next.deleted||[]).filter(item=>!importedKeys.has(item.arr+":"+item.id))}try{await cloudApplyImportedData(next,userId);pendingExcelRestore=null;pendingExcelName="";toast(mode==="replace"?"Données restaurées dans ce compte.":"Données fusionnées dans ce compte.")}catch(error){toast(error?.message||"La restauration a échoué. Vos données précédentes sont conservées.")}}
+async function applyExcelImport(mode){if(!pendingExcelRestore)return;if(!cloudUser)return toast("Connectez-vous au compte destinataire avant de restaurer.");if(!["replace","merge"].includes(mode))return;const userId=cloudUser.id,source=JSON.parse(JSON.stringify(pendingExcelRestore));let next=source;if(mode==="merge"){next=JSON.parse(JSON.stringify(db));const importedKeys=new Set();for(const key of ["courses","clients","depenses","factures","docs"]){const rows=new Map((next[key]||[]).map(row=>[row.id,row]));for(const row of source[key]||[]){const old=rows.get(row.id);if(!old||(+row._updatedAt||0)>(+old._updatedAt||0))rows.set(row.id,row);importedKeys.add(key+":"+row.id)}next[key]=Array.from(rows.values())}if(+(source.meta?.settingsAt||0)>+(next.meta?.settingsAt||0))next.settings=Object.assign({},next.settings||{},source.settings||{});next.notified=Object.assign({},next.notified||{},source.notified||{});next.deleted=(next.deleted||[]).filter(item=>!importedKeys.has(item.arr+":"+item.id))}try{await cloudApplyImportedData(next,userId);pendingExcelRestore=null;pendingExcelName="";toast(mode==="replace"?"Données restaurées dans ce compte.":"Données fusionnées dans ce compte.")}catch(error){toast(error?.message||"La restauration a échoué. Vos données précédentes sont conservées.")}}
 const BUSINESS_FORMS=[["","À renseigner"],["micro","Micro-entreprise (régime de l’EI)"],["ei","Entreprise individuelle (EI)"],["eurl","EURL"],["sasu","SASU"],["sarl","SARL"],["sas","SAS"],["sa","SA"],["snc","SNC"],["scop","SCOP"],["scic","SCIC"],["sca","SCA"],["scs","SCS"],["other","Autre forme juridique"]];
 const SOCIAL_MODES=[["legacy","Estimation personnalisée sur le CA HT"],["micro_bic","Micro-social : prestations de services BIC"],["recorded","Cotisations réelles saisies dans les dépenses"]];
 function socialEstimate(settings,revenueHT,expenses){
@@ -242,14 +240,14 @@ function markDeleted(arr,id){
   db.deleted=db.deleted.filter(x=>!(x.arr===arr&&x.id===id));
   db.deleted.push({arr,id,at:Date.now()});
 }
-function removeRecord(arr,id){
+function removeRecord(arr,id){snapshotExistingInvoices();
   if(!db[arr])return;
   db[arr]=db[arr].filter(x=>x.id!==id);
   markDeleted(arr,id);
   save();close_();go(true);
   toast("Élément supprimé");
 }
-function upsert(arr,o){touch(o);db.deleted=(db.deleted||[]).filter(x=>!(x.arr===arr&&x.id===o.id));const i=db[arr].findIndex(x=>x.id===o.id);i>=0?db[arr][i]=o:db[arr].push(o);save();close_();go(true)}
+function upsert(arr,o){if(arr==="clients")snapshotExistingInvoices();touch(o);db.deleted=(db.deleted||[]).filter(x=>!(x.arr===arr&&x.id===o.id));const i=db[arr].findIndex(x=>x.id===o.id);i>=0?db[arr][i]=o:db[arr].push(o);save();close_();go(true)}
 const VOICE_MONTHS="janvier|février|fevrier|mars|avril|mai|juin|juillet|août|aout|septembre|octobre|novembre|décembre|decembre";
 const VOICE_MONTH_NUMBERS={"janvier":1,"février":2,"fevrier":2,"mars":3,"avril":4,"mai":5,"juin":6,"juillet":7,"août":8,"aout":8,"septembre":9,"octobre":10,"novembre":11,"décembre":12,"decembre":12};
 const VOICE_DAY_WORDS={"premier":1,"un":1,"une":1,"deux":2,"trois":3,"quatre":4,"cinq":5,"six":6,"sept":7,"huit":8,"neuf":9,"dix":10,"onze":11,"douze":12,"treize":13,"quatorze":14,"quinze":15,"seize":16,"dix-sept":17,"dix sept":17,"dix-huit":18,"dix huit":18,"dix-neuf":19,"dix neuf":19,"vingt":20,"vingt-et-un":21,"vingt et un":21,"vingt-deux":22,"vingt deux":22,"vingt-trois":23,"vingt trois":23,"vingt-quatre":24,"vingt quatre":24,"vingt-cinq":25,"vingt cinq":25,"vingt-six":26,"vingt six":26,"vingt-sept":27,"vingt sept":27,"vingt-huit":28,"vingt huit":28,"vingt-neuf":29,"vingt neuf":29,"trente":30,"trente-et-un":31,"trente et un":31};
@@ -259,7 +257,7 @@ let voiceRideRecognitionError="";
 function voiceRideStatus(message,state){const el=$("#voice-ride-status");if(el){el.textContent=message;el.dataset.state=state||""}}
 function voiceRideStartLabel(listening){const button=$("#voice-ride-start");if(button)button.textContent=listening?"Arrêter":"Dicter"}
 function toggleVoiceRideCapture(){
-  if(!voiceRidePremiumAllowed())return;
+  if(!billingRequirePremium("voice_course"))return;
   if(voiceRideRecognition){voiceRideRecognition.stop();voiceRideStatus("Finalisation de la dictée…");return}
   if(!window.isSecureContext){voiceRideStatus("La dictée vocale nécessite une connexion sécurisée (HTTPS).","error");return}
   const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
@@ -278,7 +276,7 @@ function voiceParseDate(text){
   const lower=text.toLocaleLowerCase("fr-FR");
   let m=lower.match(/\b(?:le\s+)?(\d{1,2})[\/.-](\d{1,2})(?:[\/.-](\d{2,4}))?\b/);
   if(m){const value=voiceDateValue(m[3]?+m[3]:null,+m[2],+m[1]);if(value)return{value,match:m[0]}}
-  const dayPattern=Object.keys(VOICE_DAY_WORDS).sort((a,b)=>b.length-a.length).join("|");
+  const dayPattern="[0-9]{1,2}|"+Object.keys(VOICE_DAY_WORDS).sort((a,b)=>b.length-a.length).join("|");
   m=lower.match(new RegExp("\\b(?:le\\s+)?("+dayPattern+")\\s+("+VOICE_MONTHS+")(?:\\s+(\\d{4}))?\\b","i"));
   if(m){const token=m[1].replace(/\s+/g," ").trim(),day=VOICE_DAY_WORDS[token]||VOICE_DAY_WORDS[token.replace(/\s+/g,"-")]||+token,month=VOICE_MONTH_NUMBERS[m[2].toLocaleLowerCase("fr-FR")],value=voiceDateValue(m[3]?+m[3]:null,month,day);if(value)return{value,match:m[0]}}
   for(const [pattern,offset] of [[/\b(après-demain|apres-demain)\b/i,2],[/\b(demain)\b/i,1],[/\b(aujourd’hui|aujourd'hui)\b/i,0],[/\b(hier)\b/i,-1]]){const hit=lower.match(pattern);if(hit){const d=new Date();d.setDate(d.getDate()+offset);return{value:String(d.getFullYear()).padStart(4,"0")+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),match:hit[0]}}}
@@ -297,7 +295,7 @@ function voiceParseTime(text){
   if(m){const hour=VOICE_WORD_NUMBERS[m[1]],minuteToken=(m[2]||"").replace(/[- ]/g," "),minute=minuteToken==="quart"||minuteToken==="quinze"?15:minuteToken==="trente"||minuteToken==="demi"?30:minuteToken==="quarante cinq"?45:0;if(hour<=23)return{value:String(hour).padStart(2,"0")+":"+String(minute).padStart(2,"0"),match:m[0]}}
   return null
 }
-function voiceCleanPlace(value){return(value||"").replace(/[,;.!?]+$/g,"").replace(/^[\s,;:.-]+|[\s,;:.-]+$/g,"").replace(/\s+/g," ").replace(/^(?:un|une|course|transfert|trajet)\s+/i,"").trim()}
+function voiceCleanPlace(value){return(value||"").replace(/(?:\s+à|\s+avec|\s+pour)\s*[,;]*\s*$/i,"").replace(/[,;.!?]+$/g,"").replace(/^[\s,;:.-]+|[\s,;:.-]+$/g,"").replace(/\s+/g," ").replace(/^(?:un|une|course|transfert|trajet)\s+/i,"").trim()}
 function voiceParseRidePhrase(text){
   const result={},date=voiceParseDate(text),time=voiceParseTime(text);if(date)result.date=date.value;if(time)result.heure=time.value;
   let route=text;
@@ -307,7 +305,7 @@ function voiceParseRidePhrase(text){
   const price=text.match(/\b(?:prix|tarif)\s*(?:de|à)?\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|euros?)\b/i)||text.match(/\b(\d+(?:[.,]\d{1,2})?)\s*(?:€|euros?)\b/i);
   if(price)result.prix=price[1].replace(",",".");
   const emptyKm=text.match(/\b(\d+(?:[.,]\d+)?)\s*(?:km|kilom[eè]tres?)\s*(?:à\s+vide|vide)\b/i),km=text.match(/\b(\d+(?:[.,]\d+)?)\s*(?:km|kilom[eè]tres?)\b/i);
-  if(emptyKm)result.kmVide=emptyKm[1].replace(",",".");else if(km)result.km=km[1].replace(",",".");
+  if(emptyKm)result.kmVide=emptyKm[1].replace(",",".");if(km&&(!emptyKm||km.index!==emptyKm.index))result.km=km[1].replace(",",".");
   if(price)route=route.replace(price[0]," ");if(km)route=route.replace(km[0]," ");if(emptyKm)route=route.replace(emptyKm[0]," ");
   const explicit=route.match(/\b(?:au\s+)?départ\s*(?:de|depuis|:)?\s*(.+?)\s+(?:et\s+)?arrivée\s*(?:à|au|:)?\s*(.+)$/i)||route.match(/\b(?:au\s+)?départ\s*(?:de|depuis|:)?\s*(.+?)\s+destination\s*(?:à|au|:)?\s*(.+)$/i);
   const reverse=route.match(/\b(?:arrivée|destination)\s*(?:à|au|:)?\s*(.+?)\s*[,;]\s*(?:au\s+)?départ\s*(?:de|depuis|:)?\s*(.+)$/i);
@@ -321,7 +319,7 @@ function voiceParseRidePhrase(text){
   if(/\baéroport\b/i.test(text))result.type="Aéroport";else if(/\bgare\b/i.test(text))result.type="Gare";
   return result
 }
-let pendingExpenseReceipt=null;
+let pendingExpenseReceipt=null,expenseReceiptBusy=false,expenseReceiptGeneration=0;
 let expenseReceiptRemoved=false;
 function expenseReceiptSafeUrl(value){const url=String(value||"");return /^data:image\/jpeg;base64,[a-z0-9+/=]+$/i.test(url)?url:""}
 let expenseEditingId="";
@@ -334,6 +332,7 @@ async function expenseReceiptSelected(input){
   const file=input.files?.[0];input.value="";if(!file)return;
   if(!file.type.startsWith("image/"))return toast("Choisis une photo ou une image de ticket.");
   if(file.size>15*1024*1024)return toast("La photo dépasse 15 Mo. Choisis une image plus légère.");
+  const generation=++expenseReceiptGeneration;expenseReceiptBusy=true;
   try{
     const image=await expenseLoadImage(file),width=image.width||image.naturalWidth,height=image.height||image.naturalHeight;
     if(!width||!height)throw new Error("Cette image ne peut pas être lue.");
@@ -344,8 +343,8 @@ async function expenseReceiptSelected(input){
       blob=await expenseCanvasBlob(canvas,attempt<2 ? 0.76 : 0.62);if(blob.size<=500*1024)break;scale*=.82;
     }
     image.close?.();if(blob.size>800*1024)throw new Error("La photo reste trop volumineuse après compression. Essaie de la recadrer.");
-    pendingExpenseReceipt={dataUrl:await expenseBlobDataUrl(blob),name:file.name||"Justificatif photo"};expenseReceiptRemoved=false;expenseReceiptRefreshPreview();
-  }catch(error){toast(error?.message||"Impossible d’ajouter cette photo.")}
+    const dataUrl=await expenseBlobDataUrl(blob);if(generation!==expenseReceiptGeneration)return;pendingExpenseReceipt={dataUrl,name:file.name||"Justificatif photo"};expenseReceiptRemoved=false;expenseReceiptRefreshPreview();
+  }catch(error){if(generation===expenseReceiptGeneration)toast(error?.message||"Impossible d’ajouter cette photo.")}finally{if(generation===expenseReceiptGeneration)expenseReceiptBusy=false}
 }
 function dl(n,t,ty){const a=document.createElement("a");a.href=URL.createObjectURL(t instanceof Blob?t:new Blob([t],{type:ty}));a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{a.remove();URL.revokeObjectURL(a.href)},4000)}
 const icsDate=d=>d.toISOString().replace(/[-:]/g,"").replace(/\.\d+/,"");

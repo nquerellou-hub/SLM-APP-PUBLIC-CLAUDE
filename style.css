@@ -7,11 +7,11 @@
 :root{
   --bg:#f3f7f4; --bg-2:#e8efea; --surface:#ffffff; --surface-2:#f7faf8; --surface-3:#edf3ef;
   --glass:rgba(255,255,255,.72); --glass-line:rgba(255,255,255,.7);
-  --ink:#0f2219; --ink-2:#4a5d53; --ink-3:#7b8c83; --line:rgba(15,34,25,.09); --line-2:rgba(15,34,25,.16);
+  --ink:#0f2219; --ink-2:#4a5d53; --ink-3:#586e61; --line:rgba(15,34,25,.09); --line-2:rgba(15,34,25,.16);
   --brand:#27634a; --brand-2:#1e4f3b; --brand-3:#348a63; --brand-ink:#ffffff; --brand-soft:rgba(39,99,74,.08); --brand-soft-2:rgba(39,99,74,.15);
   /* Accent Premium : vert émeraude (les noms « gold » / « champ » sont conservés pour le code existant) */
   --gold:#1d7a52; --gold-soft:rgba(29,122,82,.10);
-  --ok:#237a52; --ok-soft:rgba(35,122,82,.11); --warn:#a8650c; --warn-soft:rgba(196,128,24,.13); --danger:#b0443a; --danger-soft:rgba(176,68,58,.10);
+  --ok:#237a52; --ok-soft:rgba(35,122,82,.11); --warn:#855006; --warn-soft:rgba(196,128,24,.13); --danger:#b0443a; --danger-soft:rgba(176,68,58,.10);
   --night:#0d2a1e; --night-2:#12382a; --night-3:#1a4a37; --champ:#a8e0c2; --champ-2:#e3f5eb; --night-ink:#f1f7f3; --night-mut:#a3bfb0;
   --panel:linear-gradient(155deg,#2f7656 0%,#27634a 42%,#1c4b37 100%);
   --panel-prem:radial-gradient(130% 90% at 100% 0%,#2f7a59 0%,#17402f 52%,#0d2a1e 100%);
@@ -33,7 +33,7 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#09130f; --bg-2:#0e1a15; --surface:#101c16; --surface-2:#14221b; --surface-3:#1a2b23;
   --glass:rgba(16,28,22,.72); --glass-line:rgba(255,255,255,.06);
-  --ink:#e9f2ed; --ink-2:#a6b9ae; --ink-3:#768a7f; --line:rgba(233,242,237,.08); --line-2:rgba(233,242,237,.15);
+  --ink:#e9f2ed; --ink-2:#a6b9ae; --ink-3:#9bb3a5; --line:rgba(233,242,237,.08); --line-2:rgba(233,242,237,.15);
   --brand:#6cc79a; --brand-2:#8ad6ae; --brand-3:#8ad6ae; --brand-ink:#06120c; --brand-soft:rgba(108,199,154,.10); --brand-soft-2:rgba(108,199,154,.18);
   --gold:#7fd3a8; --gold-soft:rgba(127,211,168,.12);
   --ok:#6cc79a; --ok-soft:rgba(108,199,154,.12); --warn:#e3b35c; --warn-soft:rgba(227,179,92,.12); --danger:#ec8b7d; --danger-soft:rgba(236,139,125,.12);
@@ -43,7 +43,7 @@
 :root[data-theme="dark"]{
   --bg:#09130f; --bg-2:#0e1a15; --surface:#101c16; --surface-2:#14221b; --surface-3:#1a2b23;
   --glass:rgba(16,28,22,.72); --glass-line:rgba(255,255,255,.06);
-  --ink:#e9f2ed; --ink-2:#a6b9ae; --ink-3:#768a7f; --line:rgba(233,242,237,.08); --line-2:rgba(233,242,237,.15);
+  --ink:#e9f2ed; --ink-2:#a6b9ae; --ink-3:#9bb3a5; --line:rgba(233,242,237,.08); --line-2:rgba(233,242,237,.15);
   --brand:#6cc79a; --brand-2:#8ad6ae; --brand-3:#8ad6ae; --brand-ink:#06120c; --brand-soft:rgba(108,199,154,.10); --brand-soft-2:rgba(108,199,154,.18);
   --gold:#7fd3a8; --gold-soft:rgba(127,211,168,.12);
   --ok:#6cc79a; --ok-soft:rgba(108,199,154,.12); --warn:#e3b35c; --warn-soft:rgba(227,179,92,.12); --danger:#ec8b7d; --danger-soft:rgba(236,139,125,.12);
@@ -731,3 +731,6 @@ body.locked .topbar,body.locked .layout,body.locked .tabbar{display:none}
 .pill{max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .ride .rt{overflow-wrap:anywhere}
 @media (max-width:340px){.tabbar{padding-left:2px;padding-right:2px}.tabbar a,.tabbar button{font-size:9.5px}.tabbar a::before{width:44px;margin-left:-22px}}
+
+/* Accessibilité et retours de validation */
+.auth .faint a{text-decoration:underline}.field-error{color:var(--danger);font-size:13px;margin-top:6px}.field [aria-invalid="true"]{border-color:var(--danger)}button.link{min-height:32px}.form-error-summary{color:var(--danger);padding:12px;border:1px solid currentColor;border-radius:12px;margin-bottom:12px}

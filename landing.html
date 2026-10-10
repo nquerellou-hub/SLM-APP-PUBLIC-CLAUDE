@@ -98,7 +98,7 @@ img,svg{max-width:100%;flex:none}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;border-radius:99px;background:var(--amber-soft);color:var(--amber-ink);font-weight:800;font-size:13px}
 .eyebrow b{display:inline-grid;place-items:center;height:22px;padding:0 8px;border-radius:99px;background:var(--amber);color:#3d2700;font-size:11px;letter-spacing:.06em}
 .hero h1{isolation:isolate;margin-top:18px;font-size:clamp(40px,5.4vw,70px);font-weight:900;line-height:.98;letter-spacing:-.05em}
-.hero h1 mark{background:none;color:var(--g);position:relative;white-space:nowrap}
+.hero h1 mark{background:none;color:var(--g);position:relative;white-space:normal;overflow-wrap:anywhere}
 .hero h1 mark::after{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.14em;border-radius:4px;background:var(--amber);z-index:-1;transform-origin:left;transform:scaleX(var(--mk,1));transition:transform .9s var(--ease-out) .5s}
 .rv-on .hero h1 mark::after{--mk:0}
 .rv-on .hero.go h1 mark::after{--mk:1}
@@ -699,7 +699,7 @@ body.lock{overflow:hidden}
   <div class="wrap">
     <div class="c" data-rv><p class="kick">Installation</p><h2 class="h2">Installée en <em>trois touches</em>.</h2><p class="sub">Pas de store à ouvrir : l’appli s’installe directement depuis cette page.</p>
       <div class="os" role="group" aria-label="Votre téléphone" style="--o:0"><span class="thumb" aria-hidden="true"></span><button type="button" data-os="android" aria-pressed="true">Android</button><button type="button" data-os="ios" aria-pressed="false">iPhone</button></div></div>
-    <ol class="st-grid" id="steps3" data-os="android">
+    <ol class="st-grid" id="steps3" tabindex="0" aria-label="Les étapes pour utiliser SLM" data-os="android">
       <li class="st cur" data-rv style="--i:0">
         <div class="st-vis" aria-hidden="true">
           <div class="v-and mini-pg"><span class="mp-h">L’outil de gestion des taxis et VTC</span><span class="mp-l"></span><span class="mp-l s"></span><span class="mp-btn hit"><svg><use href="#i-dl"/></svg>Installer gratuitement<i class="tap"></i></span></div>
