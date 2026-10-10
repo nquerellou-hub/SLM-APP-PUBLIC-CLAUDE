@@ -33,6 +33,9 @@ Design et interactions uniquement : **aucun changement de données, de routes, d
 - Couleurs choisies pour résister au mode sombre forcé de Samsung Internet (qui ignore `color-scheme`) : plus de bouton blanc dans le premier écran ni dans la barre du bas.
 - L’ordinateur et le reste de la page ne changent pas.
 
+### V8.4.0 — landing simple orientée installation
+`landing.html` remplace la landing « Itinéraire » par une page courte et visuelle, pensée d'abord pour le mobile : haut de page avec aperçu de l'application, 3 écrans clés, fonctions, guide d'installation (Android/iPhone détecté), tarifs, questions. Un seul bouton répété : « Installer l'application ». Il ouvre la vraie fenêtre d'installation PWA quand le navigateur la propose, sinon une fiche d'explications (iPhone : Partager → Sur l'écran d'accueil). La page enregistre `sw.js` pour rendre l'installation possible. Plus de GSAP sur la landing (CSS seul). Parrainage `?ref=` et prix `premium-prices` conservés. Cache `slm-v8-4-0`.
+
 ### V8.3.0 — landing « Itinéraire »
 - Nouvelle landing conçue comme un trajet : barre GPS fixe (instruction de la section, progression, kilomètres restants), haut de page en panneaux de direction, « Le trajet » raconté au défilement (téléphone fixe, 6 étapes, rail et compteur), compteur kilométrique, fonctions sur des bornes (défilement horizontal piloté sur ordinateur), calculateur en tableau de bord avec jauge à aiguille, tarifs en tickets de caisse, arrivée « Vous êtes arrivé à destination ».
 - Fonctionne sans GSAP (CSS `sticky` et `IntersectionObserver`), avec une vérification de secours pour qu’aucun contenu ne reste masqué. Mouvement réduit respecté. Inscription, prix Stripe, parrainage `?ref=` et calculateur conservés.
