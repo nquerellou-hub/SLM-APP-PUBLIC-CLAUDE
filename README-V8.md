@@ -10,7 +10,7 @@ Design et interactions uniquement : **aucun changement de données, de routes, d
 - **Identité** : vert SLM et blanc inspirés des panneaux de direction (panneaux verts avec filet blanc intérieur), chiffres et titres en Overpass, texte en Manrope (Cormorant Garamond retiré). L’or/champagne est remplacé par des verts : Premium = dégradé vert. Verre dépoli réservé aux barres fixes, au toast et au pied des fenêtres.
 - **Application** : `style.css` réécrit en gardant tous les noms de classes. Fondu léger entre les pages (View Transitions, avec repli automatique), apparition en cascade conservée. Mouvement coupé si « réduire les animations », verre retiré si « réduire la transparence ».
 - **Landing** : animations GSAP 3.13.0 + ScrollTrigger + MotionPath chargés depuis jsDelivr (versions figées), uniquement sur `landing.html`. Sans GSAP (hors ligne, CDN bloqué), la page reste complète et lisible. Le fond animé en canvas est remplacé par un tracé SVG plus léger. Correction : les couleurs `--hero`, `--hero-mut` et `--mint` n’étaient définies nulle part (haut de la landing illisible).
-- **Service worker** : version `slm-v8-1-5`.
+- **Service worker** : version `slm-v8-2-0`.
 - Fichiers modifiés : `style.css`, `landing.html`, `index.html` (polices), `app.js` (couleurs du fond de connexion, couleur de la barre d’état, transition de page), `billing.js` (couleurs des confettis), `sw.js`.
 
 ### V8.1.2 — connexion et formulaires
@@ -32,6 +32,11 @@ Design et interactions uniquement : **aucun changement de données, de routes, d
 - Hero mobile refait : badge à point lumineux, accroche avec reflet animé, bouton vert vif avec éclat lumineux et flèche, réassurance en trois points, halos verts animés en fond, et téléphone visible dès l’ouverture. « Calculer ma marge » et l’encart d’installation passent sous le téléphone.
 - Couleurs choisies pour résister au mode sombre forcé de Samsung Internet (qui ignore `color-scheme`) : plus de bouton blanc dans le premier écran ni dans la barre du bas.
 - L’ordinateur et le reste de la page ne changent pas.
+
+### V8.2.0 — refonte graphique de la landing (skill UI/UX Pro Max)
+- Structure « page d’application » recommandée par le skill : haut de page avec téléphone, bandeau de confiance, « Ce que vous perdez aujourd’hui » (problème → solution), galerie de 4 écrans de l’app (défilement manuel, boutons, points, clavier ; jamais automatique), grille de fonctions façon bento, étapes numérotées avec appel à s’inscrire, puis calculateur, tarifs, questions et appel final.
+- Style Soft UI en vert et blanc : ombres douces, coins arrondis, boutons verts à texte blanc (contraste vérifié), badge et reflet du haut de page aussi sur ordinateur.
+- Textes, calculateur, prix Stripe, parrainage `?ref=` et animations GSAP conservés ; mouvement réduit respecté.
 
 ## Identité visuelle
 
@@ -72,7 +77,7 @@ Aucune migration SQL. Les autres fonctions (webhook, portail, rapport, CRM, rapp
 `config.js` contient les prix affichés si `premium-prices` ne répond pas. Gardez-les identiques à Stripe.
 
 ### 5. Site (GitHub + Vercel)
-Remplacer à la racine du dépôt : `index.html`, `landing.html`, `config.js`, `core.js`, `app.js`, `cloud.js`, `push.js`, `billing.js`, `admin.js`, `style.css`, `sw.js`, `manifest.json`. Supprimer l’ancien `landing.html` s’il diffère. Le service worker change de version (`slm-v8-1-5`) : les téléphones chargent la nouvelle version à la prochaine ouverture.
+Remplacer à la racine du dépôt : `index.html`, `landing.html`, `config.js`, `core.js`, `app.js`, `cloud.js`, `push.js`, `billing.js`, `admin.js`, `style.css`, `sw.js`, `manifest.json`. Supprimer l’ancien `landing.html` s’il diffère. Le service worker change de version (`slm-v8-2-0`) : les téléphones chargent la nouvelle version à la prochaine ouverture.
 
 Conseil : publier d’abord sur une branche de prévisualisation Vercel, se connecter avec un vrai compte, puis fusionner sur `main`.
 
