@@ -38,8 +38,8 @@
    - Mouvement réservé aux changements d’état (la démo), mouvement réduit respecté.
    ═══════════════════════════════════════════════════════════════════ */
 :root{
-  --bg:#f4f6f1; --surface:#ffffff; --ink:#101c16; --ink-2:#47574f; --ink-3:#7c8a83; --line:#dfe5df; --line-2:#c9d3cb;
-  --g:#1d7a50; --g-ink:#0f5135; --g-soft:#e2f2e9; --cta:#20b86d; --cta-press:#189a5a;
+  --bg:#f4f6f1; --surface:#ffffff; --ink:#101c16; --ink-2:#47574f; --ink-3:#5f6d66; --line:#dfe5df; --line-2:#c9d3cb;
+  --g:#1d7a50; --g-ink:#0f5135; --g-soft:#e2f2e9; --cta:#118747; --cta-press:#0f5135;
   --amber:#f3b23c; --amber-soft:#fdf1d8; --amber-ink:#6b4500;
   --deep:#0f2a1f; --red:#c2493d;
   --f-d:"Overpass","Manrope",system-ui,sans-serif; --f-u:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -48,20 +48,21 @@
   color-scheme:only light;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;background:var(--bg)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:84px;scroll-padding-bottom:100px;background:var(--bg)}
 body{margin:0;font-family:var(--f-u);color:var(--ink);background:var(--bg);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
 h1,h2,h3,p{margin:0}
 h1,h2,h3{font-family:var(--f-d);letter-spacing:-.035em;text-wrap:balance}
 a{color:inherit}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 img,svg{max-width:100%;flex:none}
-:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:10px}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;box-shadow:0 0 0 6px var(--surface);border-radius:10px}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .wrap{width:min(1120px,100% - 32px);margin-inline:auto}
 .rv-on [data-rv]{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease) var(--d,0ms),transform .7s var(--ease) var(--d,0ms)}
 .rv-on [data-rv].in{opacity:1;transform:none}
 
 /* Boutons */
-.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 24px;border-radius:16px;background:var(--cta);color:#fff;font-weight:800;font-size:17px;text-decoration:none;white-space:nowrap;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15),0 10px 24px -12px rgba(32,184,109,.9);transition:background .2s,transform .2s var(--ease)}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 24px;border-radius:16px;background:var(--cta);color:#fff;font-weight:800;font-size:17px;text-decoration:none;white-space:nowrap;box-shadow:inset 0 -3px 0 rgba(0,0,0,.15),0 10px 24px -12px rgba(17,135,71,.55);transition:background .2s,transform .2s var(--ease)}
 .cta:hover{background:var(--cta-press)}
 .cta:active{transform:scale(.98)}
 .cta svg{width:20px;height:20px}
@@ -110,7 +111,7 @@ img,svg{max-width:100%;flex:none}
 .ph-notch{position:absolute;top:9px;left:50%;translate:-50% 0;width:32%;height:20px;border-radius:12px;background:#000}
 .scr{position:absolute;inset:32px 0 0;padding:8px 14px 14px;display:flex;flex-direction:column;gap:9px}
 .s-top{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:11px;color:var(--ink-3);letter-spacing:.08em}
-.s-top span:last-child{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:99px;background:var(--g-soft);color:var(--g);letter-spacing:0}
+.s-top span:last-child{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:99px;background:var(--g-soft);color:var(--g-ink);letter-spacing:0}
 .s-ride{padding:12px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
 .s-ride .rt{font-family:var(--f-d);font-weight:800;font-size:16px;letter-spacing:-.02em;line-height:1.15}
 .s-ride .meta{display:flex;justify-content:space-between;gap:8px;margin-top:6px;color:var(--ink-2);font-size:11.5px}
@@ -130,6 +131,10 @@ img,svg{max-width:100%;flex:none}
 .s-inv .st{font-size:10px;font-weight:800;padding:3px 8px;border-radius:99px;background:var(--amber-soft);color:var(--amber-ink)}
 .s-btn{display:flex;align-items:center;justify-content:center;gap:7px;height:42px;border-radius:13px;background:var(--cta);color:#fff;font-weight:800;font-size:12px;margin-top:auto}
 .s-btn svg{width:15px;height:15px}
+.demo-n{font-size:13px;color:var(--ink-2);text-align:center;max-width:320px}
+.demo-n b{color:var(--ink)}
+.obj{margin-top:6px;font-size:13px;color:var(--ink-2)}
+.alt-link{display:block;margin-top:20px;text-align:center;font-weight:800;color:var(--g-ink);text-underline-offset:4px}
 .flash{animation:flash .5s var(--ease)}
 @keyframes flash{from{opacity:.25;transform:translateY(6px)}}
 
@@ -190,7 +195,7 @@ img,svg{max-width:100%;flex:none}
 .how[hidden]{display:none}
 .how{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:12px;counter-reset:h}
 .how li{display:flex;gap:14px;align-items:center;font-weight:700;font-size:16px}
-.how li::before{counter-increment:h;content:counter(h);width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--g-soft);color:var(--g);font-family:var(--f-d);font-weight:900;flex:none}
+.how li::before{counter-increment:h;content:counter(h);width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--g-soft);color:var(--g-ink);font-family:var(--f-d);font-weight:900;flex:none}
 .how kbd{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font:inherit;font-size:14px;vertical-align:middle}
 .inst .cta{margin-top:24px}
 .home{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 8px;padding:26px 18px;border-radius:24px;background:var(--deep);max-width:340px;justify-self:center;width:100%}
@@ -218,7 +223,7 @@ img,svg{max-width:100%;flex:none}
 .plan ul{list-style:none;padding:0;margin:20px 0 24px;display:grid;gap:10px;font-size:15px;font-weight:600}
 .plan li{display:flex;gap:10px}
 .plan li svg{width:19px;height:19px;margin-top:2px;color:var(--g)}
-.plan .cta{margin-top:auto;width:100%}
+.plan .cta{margin-top:auto;width:100%;white-space:normal;text-align:center;padding-block:10px}
 .plan .fine{margin-top:10px;font-size:12px;color:var(--ink-3);text-align:center}
 
 /* Questions */
@@ -271,8 +276,9 @@ footer a{color:#dbe8e0;font-weight:700}
   .hero .lead{font-size:16.5px}
   .hero .actions{flex-direction:column;align-items:stretch;gap:12px;margin-top:22px}
   .hero .actions .cta{min-height:58px}
-  .hero .alt{align-self:center}
+  .hero .alt{align-self:center;text-align:center}
   .hero .note{justify-content:center}
+  .obj{text-align:center}
   .phone{width:min(300px,100%)}
   .facts div{padding:18px 6px}
   .facts small{font-size:11.5px}
@@ -287,8 +293,8 @@ footer a{color:#dbe8e0;font-weight:700}
   .home i,.home img{width:46px;height:46px;border-radius:13px}
   .home span{font-size:9.5px}
   .end .cta{width:calc(100% - 32px);max-width:420px}
-  .dock{position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:12px;padding:10px;border-radius:20px;background:var(--ink);color:#fff;box-shadow:0 16px 36px -12px rgba(0,0,0,.5);transform:translateY(150%);transition:transform .4s var(--ease)}
-  body.past-hero:not(.near-end) .dock{transform:none}
+  .dock{position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:12px;padding:10px;border-radius:20px;background:var(--ink);color:#fff;box-shadow:0 16px 36px -12px rgba(0,0,0,.5);transform:translateY(150%);visibility:hidden;transition:transform .4s var(--ease),visibility 0s .4s}
+  body.past-hero:not(.near-end) .dock{transform:none;visibility:visible;transition-delay:0s}
   .dock img{width:42px;height:42px;border-radius:11px}
   .dock span{flex:1;min-width:0;line-height:1.2}.dock b{display:block;font-family:var(--f-d);font-weight:900;font-size:15px}.dock small{color:var(--amber);font-size:12.5px;font-weight:700}
   .dock .cta{min-height:46px;padding:0 18px;font-size:15px;border-radius:13px;box-shadow:none}
@@ -311,7 +317,7 @@ footer a{color:#dbe8e0;font-weight:700}
   <div class="wrap">
     <a class="brand" href="#top"><img src="icon-192.png" alt="" width="34" height="34">SLM Transfert</a>
     <nav aria-label="Sections"><a href="#gestes">L’appli</a><a href="#tarifs">Tarifs</a><a href="index.html#login">Se connecter</a></nav>
-    <a class="cta" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span>Installer</span></a>
+    <a class="cta" href="index.html#signup" data-install aria-label="Installer l’application"><svg aria-hidden="true"><use href="#i-dl"/></svg><span>Installer</span></a>
   </div>
 </header>
 
@@ -321,24 +327,25 @@ footer a{color:#dbe8e0;font-weight:700}
   <div class="wrap hero-g">
     <div>
       <span class="eyebrow"><b>GRATUIT</b>Pour chauffeurs VTC et taxis</span>
-      <h1>Sachez ce qu’il vous <mark>reste</mark> sur chaque course.</h1>
-      <p class="lead">Notez la course, envoyez la facture, voyez votre vraie marge. Tout depuis votre téléphone.</p>
+      <h1>Votre facture part sur <mark>WhatsApp</mark> en un geste.</h1>
+      <p class="lead">Agenda, rappels, clients et TVA dans une appli gratuite pour chauffeurs VTC et taxis indépendants.</p>
       <div class="actions">
-        <a class="cta" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg>Installer l’application</a>
-        <a class="alt" href="index.html#signup">ou l’ouvrir dans le navigateur</a>
+        <a class="cta" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a>
+        <a class="alt" href="index.html#signup">Pas envie d’installer ? Utiliser dans le navigateur</a>
       </div>
-      <p class="note"><span><svg aria-hidden="true"><use href="#i-check"/></svg>Sans carte bancaire</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>iPhone et Android</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>10 secondes</span></p>
+      <p class="note"><span><svg aria-hidden="true"><use href="#i-check"/></svg>Gratuit sans limite</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>Sans App Store</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>Export Excel</span></p>
+      <p class="obj">Installée depuis ce site. Se supprime comme n’importe quelle appli.</p>
     </div>
 
     <div class="demo">
-      <p class="demo-q" id="demo-q">Essayez : touchez une course</p>
+      <p class="demo-q" id="demo-q">Touchez une course et voyez ce qu’il vous reste</p>
       <div class="trips" role="group" aria-labelledby="demo-q">
         <button type="button" data-trip="0" aria-pressed="true">Aéroport<small>95 €</small></button>
         <button type="button" data-trip="1" aria-pressed="false">Gare<small>38 €</small></button>
         <button type="button" data-trip="2" aria-pressed="false">Plateforme<small>22 €</small></button>
       </div>
       <div class="phone"><div class="ph"><div class="ph-notch" aria-hidden="true"></div><div class="ph-sb" aria-hidden="true"><span id="d-clock">10:12</span><span>5G</span></div>
-        <div class="scr" id="d-scr" aria-live="polite">
+        <div class="scr" id="d-scr" aria-hidden="true">
           <div class="s-top"><span>COURSE TERMINÉE</span><span><svg width="11" height="11" aria-hidden="true"><use href="#i-check"/></svg><span id="d-pay">Facture</span></span></div>
           <div class="s-ride"><div class="rt" id="d-route">Aéroport de Genève → Annecy</div><div class="meta"><span id="d-client">Hôtel des Marquisats</span><b id="d-km">92 km</b></div></div>
           <div class="s-keep"><small>IL VOUS RESTE</small><div class="v" id="d-keep">65,56 €</div><div class="p" id="d-pct">69 % du prix de la course</div>
@@ -348,11 +355,13 @@ footer a{color:#dbe8e0;font-weight:700}
           <div class="s-btn"><svg aria-hidden="true"><use href="#i-msg"/></svg>Envoyer sur WhatsApp</div>
         </div>
       </div></div>
+      <p class="demo-n">Calcul de marge : <b>Premium</b>, 14 jours d’essai. Facture PDF : <b>gratuite</b>.</p>
+      <p class="sr-only" id="d-sum" role="status"></p>
     </div>
   </div>
 </section>
 
-<div class="facts" data-rv><div><b><em>10</em> s</b><small>pour noter une course</small></div><div><b><em>1</em> geste</b><small>pour la facture</small></div><div><b><em>0</em> €</b><small>pour démarrer</small></div></div>
+<div class="facts" data-rv><div><b><em>0</em> €</b><small>sans limite de courses</small></div><div><b><em>1</em> geste</b><small>pour envoyer la facture</small></div><div><b><em>0</em> store</b><small>s’installe depuis ce site</small></div></div>
 
 <!-- ═══ Votre journée en 3 gestes ═══ -->
 <section class="sec" id="gestes">
@@ -361,7 +370,7 @@ footer a{color:#dbe8e0;font-weight:700}
     <div class="steps">
       <article class="step" data-rv>
         <div class="step-h"><div><h3>Notez la course</h3><p>Le rappel arrive avant le départ, même appli fermée.</p></div></div>
-        <div class="ui" aria-hidden="true"><div class="notif"><img src="icon-192.png" alt=""><span><b>Course dans 30 min</b><small>09:20 · Aéroport de Genève → Annecy</small></span></div><div class="notif" style="opacity:.6"><img src="icon-192.png" alt=""><span><b>Demain 07:45</b><small>Gare d’Annecy → Talloires</small></span></div></div>
+        <div class="ui" aria-hidden="true"><div class="notif"><img src="icon-192.png" alt=""><span><b>Course dans 30 min</b><small>09:20 · Aéroport de Genève → Annecy</small></span></div><div class="notif"><img src="icon-192.png" alt=""><span><b>Demain 07:45</b><small>Gare d’Annecy → Talloires</small></span></div></div>
       </article>
       <article class="step" data-rv style="--d:90ms">
         <div class="step-h"><div><h3>Envoyez la facture</h3><p>Créée en terminant la course, envoyée par WhatsApp, SMS ou e-mail.</p></div></div>
@@ -392,11 +401,11 @@ footer a{color:#dbe8e0;font-weight:700}
     <div class="inst" data-rv>
       <div>
         <p class="kick">Installation</p>
-        <h2 class="h2">Sur votre écran d’accueil <em>en 10 secondes</em>.</h2>
+        <h2 class="h2">Sur votre écran d’accueil <em>en trois touches</em>.</h2>
         <div class="os" role="group" aria-label="Votre téléphone"><button type="button" data-os="android" aria-pressed="true">Android</button><button type="button" data-os="ios" aria-pressed="false">iPhone</button></div>
         <ol class="how" data-how="android"><li>Touchez « Installer l’application »</li><li>Confirmez « Installer »</li><li>Ouvrez SLM depuis votre écran d’accueil</li></ol>
-        <ol class="how" data-how="ios" hidden><li>Ouvrez cette page dans Safari</li><li><span>Touchez <kbd><svg width="16" height="16" aria-hidden="true"><use href="#i-share"/></svg></kbd> puis « Sur l’écran d’accueil »</span></li><li>Ouvrez SLM depuis votre écran d’accueil</li></ol>
-        <a class="cta ink" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg>Installer l’application</a>
+        <ol class="how" data-how="ios" hidden><li>Ouvrez cette page dans Safari</li><li><span>Touchez <kbd><svg width="16" height="16" role="img" aria-label="Partager"><use href="#i-share"/></svg></kbd> puis « Sur l’écran d’accueil »</span></li><li>Ouvrez SLM depuis votre écran d’accueil</li></ol>
+        <a class="cta ink" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a>
       </div>
       <div class="home" aria-hidden="true"><span><i></i>Photos</span><span><i></i>Maps</span><span><i></i>Waze</span><span><i></i>Messages</span><span><i></i>Météo</span><span class="me"><img src="icon-192.png" alt="">SLM</span><span><i></i>Agenda</span><span><i></i>WhatsApp</span></div>
     </div>
@@ -407,12 +416,12 @@ footer a{color:#dbe8e0;font-weight:700}
 <section class="sec" id="tarifs" style="padding-top:0">
   <div class="wrap c">
     <div data-rv><p class="kick">Tarifs</p><h2 class="h2">Gratuit pour gérer. <em>Premium pour piloter.</em></h2></div>
-    <div class="bill" id="bill-toggle"><button type="button" aria-pressed="true" data-p="annual">Annuel <b id="save-badge"></b></button><button type="button" aria-pressed="false" data-p="monthly">Mensuel</button></div>
+    <div class="bill" id="bill-toggle" role="group" aria-label="Facturation"><button type="button" aria-pressed="true" data-p="annual">Annuel <b id="save-badge"></b></button><button type="button" aria-pressed="false" data-p="monthly">Mensuel</button></div>
     <div class="plans">
-      <article class="plan" data-rv><div class="nm">Gratuit</div><div class="amt">0 €</div><p class="per">pour toujours, sans carte</p>
+      <article class="plan" data-rv><h3 class="nm">Gratuit</h3><div class="amt">0 €</div><p class="per">pour toujours, sans carte</p>
         <ul><li><svg aria-hidden="true"><use href="#i-check"/></svg>Courses illimitées et rappels</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Clients et historique</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Factures et devis PDF</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Dépenses, TVA, export Excel</li></ul>
-        <a class="cta ink" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg>Installer gratuitement</a></article>
-      <article class="plan pr" data-rv style="--d:90ms"><div class="nm">Premium <span class="badge" id="trial-badge">14 JOURS OFFERTS</span></div><div class="amt" id="p-amt">89 €<small> /an</small></div><p class="per" id="p-sub">soit 7,41 € par mois</p>
+        <a class="cta ink" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a></article>
+      <article class="plan pr" data-rv style="--d:90ms"><h3 class="nm">Premium <span class="badge" id="trial-badge">14 JOURS OFFERTS</span></h3><div aria-live="polite"><div class="amt" id="p-amt">89 €<small> /an</small></div><p class="per" id="p-sub">soit 7,41 € par mois</p></div>
         <ul><li><svg aria-hidden="true"><use href="#i-check"/></svg>Tout le plan Gratuit</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Marge par course, client et mois</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Rapport mensuel et tendance</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Dictée vocale, justificatifs photo</li></ul>
         <a class="cta" href="index.html#signup" id="p-cta">Essayer 14 jours gratuitement</a><p class="fine">Sans engagement. Paiement sécurisé Stripe.</p></article>
     </div>
@@ -436,8 +445,8 @@ footer a{color:#dbe8e0;font-weight:700}
   <div class="wrap">
     <img src="icon-192.png" alt="" width="76" height="76">
     <h2 class="h2">Votre prochaine course <em>commence ici</em>.</h2>
-    <p>Installez SLM gratuitement et notez votre première course dans deux minutes.</p>
-    <a class="cta" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg>Installer l’application</a>
+    <p>Installez SLM gratuitement. Rien à importer : notez simplement votre prochaine course.</p>
+    <a class="cta" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a>
     <p class="note"><span><svg aria-hidden="true"><use href="#i-check"/></svg>Gratuit</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>Sans carte bancaire</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>iPhone, Android, ordinateur</span></p>
   </div>
 </section>
@@ -450,7 +459,7 @@ footer a{color:#dbe8e0;font-weight:700}
   <div class="sheet-in">
     <h3 id="sheet-t"><img src="icon-192.png" alt="">Installer SLM</h3>
     <ol class="how" id="sheet-how"></ol>
-    <a class="cta" href="index.html#signup">Continuer dans le navigateur</a>
+    <a class="alt-link" href="index.html#signup">Continuer dans le navigateur</a>
     <button type="button" class="close" data-close>Fermer</button>
   </div>
 </div>
@@ -489,6 +498,7 @@ const setTrip=i=>{const t=TRIPS[i],comm=t.prix*t.comm/100,cost=t.km*COST,keep=t.
   $("#d-prix").textContent=eur(t.prix);$("#d-comm").textContent="− "+eur(comm);$("#d-kml").textContent=`${t.km} km × ${eur(COST)}`;$("#d-cost").textContent="− "+eur(cost);$("#d-keep2").textContent=eur(keep);
   $("#d-comm-b").style.width=w(comm);$("#d-cost-b").style.left=w(comm);$("#d-cost-b").style.width=w(cost);$("#d-keep-b").style.width=w(Math.max(0,keep));
   $("#d-pct").textContent=`${Math.round(keep/t.prix*100)} % du prix de la course`;count($("#d-keep"),keep);
+  $("#d-sum").textContent=`${t.route}, ${eur(t.prix)} : il vous reste ${eur(keep)}, soit ${Math.round(keep/t.prix*100)} % du prix.`;
   if(shown!==null&&!RM){const r=$(".s-ride");r.classList.remove("flash");void r.offsetWidth;r.classList.add("flash")}shown=i};
 $$("[data-trip]").forEach(b=>b.addEventListener("click",()=>setTrip(+b.dataset.trip)));setTrip(0);
 
@@ -497,15 +507,18 @@ const UA=navigator.userAgent,isIOS=/iPhone|iPad|iPod/i.test(UA)||(/Macintosh/.te
 const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true,isMobile=isIOS||/Android|Mobi/i.test(UA);
 let deferred=null;
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
-addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e});
+const lbls=()=>$$("[data-install] .lbl");
+if(!isMobile&&!standalone)lbls().forEach(l=>l.textContent="Créer mon compte gratuit");
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;lbls().forEach(l=>l.textContent="Installer gratuitement")});
 const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("on"),3600)};
 addEventListener("appinstalled",()=>{deferred=null;toast("SLM est installée. Ouvrez-la depuis votre écran d’accueil.")});
-const SHARE='<kbd><svg width="16" height="16" aria-hidden="true"><use href="#i-share"/></svg></kbd>';
+const SHARE='<kbd><svg width="16" height="16" role="img" aria-label="Partager"><use href="#i-share"/></svg></kbd>';
 const STEPS={ios:isSafari?[`Touchez Partager ${SHARE} en bas de l’écran`,"Choisissez « Sur l’écran d’accueil »","Touchez « Ajouter » puis ouvrez SLM"]:["Ouvrez cette page dans Safari",`Touchez Partager ${SHARE} puis « Sur l’écran d’accueil »`,"Touchez « Ajouter » puis ouvrez SLM"],
-  android:["Ouvrez le menu du navigateur <kbd>⋮</kbd> ou <kbd>≡</kbd>","Choisissez « Installer l’application » ou « Ajouter à l’écran d’accueil »","Ouvrez SLM depuis votre écran d’accueil"]};
+  android:/SamsungBrowser/i.test(UA)?["Touchez le menu <kbd>≡</kbd> en bas de l’écran","Choisissez « Ajouter la page à » puis « Écran d’accueil »","Ouvrez SLM depuis votre écran d’accueil"]:["Ouvrez le menu du navigateur <kbd>⋮</kbd>","Choisissez « Installer l’application » ou « Ajouter à l’écran d’accueil »","Ouvrez SLM depuis votre écran d’accueil"]};
 const sheet=$("#sheet");let lastFocus=null;
-const openSheet=kind=>{lastFocus=document.activeElement;$("#sheet-how").innerHTML=STEPS[kind].map(s=>`<li><span>${s}</span></li>`).join("");sheet.hidden=false;requestAnimationFrame(()=>requestAnimationFrame(()=>sheet.classList.add("open")));sheet.querySelector(".cta").focus({preventScroll:true})};
-const closeSheet=()=>{sheet.classList.remove("open");setTimeout(()=>{sheet.hidden=true;lastFocus?.focus?.({preventScroll:true})},260)};
+const bg=()=>$$("#hd,main,footer,.dock");
+const openSheet=kind=>{lastFocus=document.activeElement;bg().forEach(el=>el.inert=true);$("#sheet-how").innerHTML=STEPS[kind].map(s=>`<li><span>${s}</span></li>`).join("");sheet.hidden=false;requestAnimationFrame(()=>requestAnimationFrame(()=>sheet.classList.add("open")));sheet.querySelector(".alt-link").focus({preventScroll:true})};
+const closeSheet=()=>{sheet.classList.remove("open");bg().forEach(el=>el.inert=false);setTimeout(()=>{sheet.hidden=true;lastFocus?.focus?.({preventScroll:true})},260)};
 sheet.addEventListener("click",e=>{if(e.target===sheet||e.target.closest("[data-close]"))closeSheet()});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&!sheet.hidden)closeSheet()});
 $$("[data-install]").forEach(a=>a.addEventListener("click",async e=>{
