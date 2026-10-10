@@ -116,7 +116,7 @@ img,svg{max-width:100%;flex:none}
 /* ── Visite guidée de l’application : onglets + écran qui change ── */
 .tour{display:grid;gap:14px;justify-items:center}
 .phone{position:relative;width:min(310px,100%);aspect-ratio:9/18.2;border-radius:44px;padding:9px;background:#0b1510;box-shadow:0 0 0 1px #24372d,0 36px 60px -30px rgba(16,28,22,.55)}
-.ph{position:relative;height:100%;border-radius:36px;overflow:hidden;background:#f3f6f3;font-size:12px;line-height:1.4}
+.ph{position:relative;height:100%;border-radius:36px;overflow:hidden;background:#f3f6f3;color:var(--ink);font-size:12px;line-height:1.4}
 .ph-sb{display:flex;justify-content:space-between;padding:12px 22px 0;font-weight:800;font-size:10.5px;height:32px}
 .ph-notch{position:absolute;top:9px;left:50%;translate:-50% 0;width:32%;height:20px;border-radius:12px;background:#000;z-index:3}
 .scr{position:absolute;inset:32px 0 0;padding:8px 14px 14px;display:flex;flex-direction:column;gap:8px;opacity:0;transform:translateX(24px);transition:opacity var(--dur-normal) var(--ease-smooth),transform var(--dur-normal) var(--ease-smooth);pointer-events:none}
@@ -150,11 +150,48 @@ img,svg{max-width:100%;flex:none}
 .s-bars i:last-child{background:var(--amber)}
 .scr.on .s-bars i{animation:grow var(--dur-slow) var(--ease-out) both;animation-delay:calc(var(--n,0) * 50ms)}
 @keyframes grow{from{transform:scaleY(.1)}}
-.scr.on .s-li,.scr.on .s-card,.scr.on .s-tot,.scr.on .s-next{animation:inUp var(--dur-normal) var(--ease-out) both;animation-delay:calc(var(--n,0) * 60ms)}
+.scr.on .s-li,.scr.on .s-card,.scr.on .s-tot,.scr.on .s-next,.scr.on .wk,.scr.on .flt,.scr.on .fin,.scr.on .s-sum{animation:inUp var(--dur-normal) var(--ease-out) both;animation-delay:calc(var(--n,0) * 60ms)}
 .fin{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
 .fin div{padding:9px 10px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
 .fin small{display:block;font-size:9.5px;font-weight:800;color:var(--ink-3);letter-spacing:.06em}
 .fin b{font-family:var(--f-d);font-size:16px;font-weight:900}
+.scr{padding-bottom:66px}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.wk span{display:grid;justify-items:center;gap:1px;padding:5px 0 6px;border-radius:10px;font-size:9px;font-weight:800;color:var(--ink-3)}
+.wk b{font-family:var(--f-d);font-size:14px;color:var(--ink)}
+.wk i{width:4px;height:4px;border-radius:50%;background:var(--g)}
+.wk .on{background:var(--ink);color:#bcd3c6}.wk .on b{color:#fff}.wk .on i{background:var(--amber)}
+.s-pills{display:flex;gap:5px;margin-top:8px}
+.s-pills span{padding:4px 8px;border-radius:8px;background:rgba(255,255,255,.12);font-size:9.5px;font-weight:800}
+.s-pills .w{background:#fff;color:var(--g-ink)}
+.s-sum{display:flex;justify-content:space-between;align-items:center;padding:9px 11px;border-radius:12px;background:var(--amber-soft);color:var(--amber-ink);font-size:11px;font-weight:800}
+.s-sum b{font-family:var(--f-d);font-size:13px}
+.s-tot.col{display:block}
+.s-tot .am{color:var(--amber)}
+.prog{height:7px;margin-top:9px;border-radius:6px;background:rgba(255,255,255,.14);overflow:hidden}
+.prog i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#7fd1a8,var(--amber));transform-origin:left}
+.scr.on .prog i,.scr.on .stk i{animation:grow-x var(--dur-slow) var(--ease-out) .15s both}
+@keyframes grow-x{from{transform:scaleX(0)}}
+.flt{display:flex;gap:5px}
+.flt span{padding:5px 9px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:10px;font-weight:800;color:var(--ink-2)}
+.flt .on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.b{background:#e6efff;color:#2c4f8f}
+.stk{display:flex;gap:3px;height:9px;margin-top:10px}
+.stk i{width:var(--w);border-radius:4px;background:var(--c);transform-origin:left}
+.lg{display:flex;flex-wrap:wrap;gap:3px 10px;margin-top:7px;font-size:9.5px;font-weight:700;color:#bcd3c6}
+.lg span{display:inline-flex;align-items:center;gap:4px}.lg span::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--c)}
+.s-li .t.ic{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--c);color:var(--k)}
+.s-li .t.ic svg{width:17px;height:17px}
+.mo{display:flex;justify-content:space-between;margin-top:5px;font-size:8.5px;font-weight:800;color:#8fa99b}
+.mo span{flex:1;text-align:center}
+.fin .gr{color:var(--g)}
+.s-card.top{display:grid;gap:5px;font-size:11.5px}.s-card.top .k{font-size:9px;font-weight:800;letter-spacing:.12em;color:var(--ink-3)}.s-card.top b{font-family:var(--f-d)}
+.s-tab{position:absolute;left:0;right:0;bottom:0;height:58px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:0 6px 6px;background:rgba(255,255,255,.96);border-top:1px solid var(--line)}
+.s-tab span{display:grid;justify-items:center;gap:2px;font-size:8px;font-weight:800;color:var(--ink-3)}
+.s-tab svg{width:17px;height:17px}
+.s-tab .on{color:var(--g-ink)}
+.s-tab .f{width:38px;height:38px;border-radius:12px;background:var(--cta);color:#fff;place-items:center;justify-self:center;transform:translateY(-8px);box-shadow:0 8px 16px -8px rgba(17,135,71,.9)}
+.s-tab .f svg{width:19px;height:19px}
 /* Onglets de la visite */
 .tabs{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:min(380px,100%);padding:5px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--s-1)}
 .tabs .thumb{position:absolute;top:5px;bottom:5px;left:5px;width:calc((100% - 10px) / 4);border-radius:12px;background:var(--ink);transform:translateX(calc(var(--t,0) * 100%));transition:transform var(--dur-normal) var(--ease-spring)}
@@ -188,27 +225,39 @@ img,svg{max-width:100%;flex:none}
 .sub{margin-top:12px;color:var(--ink-2);font-size:clamp(16px,1.4vw,18px);max-width:52ch}
 .c{text-align:center}.c .h2,.c .sub{margin-inline:auto}
 
-/* Modules : cartes dépliables */
-.mods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:40px;align-items:start}
-.mod{border-radius:22px;background:var(--surface);border:1px solid var(--line);transition:box-shadow var(--dur-normal),border-color var(--dur-normal)}
-.mod:has(.mod-b[aria-expanded="true"]){box-shadow:var(--s-2);border-color:var(--line-2)}
-.mod-b{width:100%;display:grid;grid-template-columns:48px minmax(0,1fr) 28px;gap:14px;align-items:center;padding:18px;text-align:left;border-radius:22px;transition:transform var(--dur-fast) var(--ease-spring)}
-.mod-b:active{transform:scale(.985)}
-.mod .fi{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--g-soft);color:var(--g-ink);transition:background var(--dur-normal),color var(--dur-normal),transform var(--dur-normal) var(--ease-spring)}
-.mod .fi svg{width:24px;height:24px}
-.mod-b[aria-expanded="true"] .fi{background:var(--ink);color:var(--amber);transform:rotate(-6deg) scale(1.05)}
-.mod h3{font-size:18.5px;font-weight:900;letter-spacing:-.02em;line-height:1.15}
-.mod-b small{display:block;margin-top:2px;color:var(--ink-2);font-size:14px;font-weight:600;line-height:1.35}
-.mod .pm{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--bg);transition:transform var(--dur-normal) var(--ease-spring),background var(--dur-normal)}
-.mod .pm svg{width:14px;height:14px}
-.mod-b[aria-expanded="true"] .pm{transform:rotate(45deg);background:var(--amber-soft)}
-.mod-d{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--dur-normal) var(--ease-smooth)}
-.mod-d>div{overflow:hidden}
-.mod-b[aria-expanded="true"]+.mod-d{grid-template-rows:1fr}
-.mod ul{list-style:none;margin:0;padding:0 18px 18px 80px;display:grid;gap:8px;font-size:14.5px;color:var(--ink-2)}
-.mod li{display:flex;gap:8px}
-.mod li::before{content:"";width:6px;height:6px;margin-top:8px;border-radius:50%;background:var(--g);flex:none}
-.mod .prem{display:inline-block;margin-left:6px;font-family:var(--f-u);font-size:10.5px;font-weight:800;letter-spacing:.05em;padding:2px 8px;border-radius:99px;background:var(--amber);color:#3d2700;vertical-align:2px}
+/* Fonctions : trois piliers + bandeau Premium */
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
+.pillar{padding:24px 22px;border-radius:24px;background:var(--surface);border:1px solid var(--line);transition:transform var(--dur-normal) var(--ease-spring),box-shadow var(--dur-normal),border-color var(--dur-normal)}
+@media (hover:hover){.pillar:hover{transform:translateY(-4px);box-shadow:var(--s-2);border-color:var(--line-2)}.pillar:hover .fi{transform:rotate(-6deg) scale(1.06)}}
+.pillar header{display:flex;align-items:center;gap:14px;padding-bottom:16px;margin-bottom:6px;border-bottom:1px dashed var(--line-2)}
+.pn{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--ink);color:var(--amber);font-family:var(--f-d);font-weight:900;font-size:16px;flex:none}
+.pillar h3{font-size:24px;font-weight:900;line-height:1}
+.pillar header p{margin-top:3px;color:var(--ink-2);font-size:14px;font-weight:600}
+.pillar ul{list-style:none;margin:0;padding:0;display:grid}
+.pillar li{display:grid;grid-template-columns:42px minmax(0,1fr);gap:12px;align-items:start;padding:12px 0}
+.pillar li+li{border-top:1px solid var(--line)}
+.pillar .fi{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:var(--g-soft);color:var(--g-ink);transition:transform var(--dur-normal) var(--ease-spring)}
+.pillar .fi svg{width:21px;height:21px}
+.pillar li b{display:block;font-size:16px;line-height:1.25}
+.pillar li small{display:block;margin-top:2px;color:var(--ink-2);font-size:14px;line-height:1.4}
+.prem-band{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto;gap:28px;align-items:center;margin-top:18px;padding:28px;border-radius:26px;background:radial-gradient(120% 140% at 0% 0%,#1d4a36,var(--deep) 60%);color:#fff;text-decoration:none;overflow:hidden;isolation:isolate;transition:transform var(--dur-normal) var(--ease-spring),box-shadow var(--dur-normal)}
+.prem-band::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 35%,rgba(243,178,60,.16) 50%,transparent 65%);transform:translateX(-100%)}
+.rv-on .prem-band.in::before{animation:sweep 1.6s var(--ease-smooth) .5s both}
+@keyframes sweep{to{transform:translateX(100%)}}
+@media (hover:hover){.prem-band:hover{transform:translateY(-3px);box-shadow:0 30px 60px -30px rgba(15,42,31,.8)}.prem-band:hover .pb-cta svg{transform:translateX(4px)}}
+.prem-band:active{transform:scale(.99)}
+.pb-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;background:var(--amber);color:#3d2700;font-weight:900;font-size:12px;letter-spacing:.08em}
+.pb-badge svg{width:14px;height:14px}
+.pb-head h3{margin-top:12px;font-size:28px;font-weight:900;line-height:1.05}
+.pb-head p{margin-top:6px;color:#bcd3c6;font-size:15px}
+.pb-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pb-list li{display:grid;grid-template-columns:36px minmax(0,1fr);column-gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.pb-list li span{grid-row:1/3;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:rgba(243,178,60,.16);color:var(--amber)}
+.pb-list li span svg{width:18px;height:18px}
+.pb-list b{font-size:14.5px;line-height:1.2}
+.pb-list small{color:#bcd3c6;font-size:12.5px;line-height:1.3}
+.pb-cta{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 20px;border-radius:15px;background:var(--amber);color:#2b1c00;font-weight:900;font-size:15.5px;white-space:nowrap;box-shadow:0 12px 26px -14px rgba(243,178,60,.9)}
+.pb-cta svg{width:18px;height:18px;transition:transform var(--dur-normal) var(--ease-spring)}
 
 /* Journée : ligne de route qui se remplit au défilement */
 .day{position:relative;display:grid;gap:18px;margin-top:40px;max-width:760px;margin-inline:auto;padding-left:58px;--fill:0}
@@ -233,11 +282,11 @@ img,svg{max-width:100%;flex:none}
 .rv-on .step.lit .ui>*{opacity:1;transform:none}
 .rv-on .step.lit .ui>*:nth-child(2){transition-delay:var(--stagger)}
 .rv-on .step.lit .ui>*:nth-child(3){transition-delay:calc(var(--stagger) * 2)}
-.mini div{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:12.5px}
-.mini i{grid-column:1/-1;height:7px;border-radius:5px;background:var(--line);overflow:hidden}
-.mini i b{display:block;height:100%;border-radius:5px;background:var(--g);transform-origin:left;transform:scaleX(var(--w));transition:transform var(--dur-slow) var(--ease-out) .2s}
-.rv-on .step:not(.lit) .mini i b{transform:scaleX(0)}
-.mini .n i b{background:#e07b6c}.mini .r i b{background:var(--amber)}
+.ui.mini>div{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:12.5px}
+.ui.mini i{grid-column:1/-1;height:7px;border-radius:5px;background:var(--line);overflow:hidden}
+.ui.mini i b{display:block;height:100%;border-radius:5px;background:var(--g);transform-origin:left;transform:scaleX(var(--w));transition:transform var(--dur-slow) var(--ease-out) .2s}
+.rv-on .step:not(.lit) .ui.mini i b{transform:scaleX(0)}
+.ui.mini .n i b{background:#e07b6c}.ui.mini .r i b{background:var(--amber)}
 
 /* Avant / avec SLM : un interrupteur */
 .vs-wrap{max-width:640px;margin:36px auto 0}
@@ -268,13 +317,38 @@ img,svg{max-width:100%;flex:none}
 .how li::before{counter-increment:h;content:counter(h);width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--g-soft);color:var(--g-ink);font-family:var(--f-d);font-weight:900;flex:none}
 .how kbd{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font:inherit;font-size:14px;vertical-align:middle}
 .inst .cta{margin-top:24px}
-.home{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 8px;padding:26px 18px;border-radius:24px;background:var(--deep);max-width:340px;justify-self:center;width:100%}
-.home span{display:grid;justify-items:center;gap:6px;color:#dbe8e0;font-size:10.5px;font-weight:700;min-width:0}
-.home i,.home img{width:52px;height:52px;border-radius:14px}
-.home i{background:rgba(255,255,255,.1)}
-.home img{box-shadow:0 0 0 3px var(--amber)}
-.rv-on .home .me img{transform:scale(.3);opacity:0;transition:transform .7s var(--ease-spring) .35s,opacity var(--dur-normal) .35s}
-.rv-on .inst.in .home .me img{transform:none;opacity:1}
+.inst-vis{display:grid;justify-items:center;align-content:end;padding:28px 16px 0;border-radius:24px;background:radial-gradient(80% 70% at 50% 30%,rgba(61,220,143,.25),transparent 70%),var(--deep);overflow:hidden;align-self:stretch;min-height:440px}
+.phone.mini{width:250px;margin-bottom:-120px}
+.hs{background:linear-gradient(170deg,#2f7656 0%,#17402f 45%,#0b1f17 100%);color:#fff}
+.hs-clock{text-align:center;font-family:var(--f-d);font-weight:800;font-size:44px;letter-spacing:-.03em;line-height:1;margin-top:10px}
+.hs-clock small{display:block;font-family:var(--f-u);font-size:11px;font-weight:700;letter-spacing:0;opacity:.8;margin-top:4px}
+.hs-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 6px;padding:22px 14px 0}
+.hs-grid span{display:grid;justify-items:center;gap:5px;font-size:9.5px;font-weight:700;min-width:0}
+.hs-grid i,.hs-dock i{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--g);color:#fff;box-shadow:0 6px 12px -6px rgba(0,0,0,.5)}
+.hs-grid i svg,.hs-dock i svg{width:22px;height:22px}
+.hs-dock i.dk{color:#1d4a36}
+.hs-grid .me i{background:#101c16;box-shadow:0 0 0 2.5px var(--amber),0 8px 18px -6px rgba(243,178,60,.7);overflow:hidden}
+.hs-grid .me img{width:100%;height:100%;object-fit:cover}
+.hs-dock{position:absolute;left:10px;right:10px;top:262px;display:flex;justify-content:space-around;padding:8px;border-radius:20px;background:rgba(255,255,255,.14)}
+.hs-sheet{position:absolute;left:8px;right:8px;top:170px;padding:14px;border-radius:20px;background:#fff;color:var(--ink);box-shadow:0 20px 40px -12px rgba(0,0,0,.6);transform:translateY(130%);opacity:0}
+.hs-app{display:flex;align-items:center;gap:10px}
+.hs-app img{width:38px;height:38px;border-radius:10px}
+.hs-app b{display:block;font-size:13px}.hs-app small{font-size:11px;color:var(--ink-2)}
+.hs-btns{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.hs-btns span{padding:7px 12px;border-radius:99px;font-weight:800;font-size:11.5px;color:var(--g-ink)}
+.hs-btns .go{background:var(--cta);color:#fff}
+.hs-toast{position:absolute;left:50%;top:40px;translate:-50% 0;display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:99px;background:#fff;color:var(--ink);font-weight:800;font-size:11px;white-space:nowrap;box-shadow:0 10px 20px -8px rgba(0,0,0,.5);z-index:4}
+.hs-toast svg{width:13px;height:13px;color:var(--cta)}
+/* Séquence d’installation, jouée une fois à l’écran (état final si mouvement réduit) */
+.rv-on .inst:not(.in) .hs-grid .me,.rv-on .inst:not(.in) .hs-toast{opacity:0}
+.rv-on .inst.in .hs-sheet{animation:sheetSeq 3.6s var(--ease-out) .5s both}
+.rv-on .inst.in .hs-btns .go{animation:press 3.6s linear .5s both}
+.rv-on .inst.in .hs-grid .me{animation:iconIn 3.6s var(--ease-spring) .5s both}
+.rv-on .inst.in .hs-toast{animation:toastIn 3.6s var(--ease-out) .5s both}
+@keyframes sheetSeq{0%{transform:translateY(130%);opacity:0}14%,52%{transform:none;opacity:1}64%,100%{transform:translateY(130%);opacity:0}}
+@keyframes press{0%,40%{transform:none}46%{transform:scale(.88);filter:brightness(.85)}52%,100%{transform:none}}
+@keyframes iconIn{0%,62%{opacity:0;transform:scale(.3)}76%{opacity:1;transform:scale(1.18)}86%,100%{opacity:1;transform:none}}
+@keyframes toastIn{0%,66%{opacity:0;transform:translateY(-12px)}76%,100%{opacity:1;transform:none}}
 
 /* Tarifs */
 .bill{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:14px;background:var(--surface);border:1px solid var(--line);margin-top:24px}
@@ -310,16 +384,32 @@ img,svg{max-width:100%;flex:none}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq p{padding-bottom:17px;color:var(--ink-2)}
 
-/* Fin */
-.end{padding:clamp(64px,9vw,110px) 0;text-align:center;background:var(--deep);color:#fff;overflow:hidden}
-.end img{width:76px;height:76px;border-radius:20px;box-shadow:0 0 0 4px var(--amber)}
-.rv-on .end.in img{animation:pop .8s var(--ease-spring) both}
-@keyframes pop{from{transform:translateY(30px) scale(.8);opacity:0}}
-.end .h2{margin:22px auto 0;color:#fff}
+/* Fin : texte + éventail de trois écrans de l’application */
+.end{padding:clamp(64px,8vw,96px) 0 0;background:radial-gradient(70% 90% at 80% 100%,rgba(61,220,143,.22),transparent 70%),var(--deep);color:#fff;overflow:hidden}
+.end-g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:end}
+.end-txt{padding-bottom:clamp(64px,8vw,96px)}
+.eyebrow.dk{background:rgba(243,178,60,.14);color:#f7d08a}
+.end .h2{margin-top:16px;color:#fff;max-width:14ch}
 .end .h2 em{color:var(--amber)}
-.end p{margin:14px auto 26px;max-width:36ch;color:#bcd3c6;font-size:17px}
-.end .note{justify-content:center;color:#bcd3c6}.end .note svg{color:var(--amber)}
-.rv-on .end[data-rv]{transform:none}
+.end-txt>p:not(.note){margin:14px 0 26px;max-width:36ch;color:#bcd3c6;font-size:17px}
+.end .note{color:#bcd3c6}.end .note svg{color:var(--amber)}
+.fan{position:relative;height:460px;--fs:1}
+.fan .phone{position:absolute;left:50%;bottom:-150px;width:300px;transform-origin:50% 100%;box-shadow:0 0 0 1px #24372d,0 30px 60px -20px rgba(0,0,0,.7)}
+.fan .scr{opacity:1;transform:none}
+.fan .f-c{transform:translateX(-50%) scale(var(--fs));z-index:2}
+.fan .f-l{transform:translateX(-50%) translateX(calc(-58% * var(--fs))) rotate(-10deg) scale(calc(.86 * var(--fs)))}
+.fan .f-r{transform:translateX(-50%) translateX(calc(58% * var(--fs))) rotate(10deg) scale(calc(.86 * var(--fs)))}
+.rv-on .end .fan .phone{translate:0 120px;opacity:0;transition:translate .9s var(--ease-out),opacity var(--dur-slow)}
+.rv-on .end.in .fan .phone{translate:0 0;opacity:1}
+.rv-on .end.in .fan .f-l{transition-delay:.12s}.rv-on .end.in .fan .f-r{transition-delay:.24s}
+.bub-n{position:absolute;z-index:3;display:grid;grid-template-columns:32px minmax(0,1fr);gap:9px;align-items:center;padding:9px 12px 9px 9px;border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 18px 36px -12px rgba(0,0,0,.6);white-space:nowrap}
+.bub-n img{width:32px;height:32px;border-radius:9px}
+.bub-n b{display:block;font-size:13px}.bub-n small{display:block;font-size:11.5px;color:var(--ink-2)}
+.bub-n.n1{left:0;top:70px}.bub-n.n2{right:0;top:170px}
+.rv-on .end .bub-n{opacity:0;transform:translateY(14px) scale(.92);transition:opacity var(--dur-normal),transform var(--dur-slow) var(--ease-spring)}
+.rv-on .end.in .bub-n{opacity:1;transform:none}
+.rv-on .end.in .bub-n.n1{transition-delay:.7s}.rv-on .end.in .bub-n.n2{transition-delay:.95s}
+.rv-on .end[data-rv]{opacity:1;transform:none}
 footer{padding:24px 0 calc(24px + env(safe-area-inset-bottom,0px));background:var(--deep);color:#8fa99b;font-size:13px;border-top:1px solid rgba(255,255,255,.08)}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 footer a{color:#dbe8e0;font-weight:700}
@@ -343,7 +433,10 @@ body.lock{overflow:hidden}
 @media (max-width:960px){
   .top nav{display:none}
   .hero-g{grid-template-columns:minmax(0,1fr);gap:36px}
-  .mods{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pillars{grid-template-columns:minmax(0,1fr);max-width:620px;margin-inline:auto}
+  .prem-band{grid-template-columns:minmax(0,1fr);max-width:620px;margin-inline:auto}
+  .end-g{grid-template-columns:minmax(0,1fr);gap:0}
+  .end-txt{padding-bottom:30px;text-align:center}.end-txt .h2,.end-txt>p{margin-inline:auto}.end .note{justify-content:center}
   .inst{grid-template-columns:minmax(0,1fr)}
 }
 /* ═══════════ Mobile ═══════════ */
@@ -364,20 +457,24 @@ body.lock{overflow:hidden}
   .facts div{padding:18px 6px}
   .facts small{font-size:11.5px}
   .sec{padding-block:60px}
-  .mods{grid-template-columns:minmax(0,1fr);margin-top:28px;gap:10px}
-  .mod-b{padding:16px;gap:12px;grid-template-columns:44px minmax(0,1fr) 28px}
-  .mod .fi{width:44px;height:44px}
-  .mod ul{padding:0 16px 16px 72px}
+  .pillars{margin-top:28px;gap:12px}
+  .pillar{padding:20px 18px}
+  .prem-band{padding:22px 18px;gap:18px}
+  .pb-head h3{font-size:24px}
+  .pb-list{grid-template-columns:minmax(0,1fr)}
+  .pb-cta{justify-content:center}
   .day{padding-left:44px;margin-top:28px;gap:14px}
   .day::before,.day::after{left:13px}
   .step{grid-template-columns:minmax(0,1fr);padding:18px;gap:14px}
   .step .dot{left:-43px}
   .plans{grid-template-columns:minmax(0,1fr)}
   .inst{padding:24px 20px;gap:26px}
-  .home{gap:14px 6px;padding:22px 12px}
-  .home i,.home img{width:46px;height:46px;border-radius:13px}
-  .home span{font-size:9.5px}
-  .end .cta{width:calc(100% - 32px);max-width:420px}
+  .inst-vis{min-height:380px}
+  .end .cta{width:100%;max-width:420px}
+  .fan{height:330px;--fs:.74}
+  .fan .phone{bottom:-200px}
+  .bub-n.n1{left:50%;top:4px;translate:-50% 0}.bub-n.n2{display:none}
+  .bub-n small{font-size:10.5px}
   .dock{position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:12px;padding:10px;border-radius:20px;background:var(--ink);color:#fff;box-shadow:0 16px 36px -12px rgba(0,0,0,.5);transform:translateY(150%);visibility:hidden;transition:transform var(--dur-slow) var(--ease-out),visibility 0s var(--dur-slow)}
   body.past-hero:not(.near-end) .dock{transform:none;visibility:visible;transition-delay:0s}
   .dock img{width:42px;height:42px;border-radius:11px}
@@ -409,6 +506,17 @@ body.lock{overflow:hidden}
 <symbol id="i-drop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
 <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></symbol>
 <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.8l-5.4 2.9 1-6.1L3.2 9.3l6.1-.9z"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+<symbol id="i-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"/><path d="M8 9h8M8 13h8M8 17h5"/></symbol>
+<symbol id="i-music" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h3.5l1.5 5-2.2 1.4a11 11 0 0 0 6.8 6.8L16 14l5 1.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
 </defs></svg>
 
 <div class="progress" id="progress" aria-hidden="true"></div>
@@ -440,36 +548,43 @@ body.lock{overflow:hidden}
     <div class="tour auto" id="tour">
       <div class="phone"><div class="ph"><div class="ph-notch" aria-hidden="true"></div><div class="ph-sb" aria-hidden="true"><span>08:12</span><span>5G</span></div>
         <div class="scr on" id="p-agenda" role="tabpanel" aria-labelledby="t-agenda">
-          <div class="s-h"><b>Agenda</b><small>JEUDI 15 OCT.</small></div>
-          <div class="s-next" style="--n:0"><small>PROCHAINE COURSE · DANS 1 H 10</small><div class="tm">09:20</div><div class="rt">Aéroport de Genève → Annecy</div><div class="s-row" style="margin-top:4px"><span style="font-size:11px;color:#bcd3c6">Hôtel des Marquisats</span><b>95 €</b></div></div>
-          <div class="s-li" style="--n:1"><b class="t">11:45</b><span><b>Julie Durand</b><small>Gare d’Annecy → Talloires</small></span><span class="chip">Confirmée</span></div>
-          <div class="s-li" style="--n:2"><b class="t">15:30</b><span><b>Agence Lac &amp; Alpes</b><small>Annecy → Megève</small></span><span class="chip">Confirmée</span></div>
-          <div class="s-li" style="--n:3"><b class="t">19:10</b><span><b>Marc Petit</b><small>Annecy → Aéroport de Lyon</small></span><span class="chip w">À confirmer</span></div>
-          <div class="s-btn"><svg aria-hidden="true"><use href="#i-plus"/></svg>Nouvelle course</div>
+          <div class="s-h"><b>Agenda</b><small>OCTOBRE 2026</small></div>
+          <div class="wk" style="--n:0"><span>L<b>12</b></span><span>M<b>13</b><i></i></span><span>M<b>14</b><i></i></span><span class="on">J<b>15</b><i></i></span><span>V<b>16</b><i></i></span><span>S<b>17</b></span><span>D<b>18</b><i></i></span></div>
+          <div class="s-next" style="--n:1"><small>PROCHAINE COURSE · DANS 1 H 10</small><div class="tm">09:20</div><div class="rt">Aéroport de Genève → Annecy</div><div class="s-row" style="margin-top:3px"><span style="font-size:11px;color:#bcd3c6">Hôtel des Marquisats · 2 pass.</span><b>95 €</b></div><div class="s-pills"><span class="w">Itinéraire</span><span>Appeler</span><span>WhatsApp</span></div></div>
+          <div class="s-li" style="--n:2"><b class="t">11:45</b><span><b>Julie Durand</b><small>Gare d’Annecy → Talloires</small></span><span class="chip">Confirmée</span></div>
+          <div class="s-li" style="--n:3"><b class="t">15:30</b><span><b>Agence Lac &amp; Alpes</b><small>Annecy → Megève</small></span><span class="chip">Confirmée</span></div>
+          <div class="s-li" style="--n:4"><b class="t">19:10</b><span><b>Marc Petit</b><small>Annecy → Aéroport de Lyon</small></span><span class="chip w">À confirmer</span></div>
+          <div class="s-sum" style="--n:5"><span>4 courses aujourd’hui</span><b>418 € prévus</b></div>
+          <div class="s-tab" aria-hidden="true"><span class="on"><svg><use href="#i-cal"/></svg>Agenda</span><span><svg><use href="#i-file"/></svg>Factures</span><span class="f"><svg><use href="#i-plus"/></svg></span><span><svg><use href="#i-receipt"/></svg>Dépenses</span><span><svg><use href="#i-chart"/></svg>Finances</span></div>
         </div>
         <div class="scr" id="p-factures" role="tabpanel" aria-labelledby="t-factures" hidden>
-          <div class="s-h"><b>Factures</b><small>OCTOBRE</small></div>
-          <div class="s-tot" style="--n:0"><span><small>À ENCAISSER</small><b>312,00 €</b></span><span class="chip w">3 en attente</span></div>
-          <div class="s-li" style="--n:1"><b class="t">0142</b><span><b>Hôtel des Marquisats</b><small>Genève → Annecy · 95 €</small></span><span class="chip">Payée</span></div>
-          <div class="s-li" style="--n:2"><b class="t">0141</b><span><b>Agence Lac &amp; Alpes</b><small>Annecy → Megève · 140 €</small></span><span class="chip w">Envoyée</span></div>
-          <div class="s-li" style="--n:3"><b class="t">0140</b><span><b>Julie Durand</b><small>Gare → Talloires · 38 €</small></span><span class="chip">Payée</span></div>
-          <div class="s-li" style="--n:4"><b class="t">D-31</b><span><b>Devis · Imperial Palace</b><small>Mariage, 3 trajets · 134 €</small></span><span class="chip w">Devis</span></div>
-          <div class="s-btn"><svg aria-hidden="true"><use href="#i-msg"/></svg>Envoyer sur WhatsApp</div>
+          <div class="s-h"><b>Factures</b><small>OCTOBRE 2026</small></div>
+          <div class="s-tot col" style="--n:0"><div class="s-row"><span><small>ENCAISSÉ</small><b>1 868 €</b></span><span style="text-align:right"><small>EN ATTENTE</small><b class="am">312 €</b></span></div><div class="prog"><i style="width:86%"></i></div></div>
+          <div class="flt" style="--n:1"><span class="on">Toutes</span><span>Payées</span><span>En attente</span><span>Devis</span></div>
+          <div class="s-li" style="--n:2"><b class="t">0142</b><span><b>Hôtel des Marquisats</b><small>Genève → Annecy · 95 €</small></span><span class="chip">Payée</span></div>
+          <div class="s-li" style="--n:3"><b class="t">0141</b><span><b>Agence Lac &amp; Alpes</b><small>Annecy → Megève · 140 €</small></span><span class="chip w">Envoyée</span></div>
+          <div class="s-li" style="--n:4"><b class="t">0140</b><span><b>Julie Durand</b><small>Gare → Talloires · 38 €</small></span><span class="chip">Payée</span></div>
+          <div class="s-li" style="--n:5"><b class="t">D-31</b><span><b>Imperial Palace</b><small>Devis mariage · 3 trajets</small></span><span class="chip b">Devis</span></div>
+          <div class="s-li" style="--n:6"><b class="t">0139</b><span><b>Clinique d’Argonay</b><small>Annecy → Genève · 120 €</small></span><span class="chip">Payée</span></div>
+          <div class="s-tab" aria-hidden="true"><span><svg><use href="#i-cal"/></svg>Agenda</span><span class="on"><svg><use href="#i-file"/></svg>Factures</span><span class="f"><svg><use href="#i-plus"/></svg></span><span><svg><use href="#i-receipt"/></svg>Dépenses</span><span><svg><use href="#i-chart"/></svg>Finances</span></div>
         </div>
         <div class="scr" id="p-depenses" role="tabpanel" aria-labelledby="t-depenses" hidden>
-          <div class="s-h"><b>Dépenses</b><small>OCTOBRE</small></div>
-          <div class="s-tot" style="--n:0"><span><small>DÉPENSES DU MOIS</small><b>716,40 €</b></span><span class="chip">TVA déd. 98 €</span></div>
-          <div class="s-li" style="--n:1"><b class="t"><svg width="18" height="18" aria-hidden="true"><use href="#i-fuel"/></svg></b><span><b>Carburant</b><small>Total Annecy · justificatif</small></span><b>82,30 €</b></div>
-          <div class="s-li" style="--n:2"><b class="t"><svg width="18" height="18" aria-hidden="true"><use href="#i-road"/></svg></b><span><b>Péage</b><small>A41 Genève · justificatif</small></span><b>14,60 €</b></div>
-          <div class="s-li" style="--n:3"><b class="t"><svg width="18" height="18" aria-hidden="true"><use href="#i-drop"/></svg></b><span><b>Lavage</b><small>Station Seynod</small></span><b>18,00 €</b></div>
-          <div class="s-li" style="--n:4"><b class="t"><svg width="18" height="18" aria-hidden="true"><use href="#i-wrench"/></svg></b><span><b>Entretien</b><small>Révision 60 000 km</small></span><b>289,00 €</b></div>
-          <div class="s-btn"><svg aria-hidden="true"><use href="#i-plus"/></svg>Ajouter une dépense</div>
+          <div class="s-h"><b>Dépenses</b><small>OCTOBRE 2026</small></div>
+          <div class="s-tot col" style="--n:0"><div class="s-row"><span><small>DÉPENSES DU MOIS</small><b>716,40 €</b></span><span class="chip">TVA déd. 98 €</span></div><div class="stk"><i style="--w:46%;--c:#f3b23c"></i><i style="--w:40%;--c:#7fd1a8"></i><i style="--w:6%;--c:#e07b6c"></i><i style="--w:8%;--c:#8fb8ff"></i></div><div class="lg"><span style="--c:#f3b23c">Carburant</span><span style="--c:#7fd1a8">Entretien</span><span style="--c:#e07b6c">Péages</span><span style="--c:#8fb8ff">Lavage</span></div></div>
+          <div class="s-li" style="--n:1"><b class="t ic" style="--c:#fdf1d8;--k:#8a5a00"><svg aria-hidden="true"><use href="#i-fuel"/></svg></b><span><b>Carburant</b><small>Total Annecy · justificatif</small></span><b>82,30 €</b></div>
+          <div class="s-li" style="--n:2"><b class="t ic" style="--c:#fbe5e2;--k:#8a2f26"><svg aria-hidden="true"><use href="#i-road"/></svg></b><span><b>Péage</b><small>A41 Genève · justificatif</small></span><b>14,60 €</b></div>
+          <div class="s-li" style="--n:3"><b class="t ic" style="--c:#e6efff;--k:#2c4f8f"><svg aria-hidden="true"><use href="#i-drop"/></svg></b><span><b>Lavage</b><small>Station Seynod</small></span><b>18,00 €</b></div>
+          <div class="s-li" style="--n:4"><b class="t ic" style="--c:#e2f2e9;--k:#0f5135"><svg aria-hidden="true"><use href="#i-wrench"/></svg></b><span><b>Entretien</b><small>Révision 60 000 km</small></span><b>289,00 €</b></div>
+          <div class="s-li" style="--n:5"><b class="t ic" style="--c:#fdf1d8;--k:#8a5a00"><svg aria-hidden="true"><use href="#i-fuel"/></svg></b><span><b>Carburant</b><small>Esso Seynod · justificatif</small></span><b>76,10 €</b></div>
+          <div class="s-tab" aria-hidden="true"><span><svg><use href="#i-cal"/></svg>Agenda</span><span><svg><use href="#i-file"/></svg>Factures</span><span class="f"><svg><use href="#i-plus"/></svg></span><span class="on"><svg><use href="#i-receipt"/></svg>Dépenses</span><span><svg><use href="#i-chart"/></svg>Finances</span></div>
         </div>
         <div class="scr" id="p-finances" role="tabpanel" aria-labelledby="t-finances" hidden>
-          <div class="s-h"><b>Finances</b><small>OCTOBRE</small></div>
-          <div class="s-tot" style="--n:0;display:block"><small>CHIFFRE D’AFFAIRES</small><b>2 480,00 €</b><div class="s-bars" aria-hidden="true"><i style="height:58%;--n:0"></i><i style="height:66%;--n:1"></i><i style="height:61%;--n:2"></i><i style="height:74%;--n:3"></i><i style="height:82%;--n:4"></i><i style="height:100%;--n:5"></i></div></div>
-          <div class="fin s-card" style="--n:1;padding:0;border:0;background:none"><div><small>DÉPENSES</small><b>716 €</b></div><div><small>TVA À REVERSER</small><b>315 €</b></div><div><small>COTISATIONS EST.</small><b>533 €</b></div><div><small>COURSES</small><b>46</b></div></div>
-          <div class="s-btn"><svg aria-hidden="true"><use href="#i-sheet"/></svg>Export Excel pour le comptable</div>
+          <div class="s-h"><b>Finances</b><small>OCTOBRE 2026</small></div>
+          <div class="s-tot col" style="--n:0"><div class="s-row"><span><small>CHIFFRE D’AFFAIRES</small><b>2 480,00 €</b></span><span class="chip">46 courses</span></div><div class="s-bars" aria-hidden="true"><i style="height:58%;--n:0"></i><i style="height:66%;--n:1"></i><i style="height:61%;--n:2"></i><i style="height:74%;--n:3"></i><i style="height:82%;--n:4"></i><i style="height:100%;--n:5"></i></div><div class="mo"><span>MAI</span><span>JUIN</span><span>JUIL.</span><span>AOÛT</span><span>SEPT.</span><span>OCT.</span></div></div>
+          <div class="fin" style="--n:1"><div><small>DÉPENSES</small><b>716 €</b></div><div><small>TVA À REVERSER</small><b>315 €</b></div><div><small>COTISATIONS EST.</small><b>533 €</b></div><div><small>RÉSULTAT EST.</small><b class="gr">916 €</b></div></div>
+          <div class="s-card top" style="--n:2"><small class="k">MEILLEURS CLIENTS</small><div class="s-row"><span>Hôtel des Marquisats</span><b>612 €</b></div><div class="s-row"><span>Agence Lac &amp; Alpes</span><b>438 €</b></div><div class="s-row"><span>Clinique d’Argonay</span><b>360 €</b></div></div>
+          <div class="s-li" style="--n:3"><b class="t ic" style="--c:#e2f2e9;--k:#0f5135"><svg aria-hidden="true"><use href="#i-sheet"/></svg></b><span><b>Export Excel d’octobre</b><small>Pour votre comptable</small></span><span class="chip">Prêt</span></div>
+          <div class="s-tab" aria-hidden="true"><span><svg><use href="#i-cal"/></svg>Agenda</span><span><svg><use href="#i-file"/></svg>Factures</span><span class="f"><svg><use href="#i-plus"/></svg></span><span><svg><use href="#i-receipt"/></svg>Dépenses</span><span class="on"><svg><use href="#i-chart"/></svg>Finances</span></div>
         </div>
       </div></div>
 
@@ -490,15 +605,31 @@ body.lock{overflow:hidden}
 <!-- ═══ Les modules de gestion ═══ -->
 <section class="sec" id="modules">
   <div class="wrap">
-    <div class="c" data-rv><p class="kick">Les fonctions</p><h2 class="h2">Toute votre gestion, <em>un seul outil</em>.</h2><p class="sub">Touchez un module pour voir ce qu’il fait.</p></div>
-    <div class="mods">
-      <div class="mod" data-rv style="--i:0"><button class="mod-b" aria-expanded="true" aria-controls="m1"><span class="fi" aria-hidden="true"><svg><use href="#i-cal"/></svg></span><span><h3>Agenda et rappels</h3><small>Toutes vos courses au même endroit</small></span><span class="pm" aria-hidden="true"><svg><use href="#i-plus"/></svg></span></button><div class="mod-d" id="m1"><div><ul><li>Saisie d’une course en quelques secondes, ou à la voix</li><li>Rappel sur le téléphone avant chaque départ</li><li>Itinéraire Waze ou Maps, appel du client en un geste</li></ul></div></div></div>
-      <div class="mod" data-rv style="--i:1"><button class="mod-b" aria-expanded="false" aria-controls="m2"><span class="fi" aria-hidden="true"><svg><use href="#i-users"/></svg></span><span><h3>Clients</h3><small>Votre fichier clients, toujours sur vous</small></span><span class="pm" aria-hidden="true"><svg><use href="#i-plus"/></svg></span></button><div class="mod-d" id="m2"><div><ul><li>Particuliers, hôtels, agences, plateformes</li><li>Historique et chiffre d’affaires par client</li><li>Appel, SMS ou WhatsApp depuis la fiche</li></ul></div></div></div>
-      <div class="mod" data-rv style="--i:2"><button class="mod-b" aria-expanded="false" aria-controls="m3"><span class="fi" aria-hidden="true"><svg><use href="#i-file"/></svg></span><span><h3>Factures et devis</h3><small>PDF conformes, envoyés en un geste</small></span><span class="pm" aria-hidden="true"><svg><use href="#i-plus"/></svg></span></button><div class="mod-d" id="m3"><div><ul><li>Numérotation continue automatique</li><li>Mentions légales, TVA ou franchise, votre IBAN</li><li>Suivi payée, envoyée, en attente</li></ul></div></div></div>
-      <div class="mod" data-rv style="--i:0"><button class="mod-b" aria-expanded="false" aria-controls="m4"><span class="fi" aria-hidden="true"><svg><use href="#i-receipt"/></svg></span><span><h3>Dépenses</h3><small>Carburant, péages, entretien</small></span><span class="pm" aria-hidden="true"><svg><use href="#i-plus"/></svg></span></button><div class="mod-d" id="m4"><div><ul><li>Catégories prêtes : carburant, péage, lavage, entretien</li><li>TVA déductible calculée</li><li>Justificatif en photo <span class="prem">PREMIUM</span></li></ul></div></div></div>
-      <div class="mod" data-rv style="--i:1"><button class="mod-b" aria-expanded="false" aria-controls="m5"><span class="fi" aria-hidden="true"><svg><use href="#i-chart"/></svg></span><span><h3>TVA et cotisations</h3><small>Votre mois en un coup d’œil</small></span><span class="pm" aria-hidden="true"><svg><use href="#i-plus"/></svg></span></button><div class="mod-d" id="m5"><div><ul><li>Chiffre d’affaires, recettes et dépenses du mois</li><li>TVA collectée, déductible et à reverser</li><li>Cotisations estimées pour ne pas être surpris</li></ul></div></div></div>
-      <div class="mod" data-rv style="--i:2"><button class="mod-b" aria-expanded="false" aria-controls="m6"><span class="fi" aria-hidden="true"><svg><use href="#i-sheet"/></svg></span><span><h3>Export comptable</h3><small>Un fichier propre pour le comptable</small></span><span class="pm" aria-hidden="true"><svg><use href="#i-plus"/></svg></span></button><div class="mod-d" id="m6"><div><ul><li>Classeur Excel complet : courses, factures, dépenses, TVA</li><li>Synchro téléphone et ordinateur</li><li>Marge par course et par client <span class="prem">PREMIUM</span></li></ul></div></div></div>
+    <div class="c" data-rv><p class="kick">Les fonctions</p><h2 class="h2">Toute votre gestion, <em>un seul outil</em>.</h2><p class="sub">Trois piliers pour tenir votre activité. Tout est gratuit, sans limite.</p></div>
+    <div class="pillars">
+      <article class="pillar" data-rv style="--i:0"><header><span class="pn">01</span><div><h3>Organiser</h3><p>Vos journées et vos clients</p></div></header>
+        <ul><li><span class="fi"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><div><b>Agenda et rappels</b><small>Une course notée en quelques secondes, un rappel avant chaque départ.</small></div></li>
+        <li><span class="fi"><svg aria-hidden="true"><use href="#i-users"/></svg></span><div><b>Fichier clients</b><small>Hôtels, agences, particuliers : historique et chiffre d’affaires.</small></div></li>
+        <li><span class="fi"><svg aria-hidden="true"><use href="#i-nav"/></svg></span><div><b>Itinéraire et appel</b><small>Waze ou Maps, appel ou « je suis arrivé » en un geste.</small></div></li></ul></article>
+      <article class="pillar" data-rv style="--i:1"><header><span class="pn">02</span><div><h3>Facturer</h3><p>Être payé, sans paperasse</p></div></header>
+        <ul><li><span class="fi"><svg aria-hidden="true"><use href="#i-file"/></svg></span><div><b>Factures conformes</b><small>Numérotation continue, mentions légales, TVA ou franchise, IBAN.</small></div></li>
+        <li><span class="fi"><svg aria-hidden="true"><use href="#i-msg"/></svg></span><div><b>Envoi en un geste</b><small>PDF envoyé par WhatsApp, SMS ou e-mail depuis la course.</small></div></li>
+        <li><span class="fi"><svg aria-hidden="true"><use href="#i-check"/></svg></span><div><b>Devis et suivi</b><small>Devis en PDF, factures payées, envoyées ou en attente.</small></div></li></ul></article>
+      <article class="pillar" data-rv style="--i:2"><header><span class="pn">03</span><div><h3>Compter</h3><p>Des comptes toujours à jour</p></div></header>
+        <ul><li><span class="fi"><svg aria-hidden="true"><use href="#i-receipt"/></svg></span><div><b>Dépenses</b><small>Carburant, péages, lavage, entretien, avec la TVA déductible.</small></div></li>
+        <li><span class="fi"><svg aria-hidden="true"><use href="#i-chart"/></svg></span><div><b>TVA et cotisations</b><small>TVA à reverser et cotisations estimées, mois par mois.</small></div></li>
+        <li><span class="fi"><svg aria-hidden="true"><use href="#i-sheet"/></svg></span><div><b>Export comptable</b><small>Un classeur Excel complet, synchronisé téléphone et ordinateur.</small></div></li></ul></article>
     </div>
+    <a class="prem-band" href="#tarifs" data-rv>
+      <div class="pb-head"><span class="pb-badge"><svg aria-hidden="true"><use href="#i-star"/></svg>PREMIUM</span><h3>Pilotez votre rentabilité.</h3><p>Tout le gratuit, plus l’analyse de ce que vous gagnez vraiment.</p></div>
+      <ul class="pb-list">
+        <li><span><svg aria-hidden="true"><use href="#i-trend"/></svg></span><b>Marge par course</b><small>Commission et km déduits</small></li>
+        <li><span><svg aria-hidden="true"><use href="#i-chart"/></svg></span><b>Rapport mensuel</b><small>Tendance sur 6 mois</small></li>
+        <li><span><svg aria-hidden="true"><use href="#i-mic"/></svg></span><b>Dictée vocale</b><small>Notez une course à la voix</small></li>
+        <li><span><svg aria-hidden="true"><use href="#i-cam"/></svg></span><b>Justificatifs photo</b><small>Tickets rangés avec la dépense</small></li>
+      </ul>
+      <span class="pb-cta">Essayer 14 jours gratuits<svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+    </a>
   </div>
 </section>
 
@@ -545,7 +676,16 @@ body.lock{overflow:hidden}
         <ol class="how" data-how="ios" hidden><li>Ouvrez cette page dans Safari</li><li><span>Touchez <kbd><svg width="16" height="16" role="img" aria-label="Partager"><use href="#i-share"/></svg></kbd> puis « Sur l’écran d’accueil »</span></li><li>Ouvrez SLM depuis votre écran d’accueil</li></ol>
         <a class="cta ink" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a>
       </div>
-      <div class="home" aria-hidden="true"><span><i></i>Photos</span><span><i></i>Maps</span><span><i></i>Waze</span><span><i></i>Messages</span><span><i></i>Météo</span><span class="me"><img src="icon-192.png" alt="">SLM</span><span><i></i>Agenda</span><span><i></i>WhatsApp</span></div>
+      <div class="inst-vis" aria-hidden="true">
+        <div class="phone mini"><div class="ph hs">
+          <div class="ph-notch"></div><div class="ph-sb"><span>09:41</span><span>5G</span></div>
+          <div class="hs-clock">09:41<small>jeudi 15 octobre</small></div>
+          <div class="hs-grid"><span><i style="--g:linear-gradient(145deg,#ff7a59,#e2483d)"><svg><use href="#i-cal"/></svg></i>Agenda</span><span><i style="--g:linear-gradient(145deg,#5ad07a,#1f9e4a)"><svg><use href="#i-msg"/></svg></i>Messages</span><span><i style="--g:linear-gradient(145deg,#9aa7b8,#5d6b7e)"><svg><use href="#i-cam"/></svg></i>Photo</span><span><i style="--g:linear-gradient(145deg,#5fb4ff,#2b6fd6)"><svg><use href="#i-sun"/></svg></i>Météo</span><span><i style="--g:linear-gradient(145deg,#6bd3a0,#2a8f6a)"><svg><use href="#i-nav"/></svg></i>Plans</span><span><i style="--g:linear-gradient(145deg,#ffd25e,#f0a91c)"><svg><use href="#i-note"/></svg></i>Notes</span><span><i style="--g:linear-gradient(145deg,#ff6b8a,#d8345a)"><svg><use href="#i-music"/></svg></i>Musique</span><span class="me"><i><img src="icon-192.png" alt=""></i>SLM</span></div>
+          <div class="hs-dock"><i style="--g:linear-gradient(145deg,#5ad07a,#1f9e4a)"><svg><use href="#i-phone"/></svg></i><i style="--g:linear-gradient(145deg,#5fb4ff,#2b6fd6)"><svg><use href="#i-msg"/></svg></i><i style="--g:linear-gradient(145deg,#ffffff,#d9e2dc)" class="dk"><svg><use href="#i-globe"/></svg></i><i style="--g:linear-gradient(145deg,#9aa7b8,#5d6b7e)"><svg><use href="#i-cam"/></svg></i></div>
+          <div class="hs-sheet"><div class="hs-app"><img src="icon-192.png" alt=""><span><b>Installer l’application ?</b><small>SLM Transfert</small></span></div><div class="hs-btns"><span>Annuler</span><span class="go">Installer</span></div></div>
+          <div class="hs-toast"><svg><use href="#i-check"/></svg>SLM Transfert installée</div>
+        </div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -580,12 +720,21 @@ body.lock{overflow:hidden}
 </section>
 
 <section class="end" data-rv>
-  <div class="wrap">
-    <img src="icon-192.png" alt="" width="76" height="76">
-    <h2 class="h2">Votre activité, <em>enfin en ordre</em>.</h2>
-    <p>Installez SLM gratuitement. Rien à importer : notez simplement votre prochaine course.</p>
-    <a class="cta" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a>
-    <p class="note"><span><svg aria-hidden="true"><use href="#i-check"/></svg>Gratuit</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>Sans carte bancaire</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>iPhone, Android, ordinateur</span></p>
+  <div class="wrap end-g">
+    <div class="end-txt">
+      <span class="eyebrow dk"><b>GRATUIT</b>Taxis et VTC indépendants</span>
+      <h2 class="h2">Votre activité, <em>enfin en ordre</em>.</h2>
+      <p>Installez SLM gratuitement. Rien à importer : notez simplement votre prochaine course.</p>
+      <a class="cta" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a>
+      <p class="note"><span><svg aria-hidden="true"><use href="#i-check"/></svg>Gratuit</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>Sans carte bancaire</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>iPhone, Android, ordinateur</span></p>
+    </div>
+    <div class="fan" aria-hidden="true">
+      <div class="phone f-l" data-src="p-factures"><div class="ph"><div class="ph-notch"></div><div class="ph-sb"><span>10:13</span><span>5G</span></div></div></div>
+      <div class="phone f-r" data-src="p-finances"><div class="ph"><div class="ph-notch"></div><div class="ph-sb"><span>18:30</span><span>5G</span></div></div></div>
+      <div class="phone f-c" data-src="p-agenda"><div class="ph"><div class="ph-notch"></div><div class="ph-sb"><span>08:12</span><span>5G</span></div></div></div>
+      <div class="bub-n n1"><img src="icon-192.png" alt=""><span><b>Facture payée</b><small>Hôtel des Marquisats · + 95 €</small></span></div>
+      <div class="bub-n n2"><img src="icon-192.png" alt=""><span><b>Course dans 30 min</b><small>09:20 · Genève → Annecy</small></span></div>
+    </div>
   </div>
 </section>
 </main>
@@ -645,8 +794,8 @@ if(RM){tour.classList.remove("auto");setPauseUI(true)}
 /* l’animation automatique ne tourne que si la visite est à l’écran */
 try{new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(!auto)return;if(visible&&!paused){tour.classList.remove("paused");restart()}else{clearTimeout(timer);tour.classList.add("paused")}},{threshold:.35}).observe(tour)}catch{restart()}
 
-/* ── Modules dépliables ── */
-$$(".mod-b").forEach(b=>b.addEventListener("click",()=>b.setAttribute("aria-expanded",b.getAttribute("aria-expanded")!=="true")));
+/* Éventail de fin : copies des écrans de la visite guidée (décoratives) */
+$$(".fan .phone").forEach(ph=>{const src=document.getElementById(ph.dataset.src);if(!src)return;const c=src.cloneNode(true);["id","role","aria-labelledby","hidden"].forEach(a=>c.removeAttribute(a));c.classList.add("on");ph.querySelector(".ph").appendChild(c)});
 
 /* ── Avant / avec SLM : bascule, et démonstration automatique une fois à l’écran ── */
 const vs=$("#vs");let vsTouched=false;
