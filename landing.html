@@ -332,6 +332,50 @@ footer.lf a{color:var(--ink-2)}
   .l-faq summary{font-size:15px}
 }
 @media (max-width:360px){.sticky-bar small{display:none}.sticky-bar .btn{white-space:nowrap}.l-stats span{font-size:10.5px}.l-stats b{font-size:19px}.lnav .btn.gold.sm{padding:0 11px}}
+
+/* ═══════════ Mobile : premier écran (hero) refait — visuel visible dès l’ouverture ═══════════ */
+.cta-arrow{display:none}
+@media (max-width:760px){
+  .l-hero{padding:calc(86px + env(safe-area-inset-top,0px)) 0 30px}
+  .l-hero .lw{display:flex;flex-direction:column;align-items:stretch;gap:0}
+  .l-hero .lw>div:first-child{display:contents}
+  .l-hero .eyebrow,.l-hero .btn-row .btn.secondary,.l-proof{display:none}
+  .l-badge{order:1}.l-hero h1{order:2}.l-hero .sub{order:3}.l-hero .btn-row{order:4}.l-micro{order:5}[data-phone]{order:6}.l-calc-link{order:7}.l-install{order:8}
+  /* Halos verts qui ondulent en fond (transform uniquement, coupés si « réduire les animations ») */
+  .l-aurora{display:block;position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+  .l-aurora i{position:absolute;border-radius:50%;will-change:transform}
+  .l-aurora i:nth-child(1){width:340px;height:340px;top:-90px;right:-120px;background:radial-gradient(closest-side,rgba(52,201,125,.55),transparent);animation:auroraA 13s ease-in-out infinite alternate}
+  .l-aurora i:nth-child(2){width:300px;height:300px;top:180px;left:-150px;background:radial-gradient(closest-side,rgba(168,224,194,.32),transparent);animation:auroraB 16s ease-in-out infinite alternate}
+  .l-aurora i:nth-child(3){width:420px;height:420px;top:430px;right:-180px;background:radial-gradient(closest-side,rgba(39,140,90,.5),transparent);animation:auroraA 18s ease-in-out infinite alternate-reverse}
+  /* Badge avec point lumineux */
+  .l-badge{display:inline-flex;align-self:flex-start;align-items:center;gap:9px;padding:7px 13px 7px 11px;border-radius:99px;background:rgba(168,224,194,.12);border:1px solid rgba(168,224,194,.3);color:#c9f0da;font-size:12px;font-weight:750;letter-spacing:.01em}
+  .l-badge i{position:relative;width:8px;height:8px;border-radius:50%;background:#5ee39a;flex:none}
+  .l-badge i::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid #5ee39a;animation:ping 2s var(--ease) infinite}
+  /* Accroche : « votre marge » avec un reflet qui passe */
+  .l-hero h1{margin-top:16px;font-size:clamp(36px,10.8vw,46px)}
+  .l-hero h1 em{background:linear-gradient(100deg,#7fe0ad 0%,#7fe0ad 35%,#ffffff 50%,#7fe0ad 65%,#7fe0ad 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s ease-in-out infinite}
+  .l-hero .sub{font-size:15.5px;margin:14px 0 20px;color:#c3dacd}
+  /* Bouton principal vert vif, avec un éclat lumineux (couleurs que le mode sombre forcé ne modifie pas) */
+  .l-hero .btn-row .btn.gold{position:relative;overflow:hidden;isolation:isolate;gap:10px;background:linear-gradient(135deg,#3fd28a 0%,#1f9e5f 55%,#167a4a 100%);color:#fff;border:0;box-shadow:0 16px 36px -12px rgba(63,210,138,.75),inset 0 1px 0 rgba(255,255,255,.35);text-shadow:0 1px 1px rgba(0,40,20,.25)}
+  .l-hero .btn-row .btn.gold::after{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:-60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:sweep 3.4s ease-in-out 1.2s infinite}
+  .cta-arrow{display:inline-block;font-size:20px;line-height:1;animation:nudge 1.8s ease-in-out infinite}
+  .l-micro{gap:14px;margin-top:12px;flex-wrap:wrap}
+  .l-micro span{display:inline-flex;align-items:center;gap:5px}
+  .l-calc-link{display:block;text-align:center;margin-top:16px;color:var(--mint);font-weight:750;font-size:14.5px;text-decoration:underline;text-underline-offset:4px}
+  /* Le téléphone remonte dans le premier écran */
+  [data-phone]{margin-top:22px}
+  .phone-stage{padding-top:14px}
+  .lnav .btn.gold.sm{background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+  .l-route{opacity:.55}
+  .sticky-bar .btn{background:linear-gradient(135deg,#3fd28a,#1f9e5f 60%,#167a4a);color:#fff;box-shadow:0 8px 20px -8px rgba(63,210,138,.7)}
+}
+@media (max-width:370px){.l-badge .b-long{display:none}.l-hero .btn-row .btn.gold{font-size:15px;padding:0 14px;white-space:nowrap}.l-micro{gap:10px;font-size:12px}}
+@keyframes auroraA{to{transform:translate3d(-60px,50px,0) scale(1.15)}}
+@keyframes auroraB{to{transform:translate3d(70px,-40px,0) scale(1.2)}}
+@keyframes ping{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.9);opacity:0}}
+@keyframes shine{0%,20%{background-position:100% 0}60%,100%{background-position:0 0}}
+@keyframes sweep{0%{left:-60%}55%,100%{left:130%}}
+@keyframes nudge{0%,100%{transform:none}50%{transform:translateX(4px)}}
 </style>
 </head>
 <body class="landing">
@@ -359,6 +403,7 @@ footer.lf a{color:var(--ink-2)}
 
 <main id="top">
 <section class="l-hero sign">
+  <div class="l-aurora m-only" aria-hidden="true"><i></i><i></i><i></i></div>
   <svg class="l-route" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <path id="route-path" class="road" d="M-60 745C220 735 470 705 700 650S930 430 1010 255 1180 60 1280 20"/>
     <path class="lane" d="M-60 745C220 735 470 705 700 650S930 430 1010 255 1180 60 1280 20"/>
@@ -367,9 +412,10 @@ footer.lf a{color:var(--ink-2)}
     <circle class="car" r="6" cx="0" cy="0" transform="translate(-60 745)"/>
   </svg>
   <div class="lw">
-  <div><span class="eyebrow" data-intro>Pour les chauffeurs VTC et taxis indépendants</span><h1><span class="ln" data-intro>Vos courses,</span> <span class="ln" data-intro>vos clients,</span> <span class="ln" data-intro><em>votre marge</em>.</span></h1><p class="sub" data-intro>Planifiez, roulez, facturez en un geste. Et sachez enfin ce que chaque course vous rapporte, après commissions et kilomètres.</p>
-  <div class="btn-row" style="max-width:480px" data-intro><a class="btn gold lg" href="index.html#signup">Commencer gratuitement</a><a class="btn lg secondary" href="#marge">Calculer ma marge</a></div>
-  <p class="l-micro m-only" data-intro><svg><use href="#i-check2"/></svg>Gratuit, sans carte bancaire · prêt en 2 minutes</p>
+  <div><span class="l-badge m-only" data-intro><i></i>Pour chauffeurs VTC et taxis<span class="b-long"> indépendants</span></span><span class="eyebrow" data-intro>Pour les chauffeurs VTC et taxis indépendants</span><h1><span class="ln" data-intro>Vos courses,</span> <span class="ln" data-intro>vos clients,</span> <span class="ln" data-intro><em>votre marge</em>.</span></h1><p class="sub" data-intro>Planifiez, roulez, facturez en un geste. Et sachez enfin ce que chaque course vous rapporte, après commissions et kilomètres.</p>
+  <div class="btn-row" style="max-width:480px" data-intro><a class="btn gold lg" href="index.html#signup">Commencer gratuitement<span class="cta-arrow" aria-hidden="true">→</span></a><a class="btn lg secondary" href="#marge">Calculer ma marge</a></div>
+  <p class="l-micro m-only" data-intro><span><svg><use href="#i-check2"/></svg>Gratuit</span><span><svg><use href="#i-check2"/></svg>Sans carte</span><span><svg><use href="#i-check2"/></svg>Prêt en 2 min</span></p>
+  <a class="l-calc-link m-only" href="#marge" data-intro>Calculer ma marge sur une course →</a>
   <div class="l-proof" data-intro><span><svg><use href="#i-check2"/></svg>Gratuit, sans carte bancaire</span><span><svg><use href="#i-sync"/></svg>Téléphone et ordinateur</span><span><svg><use href="#i-shield"/></svg>Vos données exportables à tout moment</span></div><p class="l-install" data-intro><svg><use href="#i-install"/></svg><span>S’installe comme une application sur <b>iPhone</b>, <b>Android</b> et <b>ordinateur</b>. Rappels de course inclus.</span></p></div>
   <div data-intro data-phone><div class="phone-stage">
     <div class="float-card fc-1" aria-hidden="true"><div class="fc-in"><span class="fc-ico"><svg><use href="#i-bell"/></svg></span><span><small>Rappel · dans 30 min</small><b>09:20 · Aéroport de Genève</b></span></div></div>
@@ -490,7 +536,7 @@ mm.add({motion:"(prefers-reduced-motion: no-preference)",desk:"(min-width: 901px
   const intro=gsap.timeline({onStart:done});
   intro.fromTo(".l-route .trace",{strokeDashoffset:1},{strokeDashoffset:0,duration:2.2,ease:"power2.inOut"},0)
     .fromTo(".l-route .pin",{scale:0,transformOrigin:"50% 50%"},{scale:1,duration:.5,stagger:.25,ease:"back.out(2)"},.6)
-    .fromTo(".l-hero .eyebrow,.l-hero .sub,.l-hero .btn-row,.l-hero .l-proof,.l-hero .l-micro,.l-hero .l-install",{autoAlpha:0,y:18},{autoAlpha:1,y:0,stagger:.08},.1)
+    .fromTo(".l-hero .l-badge,.l-hero .eyebrow,.l-hero .sub,.l-hero .btn-row,.l-hero .l-proof,.l-hero .l-micro,.l-hero .l-calc-link,.l-hero .l-install",{autoAlpha:0,y:18},{autoAlpha:1,y:0,stagger:.08},.1)
     .fromTo(".l-hero h1 .ln",{autoAlpha:0,yPercent:60},{autoAlpha:1,yPercent:0,stagger:.09,duration:1},.15)
     .fromTo("[data-phone]",{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:1.2},.35)
     .fromTo(".float-card .fc-in",{autoAlpha:0,scale:.85,y:16},{autoAlpha:1,scale:1,y:0,duration:.7,stagger:.18,ease:"back.out(1.6)"},1.1);

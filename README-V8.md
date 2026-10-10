@@ -10,7 +10,7 @@ Design et interactions uniquement : **aucun changement de données, de routes, d
 - **Identité** : vert SLM et blanc inspirés des panneaux de direction (panneaux verts avec filet blanc intérieur), chiffres et titres en Overpass, texte en Manrope (Cormorant Garamond retiré). L’or/champagne est remplacé par des verts : Premium = dégradé vert. Verre dépoli réservé aux barres fixes, au toast et au pied des fenêtres.
 - **Application** : `style.css` réécrit en gardant tous les noms de classes. Fondu léger entre les pages (View Transitions, avec repli automatique), apparition en cascade conservée. Mouvement coupé si « réduire les animations », verre retiré si « réduire la transparence ».
 - **Landing** : animations GSAP 3.13.0 + ScrollTrigger + MotionPath chargés depuis jsDelivr (versions figées), uniquement sur `landing.html`. Sans GSAP (hors ligne, CDN bloqué), la page reste complète et lisible. Le fond animé en canvas est remplacé par un tracé SVG plus léger. Correction : les couleurs `--hero`, `--hero-mut` et `--mint` n’étaient définies nulle part (haut de la landing illisible).
-- **Service worker** : version `slm-v8-1-4`.
+- **Service worker** : version `slm-v8-1-5`.
 - Fichiers modifiés : `style.css`, `landing.html`, `index.html` (polices), `app.js` (couleurs du fond de connexion, couleur de la barre d’état, transition de page), `billing.js` (couleurs des confettis), `sw.js`.
 
 ### V8.1.2 — connexion et formulaires
@@ -27,6 +27,11 @@ Design et interactions uniquement : **aucun changement de données, de routes, d
 - **Thème clair par défaut** pour l’application et la landing (la landing est toujours claire). Dans l’application, Paramètres > Affichage permet de choisir Sombre ou Automatique ; le dernier choix est mémorisé sur l’appareil pour l’écran de connexion. Les comptes restés sur l’ancien défaut « Automatique » passent une fois en clair (indicateur `themeLightV814` dans les métadonnées).
 - **Rapport Premium** : l’application affiche désormais la vraie raison d’une erreur de la fonction `premium-report` (au lieu de « Edge Function returned a non-2xx status code »). Si le service ne répond pas (hors refus d’accès 401/403), le rapport est calculé sur l’appareil avec la même formule, et une mention l’indique.
 - **Audit d’affichage** : toutes les pages et fenêtres contrôlées automatiquement (360, 320 et 300 px, clair et sombre, compte gratuit et Premium/admin, ordinateur). Corrections : barre du haut allégée sur mobile, boutons et textes longs qui passent à la ligne (e-mail en titre de « Mon compte »), pastilles et barre du bas sur très petit écran.
+
+### V8.1.5 — premier écran de la landing (mobile)
+- Hero mobile refait : badge à point lumineux, accroche avec reflet animé, bouton vert vif avec éclat lumineux et flèche, réassurance en trois points, halos verts animés en fond, et téléphone visible dès l’ouverture. « Calculer ma marge » et l’encart d’installation passent sous le téléphone.
+- Couleurs choisies pour résister au mode sombre forcé de Samsung Internet (qui ignore `color-scheme`) : plus de bouton blanc dans le premier écran ni dans la barre du bas.
+- L’ordinateur et le reste de la page ne changent pas.
 
 ## Identité visuelle
 
@@ -67,7 +72,7 @@ Aucune migration SQL. Les autres fonctions (webhook, portail, rapport, CRM, rapp
 `config.js` contient les prix affichés si `premium-prices` ne répond pas. Gardez-les identiques à Stripe.
 
 ### 5. Site (GitHub + Vercel)
-Remplacer à la racine du dépôt : `index.html`, `landing.html`, `config.js`, `core.js`, `app.js`, `cloud.js`, `push.js`, `billing.js`, `admin.js`, `style.css`, `sw.js`, `manifest.json`. Supprimer l’ancien `landing.html` s’il diffère. Le service worker change de version (`slm-v8-1-4`) : les téléphones chargent la nouvelle version à la prochaine ouverture.
+Remplacer à la racine du dépôt : `index.html`, `landing.html`, `config.js`, `core.js`, `app.js`, `cloud.js`, `push.js`, `billing.js`, `admin.js`, `style.css`, `sw.js`, `manifest.json`. Supprimer l’ancien `landing.html` s’il diffère. Le service worker change de version (`slm-v8-1-5`) : les téléphones chargent la nouvelle version à la prochaine ouverture.
 
 Conseil : publier d’abord sur une branche de prévisualisation Vercel, se connecter avec un vrai compte, puis fusionner sur `main`.
 
