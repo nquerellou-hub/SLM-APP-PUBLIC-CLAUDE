@@ -305,83 +305,67 @@ img,svg{max-width:100%;flex:none}
 .vs-p.yes li svg{color:var(--amber)}
 .vs-p.no li{color:var(--ink-2)}
 
-/* Installation */
-.inst{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:36px;align-items:center;padding:clamp(26px,5vw,52px);border-radius:28px;background:var(--surface);border:1px solid var(--line)}
-.os{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:13px;background:var(--bg);margin-top:20px}
+/* Installation : trois cartes, une par touche */
+.os{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:13px;background:var(--surface);border:1px solid var(--line);margin-top:22px}
 .os .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:10px;background:var(--ink);transform:translateX(calc(var(--o,0) * 100%));transition:transform var(--dur-normal) var(--ease-spring)}
-.os button{position:relative;z-index:1;min-height:40px;padding:0 18px;border-radius:10px;font-weight:800;font-size:14px;color:var(--ink-2);transition:color var(--dur-fast)}
+.os button{position:relative;z-index:1;min-height:42px;padding:0 20px;border-radius:10px;font-weight:800;font-size:14.5px;color:var(--ink-2);transition:color var(--dur-fast)}
 .os button[aria-pressed="true"]{color:#fff}
-.how[hidden]{display:none}
 .how{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:12px;counter-reset:h}
 .how li{display:flex;gap:14px;align-items:center;font-weight:700;font-size:16px}
 .how li::before{counter-increment:h;content:counter(h);width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--g-soft);color:var(--g-ink);font-family:var(--f-d);font-weight:900;flex:none}
 .how kbd{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 6px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font:inherit;font-size:14px;vertical-align:middle}
-.inst .cta{margin-top:24px}
-/* Installation : les trois touches en grand, synchronisées avec les étapes */
-.iv{position:relative;align-self:stretch;min-height:440px;border-radius:24px;overflow:hidden;background:radial-gradient(70% 60% at 50% 45%,rgba(61,220,143,.28),transparent 70%),radial-gradient(120% 90% at 100% 100%,#1d4a36,transparent 60%),var(--deep);cursor:pointer;-webkit-tap-highlight-color:transparent}
-.iv::before{content:"";position:absolute;inset:0;opacity:.5;background:repeating-linear-gradient(28deg,transparent 0 46px,rgba(255,255,255,.035) 46px 47px),repeating-linear-gradient(-62deg,transparent 0 70px,rgba(255,255,255,.03) 70px 71px)}
-.iv-stage{position:absolute;inset:0 0 44px;display:grid;place-items:center;padding:24px;opacity:0;transform:translateY(16px) scale(.97);transition:opacity var(--dur-normal) var(--ease-smooth),transform var(--dur-slow) var(--ease-out);pointer-events:none}
-.iv-stage.on{opacity:1;transform:none}
-.iv .v-ios,.iv[data-os="ios"] .v-and{display:none}
-.iv[data-os="ios"] .v-ios{display:contents}
-/* 1 · la page et son bouton */
-.iv-page{width:min(300px,100%);padding:22px 20px 20px;border-radius:22px;background:var(--bg);color:var(--ink);box-shadow:0 30px 60px -24px rgba(0,0,0,.65);display:grid;gap:9px}
-.iv-h{font-family:var(--f-d);font-weight:900;font-size:21px;line-height:1.05;letter-spacing:-.03em}
-.iv-l{height:8px;border-radius:5px;background:var(--line);width:92%}.iv-l.s{width:64%}
-.iv-btn{position:relative;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:9px;height:56px;border-radius:15px;background:var(--cta);color:#fff;font-weight:800;font-size:16px;box-shadow:0 14px 26px -12px rgba(17,135,71,.9)}
-.iv-btn svg{width:19px;height:19px}
-.iv-safari{width:min(300px,100%);border-radius:22px;overflow:hidden;background:var(--bg);box-shadow:0 30px 60px -24px rgba(0,0,0,.65)}
-.iv-safari .iv-page{box-shadow:none;border-radius:0;width:100%;padding-bottom:26px}
-.iv-bar{display:flex;justify-content:space-around;align-items:center;height:54px;background:#fff;border-top:1px solid var(--line);color:#2b6fd6}
-.iv-bar svg{width:20px;height:20px}
-.iv-share{position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#e6efff}
-/* 2 · la fenêtre de confirmation */
-.iv-dlg{width:min(290px,100%);padding:26px 22px 18px;border-radius:26px;background:#fff;color:var(--ink);text-align:center;box-shadow:0 30px 60px -24px rgba(0,0,0,.7);display:grid;justify-items:center;gap:4px}
-.iv-dlg img{width:64px;height:64px;border-radius:17px;margin-bottom:8px;box-shadow:0 10px 20px -10px rgba(0,0,0,.5)}
-.iv-dlg b{font-family:var(--f-d);font-size:19px;font-weight:900;letter-spacing:-.02em}
-.iv-dlg small{color:var(--ink-2);font-size:13px;font-weight:600}
-.iv-dlg-b{display:flex;gap:8px;justify-content:flex-end;width:100%;margin-top:18px}
-.iv-dlg-b span{position:relative;padding:10px 16px;border-radius:99px;font-weight:800;font-size:14px;color:var(--g-ink)}
-.iv-dlg-b .go{background:var(--cta);color:#fff}
-.iv-sheet{width:min(290px,100%);padding:8px;border-radius:22px;background:#f2f2f6;color:var(--ink);box-shadow:0 30px 60px -24px rgba(0,0,0,.7);display:grid;gap:6px}
-.iv-sheet-h{display:flex;align-items:center;gap:10px;padding:8px 8px 10px}
-.iv-sheet-h img{width:40px;height:40px;border-radius:11px}
-.iv-sheet-h b{display:block;font-size:14px}.iv-sheet-h small{font-size:12px;color:var(--ink-2)}
-.iv-sheet .row{position:relative;display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border-radius:13px;background:#fff;font-weight:700;font-size:14.5px}
-.iv-sheet .row svg{width:19px;height:19px;color:var(--ink-2)}
-.iv-sheet .row.go{box-shadow:0 0 0 2.5px var(--amber)}
-.iv-sheet .row.go svg{color:var(--ink)}
-/* 3 · l’icône sur l’écran d’accueil */
-.iv-home{display:grid;justify-items:center;gap:12px;color:#fff;text-align:center;max-width:100%}
-.iv-row{display:flex;align-items:center;gap:14px}
-.iv-row i{width:52px;height:52px;border-radius:15px;background:var(--g);opacity:.45;filter:saturate(.7)}
-.iv-app{width:112px;height:112px;border-radius:30px;overflow:hidden;box-shadow:0 0 0 4px var(--amber),0 24px 50px -14px rgba(243,178,60,.7)}
-.iv-app img{width:100%;height:100%;display:block}
-.iv-name{font-family:var(--f-d);font-size:22px;font-weight:900;letter-spacing:-.02em;margin-top:6px}
-.iv-ok{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:99px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);font-weight:700;font-size:13.5px;color:#dbe8e0}
-.iv-ok svg{width:16px;height:16px;color:var(--amber)}
-.iv-stage.on .iv-app{animation:appPop .7s var(--ease-spring) .1s both}
-.iv-stage.on .iv-row i{animation:inUp var(--dur-slow) var(--ease-out) both}
-.iv-stage.on .iv-ok{animation:inUp var(--dur-slow) var(--ease-out) .35s both}
-@keyframes appPop{from{transform:scale(.4);opacity:0}}
-/* Le doigt qui touche */
-.tap{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,255,255,.55);box-shadow:0 0 0 2px rgba(255,255,255,.9);opacity:0;pointer-events:none}
-.iv-btn .tap,.iv-share .tap{background:rgba(255,255,255,.45)}
-.iv-sheet .tap,.iv-dlg-b .tap{background:rgba(16,28,22,.18);box-shadow:0 0 0 2px rgba(16,28,22,.35)}
-.iv-stage.on .tap{animation:tap 1.2s var(--ease-out) .9s both}
-@keyframes tap{0%{opacity:0;transform:scale(1.6)}35%{opacity:1;transform:scale(.8)}55%{opacity:1;transform:scale(.7)}100%{opacity:0;transform:scale(1.9)}}
-.iv-stage.on .iv-btn,.iv-stage.on .iv-dlg-b .go,.iv-stage.on .iv-share,.iv-stage.on .row.go{animation:pressIv 1.2s var(--ease-out) .9s both}
-@keyframes pressIv{35%,55%{transform:scale(.95)}}
-/* Progression 1 · 2 · 3 */
-.iv-dots{position:absolute;left:0;right:0;bottom:18px;display:flex;justify-content:center;gap:8px}
-.iv-dots i{width:28px;height:5px;border-radius:5px;background:rgba(255,255,255,.2);overflow:hidden;position:relative}
-.iv-dots i::after{content:"";position:absolute;inset:0;background:var(--amber);transform-origin:left;transform:scaleX(0)}
-.iv-dots i.done::after{transform:none}
-.iv-dots i.cur::after{animation:fill var(--iv-t,2.8s) linear forwards}
-.iv.still .iv-dots i.cur::after{animation:none;transform:none}
-/* Étape écrite en cours */
-.how li::before{transition:background var(--dur-normal),color var(--dur-normal),transform var(--dur-normal) var(--ease-spring)}
-.how li.cur::before{background:var(--amber);color:#3d2700;transform:scale(1.08)}
+.st-grid{list-style:none;margin:34px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.st-grid[data-os="ios"] .v-and,.st-grid:not([data-os="ios"]) .v-ios{display:none}
+.st{display:flex;flex-direction:column;border-radius:26px;background:var(--surface);border:1px solid var(--line);overflow:hidden;transition:transform var(--dur-normal) var(--ease-spring),box-shadow var(--dur-normal),border-color var(--dur-normal)}
+.rv-on .st[data-rv].in.cur,.st.cur{transform:translateY(-6px);box-shadow:var(--s-2);border-color:var(--line-2)}
+.st-vis{position:relative;height:240px;display:grid;place-items:center;padding:18px;overflow:hidden;background:radial-gradient(90% 80% at 50% 0%,rgba(61,220,143,.22),transparent 70%),var(--g-soft)}
+.st-vis.dk{background:radial-gradient(80% 70% at 50% 100%,rgba(243,178,60,.28),transparent 70%),var(--deep);place-items:start center;padding:0}
+.st-txt{display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:14px;row-gap:4px;padding:20px 22px 24px}
+.st-n{grid-row:1/3;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--ink);color:var(--amber);font-family:var(--f-d);font-weight:900;font-size:18px;transition:background var(--dur-normal),color var(--dur-normal),transform var(--dur-normal) var(--ease-spring)}
+.st.cur .st-n{background:var(--amber);color:#3d2700;transform:scale(1.06)}
+.st h3{font-size:20px;font-weight:900;line-height:1.15;align-self:end}
+.st p{color:var(--ink-2);font-size:14.5px;line-height:1.45}
+/* Visuels des cartes */
+.mini-pg,.mini-sf{width:min(250px,100%);padding:18px 16px;border-radius:18px;background:#fff;box-shadow:0 20px 40px -22px rgba(16,28,22,.5);display:grid;gap:8px}
+.mp-h{font-family:var(--f-d);font-weight:900;font-size:17px;line-height:1.1;letter-spacing:-.02em}
+.mp-l{height:7px;border-radius:5px;background:var(--line);width:90%}.mp-l.s{width:60%}
+.mp-btn{position:relative;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:13px;background:var(--cta);color:#fff;font-weight:800;font-size:14.5px;box-shadow:0 12px 22px -12px rgba(17,135,71,.9)}
+.mp-btn svg{width:17px;height:17px}
+.mini-sf{padding:0;overflow:hidden;gap:8px}
+.sf-url{display:flex;align-items:center;justify-content:center;gap:6px;margin:12px 12px 6px;height:34px;border-radius:10px;background:var(--bg);font-weight:700;font-size:13px;color:var(--ink-2)}
+.sf-url svg{width:13px;height:13px}
+.mini-sf .mp-l{margin-left:16px}
+.sf-bar{display:flex;justify-content:space-around;align-items:center;height:52px;margin-top:10px;border-top:1px solid var(--line);color:#2b6fd6}
+.sf-bar svg{width:19px;height:19px}
+.sf-share{position:relative;display:grid;place-items:center;width:40px;height:38px;border-radius:11px;background:#e6efff}
+.mini-dlg{width:min(250px,100%);padding:20px 18px 14px;border-radius:22px;background:#fff;text-align:center;display:grid;justify-items:center;gap:3px;box-shadow:0 20px 40px -22px rgba(16,28,22,.55)}
+.mini-dlg img{width:52px;height:52px;border-radius:14px;margin-bottom:6px}
+.mini-dlg b{font-family:var(--f-d);font-size:16.5px;font-weight:900}
+.mini-dlg small{color:var(--ink-2);font-size:12.5px;font-weight:600}
+.dl-b{display:flex;justify-content:flex-end;gap:6px;width:100%;margin-top:14px}
+.dl-b span{position:relative;padding:8px 14px;border-radius:99px;font-weight:800;font-size:13px;color:var(--g-ink)}
+.dl-b .go{background:var(--cta);color:#fff}
+.mini-sh{width:min(250px,100%);padding:7px;border-radius:18px;background:#f2f2f6;display:grid;gap:5px;box-shadow:0 20px 40px -22px rgba(16,28,22,.55)}
+.mini-sh .row{position:relative;display:flex;justify-content:space-between;align-items:center;padding:12px 13px;border-radius:12px;background:#fff;font-weight:700;font-size:13.5px}
+.mini-sh .row svg{width:18px;height:18px;color:var(--ink-2)}
+.mini-sh .row.go{box-shadow:0 0 0 2.5px var(--amber)}
+.st-phone{width:250px;margin-top:22px}
+.st-phone .phone{width:100%;box-shadow:0 0 0 1px #24372d,0 30px 50px -20px rgba(0,0,0,.7)}
+.st-phone .scr{opacity:1;transform:none}
+.st-ok{position:absolute;right:12px;top:12px;z-index:4;display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;background:var(--amber);color:#3d2700;font-weight:900;font-size:12.5px;box-shadow:0 10px 20px -10px rgba(0,0,0,.6)}
+.st-ok svg{width:14px;height:14px}
+/* Le doigt qui touche, rejoué quand la carte devient active */
+.tap{position:absolute;left:50%;top:50%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:50%;background:rgba(255,255,255,.5);box-shadow:0 0 0 2px rgba(255,255,255,.9);opacity:0;pointer-events:none}
+.mini-sh .tap,.sf-share .tap{background:rgba(16,28,22,.15);box-shadow:0 0 0 2px rgba(16,28,22,.35)}
+.st.cur .tap{animation:tap 1.3s var(--ease-out) .5s both}
+.st.cur .hit{animation:pressHit 1.3s var(--ease-out) .5s both}
+@keyframes tap{0%{opacity:0;transform:scale(1.7)}35%{opacity:1;transform:scale(.8)}55%{opacity:1;transform:scale(.7)}100%{opacity:0;transform:scale(1.9)}}
+@keyframes pressHit{35%,55%{transform:scale(.95)}}
+.st.cur .st-ok{animation:pop2 .6s var(--ease-spring) .2s both}
+@keyframes pop2{from{opacity:0;transform:scale(.6)}}
+.st-dots{display:none}
+.inst-cta{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:30px;text-align:center}
+.inst-cta small{color:var(--ink-2);font-size:13px;font-weight:600}
 
 /* Tarifs */
 .bill{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:14px;background:var(--surface);border:1px solid var(--line);margin-top:24px}
@@ -470,7 +454,6 @@ body.lock{overflow:hidden}
   .prem-band{grid-template-columns:minmax(0,1fr);max-width:620px;margin-inline:auto}
   .end-g{grid-template-columns:minmax(0,1fr);gap:0}
   .end-txt{padding-bottom:30px;text-align:center}.end-txt .h2,.end-txt>p{margin-inline:auto}.end .note{justify-content:center}
-  .inst{grid-template-columns:minmax(0,1fr)}
 }
 /* ═══════════ Mobile ═══════════ */
 @media (max-width:640px){
@@ -501,12 +484,15 @@ body.lock{overflow:hidden}
   .step{grid-template-columns:minmax(0,1fr);padding:18px;gap:14px}
   .step .dot{left:-43px}
   .plans{grid-template-columns:minmax(0,1fr)}
-  .inst{padding:24px 20px;gap:26px}
-  .iv{min-height:380px}
-  .iv-row{gap:10px}.iv-row i{width:42px;height:42px;border-radius:12px}.iv-row i:first-child,.iv-row i:last-child{display:none}
-  .iv-app{width:96px;height:96px;border-radius:26px}
-  .iv-ok{font-size:12.5px;text-align:center}
-  .iv-h{font-size:19px}
+  .st-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:26px -16px 0;padding:8px 16px 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .st-grid::-webkit-scrollbar{display:none}
+  .st{flex:0 0 84%;scroll-snap-align:center}
+  .rv-on .st[data-rv].in.cur,.st.cur{transform:none}
+  .st-vis{height:220px}
+  .st-dots{display:flex;justify-content:center;gap:6px;margin-top:4px}
+  .st-dots i{width:8px;height:8px;border-radius:99px;background:var(--line-2);transition:width var(--dur-normal) var(--ease-spring),background var(--dur-normal)}
+  .st-dots i.on{width:24px;background:var(--ink)}
+  .inst-cta .cta{width:100%;max-width:420px}
   .end .cta{width:100%;max-width:420px}
   .fan{height:330px;--fs:.74}
   .fan .phone{bottom:-200px}
@@ -560,6 +546,7 @@ body.lock{overflow:hidden}
 <symbol id="i-tabs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="7" y="7" width="13" height="13" rx="2.5"/><path d="M4 16V6a2 2 0 0 1 2-2h10"/></symbol>
 <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
 <symbol id="i-plus-sq" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
 </defs></svg>
 
 <div class="progress" id="progress" aria-hidden="true"></div>
@@ -707,33 +694,40 @@ body.lock{overflow:hidden}
   </div>
 </section>
 
-<!-- ═══ Installation ═══ -->
+<!-- ═══ Installation : trois cartes, une par touche ═══ -->
 <section class="sec" id="installer" style="padding-top:0">
   <div class="wrap">
-    <div class="inst" data-rv>
-      <div>
-        <p class="kick">Installation</p>
-        <h2 class="h2">Sur votre écran d’accueil <em>en trois touches</em>.</h2>
-        <div class="os" role="group" aria-label="Votre téléphone" style="--o:0"><span class="thumb" aria-hidden="true"></span><button type="button" data-os="android" aria-pressed="true">Android</button><button type="button" data-os="ios" aria-pressed="false">iPhone</button></div>
-        <ol class="how" data-how="android"><li>Touchez « Installer gratuitement »</li><li>Confirmez « Installer »</li><li>Ouvrez SLM depuis votre écran d’accueil</li></ol>
-        <ol class="how" data-how="ios" hidden><li>Ouvrez cette page dans Safari</li><li><span>Touchez <kbd><svg width="16" height="16" role="img" aria-label="Partager"><use href="#i-share"/></svg></kbd> puis « Sur l’écran d’accueil »</span></li><li>Ouvrez SLM depuis votre écran d’accueil</li></ol>
-        <a class="cta ink" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a>
-      </div>
-      <div class="iv" id="iv" data-os="android" aria-hidden="true">
-        <div class="iv-stage on" data-st="0">
-          <div class="v-and"><div class="iv-page"><span class="iv-h">L’outil de gestion des taxis et VTC</span><span class="iv-l"></span><span class="iv-l s"></span><div class="iv-btn"><svg><use href="#i-dl"/></svg>Installer gratuitement<span class="tap"></span></div></div></div>
-          <div class="v-ios"><div class="iv-safari"><div class="iv-page"><span class="iv-h">L’outil de gestion des taxis et VTC</span><span class="iv-l"></span><span class="iv-l s"></span></div><div class="iv-bar"><svg><use href="#i-back"/></svg><svg><use href="#i-fwd"/></svg><span class="iv-share"><svg><use href="#i-share"/></svg><span class="tap"></span></span><svg><use href="#i-book"/></svg><svg><use href="#i-tabs"/></svg></div></div></div>
+    <div class="c" data-rv><p class="kick">Installation</p><h2 class="h2">Installée en <em>trois touches</em>.</h2><p class="sub">Pas de store à ouvrir : l’appli s’installe directement depuis cette page.</p>
+      <div class="os" role="group" aria-label="Votre téléphone" style="--o:0"><span class="thumb" aria-hidden="true"></span><button type="button" data-os="android" aria-pressed="true">Android</button><button type="button" data-os="ios" aria-pressed="false">iPhone</button></div></div>
+    <ol class="st-grid" id="steps3" data-os="android">
+      <li class="st cur" data-rv style="--i:0">
+        <div class="st-vis" aria-hidden="true">
+          <div class="v-and mini-pg"><span class="mp-h">L’outil de gestion des taxis et VTC</span><span class="mp-l"></span><span class="mp-l s"></span><span class="mp-btn hit"><svg><use href="#i-dl"/></svg>Installer gratuitement<i class="tap"></i></span></div>
+          <div class="v-ios mini-sf"><span class="sf-url"><svg><use href="#i-lock"/></svg>SLM Transfert</span><span class="mp-l"></span><span class="mp-l s"></span><span class="sf-bar"><svg><use href="#i-back"/></svg><svg><use href="#i-fwd"/></svg><span class="sf-share hit"><svg><use href="#i-share"/></svg><i class="tap"></i></span><svg><use href="#i-book"/></svg><svg><use href="#i-tabs"/></svg></span></div>
         </div>
-        <div class="iv-stage" data-st="1">
-          <div class="v-and"><div class="iv-dlg"><img src="icon-192.png" alt=""><b>Installer l’application ?</b><small>SLM Transfert</small><div class="iv-dlg-b"><span>Annuler</span><span class="go">Installer<span class="tap"></span></span></div></div></div>
-          <div class="v-ios"><div class="iv-sheet"><div class="iv-sheet-h"><img src="icon-192.png" alt=""><span><b>SLM Transfert</b><small>Options</small></span></div><span class="row">Copier<svg><use href="#i-copy"/></svg></span><span class="row">Ajouter aux favoris<svg><use href="#i-book"/></svg></span><span class="row go">Sur l’écran d’accueil<svg><use href="#i-plus-sq"/></svg><span class="tap"></span></span></div></div>
+        <div class="st-txt"><span class="st-n">1</span>
+          <h3 class="v-and">Touchez « Installer »</h3><p class="v-and">Le bouton vert, en haut de cette page.</p>
+          <h3 class="v-ios">Touchez « Partager »</h3><p class="v-ios">Dans Safari, le carré avec une flèche, en bas de l’écran.</p></div>
+      </li>
+      <li class="st" data-rv style="--i:1">
+        <div class="st-vis" aria-hidden="true">
+          <div class="v-and mini-dlg"><img src="icon-192.png" alt=""><b>Installer l’application ?</b><small>SLM Transfert</small><span class="dl-b"><span>Annuler</span><span class="go hit">Installer<i class="tap"></i></span></span></div>
+          <div class="v-ios mini-sh"><span class="row">Copier<svg><use href="#i-copy"/></svg></span><span class="row">Ajouter aux favoris<svg><use href="#i-book"/></svg></span><span class="row go hit">Sur l’écran d’accueil<svg><use href="#i-plus-sq"/></svg><i class="tap"></i></span></div>
         </div>
-        <div class="iv-stage" data-st="2">
-          <div class="iv-home"><div class="iv-row"><i style="--g:linear-gradient(145deg,#ff7a59,#e2483d)"></i><i style="--g:linear-gradient(145deg,#5fb4ff,#2b6fd6)"></i><span class="iv-app"><img src="icon-192.png" alt=""></span><i style="--g:linear-gradient(145deg,#5ad07a,#1f9e4a)"></i><i style="--g:linear-gradient(145deg,#ffd25e,#f0a91c)"></i></div><b class="iv-name">SLM Transfert</b><span class="iv-ok"><svg><use href="#i-check"/></svg>Installée · s’ouvre comme une appli</span></div>
+        <div class="st-txt"><span class="st-n">2</span>
+          <h3 class="v-and">Confirmez</h3><p class="v-and">Votre téléphone demande : « Installer l’application ? »</p>
+          <h3 class="v-ios">« Sur l’écran d’accueil »</h3><p class="v-ios">Choisissez-le dans la liste, puis touchez « Ajouter ».</p></div>
+      </li>
+      <li class="st" data-rv style="--i:2">
+        <div class="st-vis dk" aria-hidden="true">
+          <div class="st-phone"><div class="phone" data-src="p-agenda"><div class="ph"><div class="ph-notch"></div><div class="ph-sb"><span>08:12</span><span>5G</span></div></div></div></div>
+          <span class="st-ok"><svg><use href="#i-check"/></svg>Installée</span>
         </div>
-        <div class="iv-dots"><i></i><i></i><i></i></div>
-      </div>
-    </div>
+        <div class="st-txt"><span class="st-n">3</span><h3>C’est prêt</h3><p>SLM s’ouvre depuis votre écran d’accueil, en plein écran, comme une appli.</p></div>
+      </li>
+    </ol>
+    <div class="st-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+    <div class="inst-cta" data-rv><a class="cta ink" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a><small>Gratuit · sans carte bancaire · se supprime comme n’importe quelle appli</small></div>
   </div>
 </section>
 
@@ -842,7 +836,7 @@ if(RM){tour.classList.remove("auto");setPauseUI(true)}
 try{new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(!auto)return;if(visible&&!paused){tour.classList.remove("paused");restart()}else{clearTimeout(timer);tour.classList.add("paused")}},{threshold:.35}).observe(tour)}catch{restart()}
 
 /* Éventail de fin : copies des écrans de la visite guidée (décoratives) */
-$$(".fan .phone").forEach(ph=>{const src=document.getElementById(ph.dataset.src);if(!src)return;const c=src.cloneNode(true);["id","role","aria-labelledby","hidden"].forEach(a=>c.removeAttribute(a));c.classList.add("on");ph.querySelector(".ph").appendChild(c)});
+$$(".phone[data-src]").forEach(ph=>{const src=document.getElementById(ph.dataset.src);if(!src)return;const c=src.cloneNode(true);["id","role","aria-labelledby","hidden"].forEach(a=>c.removeAttribute(a));c.classList.add("on");ph.querySelector(".ph").appendChild(c)});
 
 /* ── Avant / avec SLM : bascule, et démonstration automatique une fois à l’écran ── */
 const vs=$("#vs");let vsTouched=false;
@@ -875,14 +869,14 @@ $$("[data-install]").forEach(a=>a.addEventListener("click",async e=>{
   if(deferred){e.preventDefault();deferred.prompt();const c=await deferred.userChoice.catch(()=>null);deferred=null;if(c?.outcome!=="accepted")location.href="index.html#signup";return}
   if(!isMobile)return;
   e.preventDefault();openSheet(isIOS?"ios":"android")}));
-const setOS=os=>{$$("button[data-os]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.os===os));$(".os").style.setProperty("--o",os==="ios"?1:0);$$("[data-how]").forEach(l=>l.hidden=l.dataset.how!==os);$("#iv").dataset.os=os;ivShow(ivCur,true)};
-/* Visuel d’installation : trois étapes qui défilent tant que le bloc est visible ; toucher le visuel avance d’une étape */
-const iv=$("#iv"),ivSt=$$(".iv-stage"),ivDots=$$(".iv-dots i"),IVT=2800;let ivCur=0,ivTimer=null,ivVis=false;
-const ivShow=(i,keep)=>{ivCur=i;ivSt.forEach((s,k)=>{if(k===i&&!keep){s.classList.remove("on");void s.offsetWidth}s.classList.toggle("on",k===i)});ivDots.forEach((d,k)=>{d.classList.toggle("done",k<i);d.classList.remove("cur");if(k===i){void d.offsetWidth;d.classList.add("cur")}});
-  $$(".how:not([hidden]) li").forEach((l,k)=>l.classList.toggle("cur",k===i));clearTimeout(ivTimer);if(!RM&&ivVis)ivTimer=setTimeout(()=>ivShow((ivCur+1)%3),i===2?IVT+900:IVT)};
-iv.addEventListener("click",()=>ivShow((ivCur+1)%3));
-if(RM)iv.classList.add("still");
-try{new IntersectionObserver(es=>{ivVis=es[0].isIntersecting;if(ivVis)ivShow(ivCur);else clearTimeout(ivTimer)},{threshold:.4}).observe(iv)}catch{}
+/* Installation : la carte active rejoue sa touche ; ordinateur = défilement auto, mobile = carte glissée à l’écran */
+const stGrid=$("#steps3"),sts=$$(".st"),stDots=$$(".st-dots i"),mqM=matchMedia("(max-width:640px)");let stCur=0,stTimer=null,stVis=false,stHold=false;
+const stSet=i=>{stCur=i;sts.forEach((s,k)=>{s.classList.remove("cur");if(k===i){void s.offsetWidth;s.classList.add("cur")}});stDots.forEach((d,k)=>d.classList.toggle("on",k===i));clearTimeout(stTimer);
+  if(!RM&&stVis&&!stHold&&!mqM.matches)stTimer=setTimeout(()=>stSet((stCur+1)%3),3400)};
+sts.forEach((s,k)=>{s.addEventListener("mouseenter",()=>{stHold=true;stSet(k)});s.addEventListener("mouseleave",()=>{stHold=false;stSet(stCur)})});
+try{new IntersectionObserver(es=>{stVis=es[0].isIntersecting;if(stVis)stSet(stCur);else clearTimeout(stTimer)},{threshold:.35}).observe(stGrid);
+  const cio=new IntersectionObserver(es=>{if(!mqM.matches)return;es.forEach(e=>{if(e.isIntersecting)stSet(sts.indexOf(e.target))})},{root:stGrid,threshold:.6});sts.forEach(s=>cio.observe(s))}catch{}
+const setOS=os=>{$$("button[data-os]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.os===os));$(".os").style.setProperty("--o",os==="ios"?1:0);stGrid.dataset.os=os;stSet(stCur)};
 $$("button[data-os]").forEach(b=>b.addEventListener("click",()=>setOS(b.dataset.os)));setOS(isIOS?"ios":"android");
 
 /* Tarifs (prix Stripe réels si la fonction est déployée, sinon prix de secours de config.js) */
