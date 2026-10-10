@@ -76,13 +76,17 @@ body.scrolled .lnav .lw{background:rgba(13,42,30,.72);backdrop-filter:saturate(1
 .l-hero .btn.secondary:hover{background:rgba(255,255,255,.13)}
 
 /* Téléphone de démonstration */
-.phone-wrap{perspective:1400px}
-.phone{width:min(330px,82vw);aspect-ratio:9/19.3;margin:0 auto;border-radius:48px;padding:11px;background:linear-gradient(145deg,#2a4a3b,#08140f 45%,#22392e);box-shadow:0 0 0 1px rgba(255,255,255,.1),0 60px 100px -30px rgba(0,0,0,.85),0 0 140px -40px rgba(168,224,194,.45);transform:rotateY(-14deg) rotateX(5deg);will-change:transform}
+.phone-wrap{perspective:1400px;display:flex;justify-content:center}
+.phone{width:330px;flex:none;aspect-ratio:9/19.3;margin:0 auto;border-radius:48px;padding:11px;background:linear-gradient(145deg,#2a4a3b,#08140f 45%,#22392e);box-shadow:0 0 0 1px rgba(255,255,255,.1),0 60px 100px -30px rgba(0,0,0,.85),0 0 140px -40px rgba(168,224,194,.45);transform:rotateY(-8deg) rotateX(2deg);will-change:transform}
 @media (max-width:900px){.phone{transform:none}}
+/* Petits écrans : le téléphone garde ses proportions de conception et est réduit d’un bloc */
+@media (max-width:420px){.phone{scale:.86;transform-origin:top center;margin-bottom:-99px}}
+@media (max-width:360px){.phone{scale:.78;margin-bottom:-156px}}
+.scr .v>*{flex:none}
 .scr{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#f3f7f4;color:#0f2219;font-size:12px}
 .scr .notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:90px;height:24px;border-radius:20px;background:#000;z-index:5}
 .scr .sb{display:flex;justify-content:space-between;padding:13px 24px 0;font-weight:800;font-size:11px;height:40px}
-.scr .v{position:absolute;inset:40px 0 0;padding:6px 14px;display:flex;flex-direction:column;gap:9px;opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+.scr .v{position:absolute;inset:40px 0 62px;padding:6px 14px;display:flex;flex-direction:column;gap:9px;opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .7s var(--ease)}
 .scr .v.on{opacity:1;transform:none}
 .mini-next{border-radius:20px;padding:14px;background:var(--panel);color:#fff;outline:1px solid rgba(255,255,255,.3);outline-offset:-5px}
 .mini-next .t{font-family:var(--f-display);font-size:40px;font-weight:800;letter-spacing:-.04em;line-height:.9}
@@ -104,6 +108,54 @@ body.scrolled .lnav .lw{background:rgba(13,42,30,.72);backdrop-filter:saturate(1
 .mini-bars i{flex:1;border-radius:5px 5px 2px 2px;background:rgba(255,255,255,.3);transform-origin:bottom}
 .mini-bars i:last-child{background:linear-gradient(#ffffff,#a8e0c2)}
 .v.on .mini-bars i{animation:colIn .9s var(--ease) both}
+/* Écrans du téléphone : contenu complet, comme dans l’application */
+.m-brand{font-family:var(--f-display);font-size:15px;font-weight:800}.m-brand span{font-family:var(--f-ui);font-size:8px;letter-spacing:.24em;color:#4a5d53}
+.m-av{width:26px;height:26px;border-radius:50%;background:rgba(39,99,74,.14);display:grid;place-items:center;font-weight:800;color:#27634a;font-size:11px}
+.m-h{font-family:var(--f-display);font-size:24px;font-weight:800;letter-spacing:-.035em;line-height:1.05}
+.m-sub{display:block;color:#4a5d53;font-size:11px;margin-top:2px}
+.m-route{display:grid;grid-template-columns:10px minmax(0,1fr);gap:3px 8px;align-items:center;margin-top:10px;font-weight:700;font-size:11.5px}
+.m-route i{width:8px;height:8px;border-radius:50%;border:1.5px solid #fff}.m-route i.f{background:#fff}
+.m-route span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-ride{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:8px;align-items:center;background:#fff;border:1px solid rgba(15,34,25,.09);border-radius:14px;padding:9px 11px;position:relative;overflow:hidden;box-shadow:0 2px 10px -4px rgba(15,34,25,.08)}
+.mini-ride::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#27634a}
+.mini-ride span{min-width:0}.mini-ride span b,.mini-ride small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mini-ride small{color:#4a5d53;font-size:10.5px}
+.m-t{font-family:var(--f-display);font-size:15px;font-weight:800;letter-spacing:-.02em;color:#27634a}
+.m-k{color:#7b8c83;font-weight:800;font-size:9.5px;letter-spacing:.12em}
+.m-up{font-size:10px;font-weight:800;color:#237a52;background:rgba(35,122,82,.12);border-radius:99px;padding:2px 7px}
+.m-big{display:block;font-family:var(--f-display);font-size:26px;font-weight:800;letter-spacing:-.035em;margin-top:2px}
+.m-cols{display:flex;align-items:flex-end;gap:4px;height:38px;margin-top:6px}
+.m-cols i{flex:1;border-radius:3px 3px 1px 1px;background:rgba(39,99,74,.18);transform-origin:bottom}.m-cols i.on{background:#27634a}
+.v.on .m-cols i{animation:colIn .9s var(--ease) both}
+.m-ok{width:52px;height:52px;border-radius:50%;background:#27634a;color:#fff;display:grid;place-items:center;box-shadow:0 0 0 8px rgba(39,99,74,.12);margin-bottom:4px}
+.m-paid{background:rgba(35,122,82,.12);color:#237a52;font-weight:800;border-radius:99px;padding:3px 9px;font-size:10px}
+.m-acts{display:grid;grid-template-columns:1fr auto;gap:6px}
+.m-btn{display:flex;align-items:center;justify-content:center;gap:6px;height:38px;border-radius:11px;background:var(--panel);color:#fff;font-weight:800;font-size:11.5px;padding:0 12px}
+.m-btn svg{width:14px;height:14px}.m-btn.s{background:#fff;color:#0f2219;border:1px solid rgba(15,34,25,.12)}
+.m-goal{height:6px;border-radius:6px;background:#edf3ef;margin-top:7px;overflow:hidden}.m-goal i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#27634a,#348a63)}
+.m-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.m-kpis div{background:#fff;border:1px solid rgba(15,34,25,.09);border-radius:12px;padding:8px 9px}
+.m-kpis small{display:block;color:#7b8c83;font-size:9.5px;font-weight:700}.m-kpis b{font-family:var(--f-display);font-size:14px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.ptab{position:absolute;left:0;right:0;bottom:0;height:62px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:0 6px 8px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(15,34,25,.08);z-index:4}
+.ptab span{display:grid;justify-items:center;gap:2px;font-size:8.5px;font-weight:800;color:#7b8c83}
+.ptab svg{width:17px;height:17px}.ptab .on{color:#27634a}
+.ptab .pfab{width:40px;height:40px;border-radius:13px;background:var(--panel);color:#fff;place-items:center;justify-self:center;transform:translateY(-8px);box-shadow:0 8px 16px -8px rgba(23,64,47,.8);outline:1px solid rgba(255,255,255,.3);outline-offset:-3px}
+/* Cartes flottantes autour du téléphone */
+.phone-stage{position:relative;padding:18px 0}
+.float-card{position:absolute;z-index:3;pointer-events:none}
+.fc-in{display:flex;gap:10px;align-items:center;padding:11px 14px 11px 11px;border-radius:16px;background:rgba(255,255,255,.9);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);color:#0f2219;box-shadow:0 24px 44px -20px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.7);white-space:nowrap}
+.fc-in small{display:block;font-size:10.5px;font-weight:700;color:#4a5d53}
+.fc-in b{display:block;font-family:var(--f-display);font-size:14px;font-weight:800;letter-spacing:-.02em}
+.fc-in b em{font-family:var(--f-ui);font-size:11px;font-weight:800;color:#237a52;background:rgba(35,122,82,.12);border-radius:99px;padding:1px 6px;margin-left:4px;vertical-align:2px}
+.fc-money{color:#237a52}
+.fc-ico{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--panel);color:#fff;flex:none;outline:1px solid rgba(255,255,255,.3);outline-offset:-3px}
+.fc-ico svg{width:17px;height:17px}
+.fc-spark{width:64px;height:24px;fill:none;stroke:#27634a;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-left:2px}
+.fc-1{top:1%;left:-12%}.fc-2{top:43%;right:-9%}.fc-3{bottom:13%;left:-16%}
+@media (max-width:1100px){.fc-1{left:-4%}.fc-2{right:-6%}.fc-3{left:-6%}}
+@media (max-width:900px){.fc-1{left:0;top:0}.fc-2{right:0;top:58%}.fc-3{left:0;bottom:12%}.fc-in{padding:9px 11px 9px 9px;border-radius:14px}.fc-ico{width:30px;height:30px}.fc-spark{display:none}}
+@media (max-width:420px){.fc-in b{font-size:12.5px}.fc-in small{font-size:9.5px}.fc-1{left:-2px}.fc-2{right:-2px}.fc-3{left:-2px}}
+.l-install{display:flex;gap:10px;align-items:center;margin-top:22px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--hero-mut);font-size:13px;max-width:520px}
+.l-install svg{color:var(--mint);width:22px;height:22px}.l-install b{color:#fff}
 .dots-l{display:flex;gap:6px;justify-content:center;margin-top:20px}
 .dots-l i{width:7px;height:7px;border-radius:9px;background:rgba(255,255,255,.25);cursor:pointer;transition:width .3s,background .3s}
 .dots-l i.on{width:22px;background:var(--mint)}
@@ -202,6 +254,16 @@ footer.lf a{color:var(--ink-2)}
 <symbol id="i-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.6-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5L20 16M20 20v-4h-4"/></symbol>
 <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h3.5l1.5 5-2.2 1.4a11 11 0 0 0 6.8 6.8L16 14l5 1.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></symbol>
 <symbol id="i-check2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 10"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.2L4 20.5l1.3-4.8A8 8 0 1 1 21 12z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><rect x="4" y="8" width="17" height="12" rx="2.5"/><path d="M16 14h2"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="2"/></symbol>
+<symbol id="i-install" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M12 7v7M9 11l3 3 3-3M10.5 18.5h3"/></symbol>
 </defs></svg>
 
 <header class="lnav"><div class="lw"><a class="brand" href="#top">SLM<small>TRANSFERT</small></a><nav aria-label="Sections"><a href="#fonctions">Fonctions</a><a href="#marge">Votre marge</a><a href="#tarifs">Tarifs</a><a href="#faq">Questions</a></nav><div class="right"><a class="login" href="index.html#login">Se connecter</a><a class="btn gold sm" href="index.html#signup">Créer mon compte</a></div></div></header>
@@ -218,18 +280,36 @@ footer.lf a{color:var(--ink-2)}
   <div class="lw">
   <div><span class="eyebrow" data-intro>Pour les chauffeurs VTC et taxis indépendants</span><h1><span class="ln" data-intro>Vos courses,</span> <span class="ln" data-intro>vos clients,</span> <span class="ln" data-intro><em>votre marge</em>.</span></h1><p class="sub" data-intro>Planifiez, roulez, facturez en un geste. Et sachez enfin ce que chaque course vous rapporte, après commissions et kilomètres.</p>
   <div class="btn-row" style="max-width:480px" data-intro><a class="btn gold lg" href="index.html#signup">Commencer gratuitement</a><a class="btn lg secondary" href="#marge">Calculer ma marge</a></div>
-  <div class="l-proof" data-intro><span><svg><use href="#i-check2"/></svg>Gratuit, sans carte bancaire</span><span><svg><use href="#i-sync"/></svg>Téléphone et ordinateur</span><span><svg><use href="#i-shield"/></svg>Vos données exportables à tout moment</span></div></div>
-  <div data-intro data-phone><div class="phone-wrap"><div class="phone" id="phone"><div class="scr"><div class="notch"></div><div class="sb"><span>08:12</span><span>5G</span></div>
-    <div class="v on"><div class="mini-row"><b style="font-family:var(--f-display);font-size:15px;font-weight:800">SLM <span style="font-family:var(--f-ui);font-size:8px;letter-spacing:.24em;color:#4a5d53">TRANSFERT</span></b><span style="width:26px;height:26px;border-radius:50%;background:rgba(39,99,74,.14);display:grid;place-items:center;font-weight:800;color:#27634a;font-size:11px">K</span></div><b style="font-family:var(--f-display);font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1">Bonjour, Karim.</b>
-      <div class="mini-next"><small>PROCHAINE COURSE · DANS 1 H 10</small><div class="t" style="margin-top:6px">09:20</div><div style="margin:10px 0 4px;font-weight:700">Aéroport de Genève → Annecy</div><div class="mini-row"><span style="opacity:.8">Hôtel des Marquisats</span><b style="font-size:16px">95 €</b></div><div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><span class="mini-pill w"><svg style="width:12px;height:12px"><use href="#i-nav"/></svg>Itinéraire</span><span class="mini-pill"><svg style="width:12px;height:12px"><use href="#i-phone"/></svg>Appeler</span><span class="mini-pill">Terminer</span></div></div>
-      <div class="mini-card"><div class="mini-row"><span><b>11:45</b> Julie Durand</span><b>38 €</b></div><small style="color:#4a5d53">Gare d’Annecy → Talloires</small></div>
-      <div class="mini-card"><div class="mini-row"><span style="color:#7b8c83;font-weight:700;font-size:10.5px">CHIFFRE D’AFFAIRES · OCTOBRE</span></div><b style="font-family:var(--f-display);font-size:28px;font-weight:800;letter-spacing:-.03em">2 480 €</b></div></div>
-    <div class="v"><div style="text-align:center;display:grid;gap:4px;justify-items:center;padding-top:8px"><span style="width:52px;height:52px;border-radius:50%;background:#27634a;color:#fff;display:grid;place-items:center;box-shadow:0 0 0 8px rgba(39,99,74,.12)"><svg style="width:24px;height:24px"><use href="#i-check"/></svg></span><b style="font-family:var(--f-display);font-size:26px;font-weight:800;letter-spacing:-.03em">Course terminée</b><span style="color:#4a5d53">Genève → Annecy · 95 € encaissés</span></div>
+  <div class="l-proof" data-intro><span><svg><use href="#i-check2"/></svg>Gratuit, sans carte bancaire</span><span><svg><use href="#i-sync"/></svg>Téléphone et ordinateur</span><span><svg><use href="#i-shield"/></svg>Vos données exportables à tout moment</span></div><p class="l-install" data-intro><svg><use href="#i-install"/></svg><span>S’installe comme une application sur <b>iPhone</b>, <b>Android</b> et <b>ordinateur</b>. Rappels de course inclus.</span></p></div>
+  <div data-intro data-phone><div class="phone-stage">
+    <div class="float-card fc-1" aria-hidden="true"><div class="fc-in"><span class="fc-ico"><svg><use href="#i-bell"/></svg></span><span><small>Rappel · dans 30 min</small><b>09:20 · Aéroport de Genève</b></span></div></div>
+    <div class="float-card fc-2" aria-hidden="true"><div class="fc-in"><span class="fc-ico"><svg><use href="#i-check"/></svg></span><span><small>Facture F-2026-0142 payée</small><b class="fc-money">+ 95,00 €</b></span></div></div>
+    <div class="float-card fc-3" aria-hidden="true"><div class="fc-in"><span class="fc-ico"><svg><use href="#i-trend"/></svg></span><span><small>Marge d’octobre</small><b>1 764 € <em>+18 %</em></b></span><svg class="fc-spark" viewBox="0 0 64 24"><path d="M1 20 12 15l9 3 10-8 9 2 10-9 12-2"/></svg></div></div>
+    <div class="phone-wrap"><div class="phone" id="phone"><div class="scr"><div class="notch"></div><div class="sb"><span>08:12</span><span>5G</span></div>
+    <div class="v on">
+      <div class="mini-row"><b class="m-brand">SLM <span>TRANSFERT</span></b><span class="m-av">K</span></div>
+      <div><b class="m-h">Bonjour, Karim.</b><small class="m-sub">3 courses au programme aujourd’hui</small></div>
+      <div class="mini-next"><small>PROCHAINE COURSE · DANS 1 H 10</small><div class="t" style="margin-top:6px">09:20</div><div class="m-route"><i></i><span>Aéroport de Genève</span><i class="f"></i><span>Annecy · Hôtel des Marquisats</span></div><div class="mini-row" style="margin-top:6px"><span style="opacity:.8">Transfert · 92 km</span><b style="font-size:16px">95 €</b></div><div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><span class="mini-pill w"><svg style="width:12px;height:12px"><use href="#i-nav"/></svg>Itinéraire</span><span class="mini-pill"><svg style="width:12px;height:12px"><use href="#i-phone"/></svg>Appeler</span><span class="mini-pill">Terminer</span></div></div>
+      <div class="mini-ride"><b class="m-t">11:45</b><span><b>Julie Durand</b><small>Gare d’Annecy → Talloires</small></span><b>38 €</b></div>
+      <div class="mini-ride"><b class="m-t">15:30</b><span><b>Agence Lac &amp; Alpes</b><small>Annecy → Megève</small></span><b>140 €</b></div>
+      <div class="mini-card"><div class="mini-row"><span class="m-k">CHIFFRE D’AFFAIRES · OCTOBRE</span><span class="m-up">+12 %</span></div><b class="m-big">2 480 €</b><div class="m-cols"><i style="height:38%"></i><i style="height:52%"></i><i style="height:45%"></i><i style="height:60%"></i><i style="height:56%"></i><i style="height:72%"></i><i style="height:66%"></i><i style="height:80%"></i><i style="height:74%"></i><i class="on" style="height:100%"></i></div></div>
+    </div>
+    <div class="v">
+      <div style="text-align:center;display:grid;gap:4px;justify-items:center;padding-top:6px"><span class="m-ok"><svg style="width:24px;height:24px"><use href="#i-check"/></svg></span><b class="m-h">Course terminée</b><span style="color:#4a5d53">Genève → Annecy · 95 € encaissés</span></div>
       <div class="mini-card"><b>Où part l’argent de cette course</b><div class="wfm"><div><span>Recette</span><b>95,00 €</b><i><b style="left:0;width:100%"></b></i></div><div class="n"><span>Commission</span><b>− 0,00 €</b><i><b style="left:0;width:2%"></b></i></div><div class="n"><span>92 km × 0,32 €</span><b>− 29,44 €</b><i><b style="left:2%;width:31%"></b></i></div><div class="r"><span><b>Il vous reste</b></span><b style="color:#27634a">65,56 €</b><i><b style="left:0;width:69%"></b></i></div></div></div>
-      <div class="mini-card"><div class="mini-row"><span><b>Facture F-2026-0142</b><br><small style="color:#4a5d53">PDF prêt à envoyer</small></span><span style="background:rgba(35,122,82,.12);color:#237a52;font-weight:800;border-radius:99px;padding:3px 9px;font-size:10px">payée</span></div></div></div>
-    <div class="v"><div class="mini-reveal"><small style="color:#a8e0c2;font-weight:800;letter-spacing:.14em;font-size:9.5px">CE QU’IL VOUS RESTE · OCTOBRE</small><div class="big">1 764 €</div><span style="color:rgba(255,255,255,.8);font-size:11px">Sur 2 480 € encaissés, après commissions et kilomètres.</span><div class="mini-bars"><i style="height:62%"></i><i style="height:70%"></i><i style="height:66%"></i><i style="height:78%"></i><i style="height:86%"></i><i style="height:100%"></i></div></div>
-      <div class="mini-card"><small style="color:#7b8c83;font-weight:800;font-size:9.5px;letter-spacing:.12em">CLIENTS LES PLUS RENTABLES</small><div class="mini-row" style="margin-top:6px"><span>01 · Hôtel des Marquisats</span><b>612 €</b></div><div class="mini-row" style="margin-top:4px"><span>02 · Agence Lac & Alpes</span><b>438 €</b></div><div class="mini-row" style="margin-top:4px"><span>03 · Imperial Palace</span><b>371 €</b></div></div></div>
-  </div></div></div><div class="dots-l" id="ldots"><i class="on"></i><i></i><i></i></div><p style="text-align:center;color:var(--hero-mut);font-size:12px;margin-top:10px">Écrans de démonstration, montants d’exemple.</p></div>
+      <div class="mini-card"><div class="mini-row"><span><b>Facture F-2026-0142</b><br><small style="color:#4a5d53">Numérotée, PDF prêt à envoyer</small></span><span class="m-paid">payée</span></div></div>
+      <div class="m-acts"><span class="m-btn"><svg><use href="#i-msg"/></svg>Envoyer par WhatsApp</span><span class="m-btn s"><svg><use href="#i-file"/></svg>PDF</span></div>
+      <div><span class="m-k">ENSUITE</span><div class="mini-ride" style="margin-top:5px"><b class="m-t">11:45</b><span><b>Julie Durand</b><small>Gare d’Annecy → Talloires</small></span><b>38 €</b></div></div>
+    </div>
+    <div class="v">
+      <div><span class="m-k">FINANCES · OCTOBRE 2026</span><b class="m-h" style="display:block;margin-top:2px">Votre mois</b></div>
+      <div class="mini-reveal"><small style="color:#a8e0c2;font-weight:800;letter-spacing:.14em;font-size:9.5px">CE QU’IL VOUS RESTE</small><div class="big">1 764 €</div><span style="color:rgba(255,255,255,.8);font-size:11px">Sur 2 480 € encaissés, après commissions et kilomètres.</span><div class="mini-bars"><i style="height:62%"></i><i style="height:70%"></i><i style="height:66%"></i><i style="height:78%"></i><i style="height:86%"></i><i style="height:100%"></i></div></div>
+      <div class="m-kpis"><div><small>Courses</small><b>46</b></div><div><small>Distance</small><b>1 240 km</b></div><div><small>Dépenses</small><b>612 €</b></div></div>
+      <div class="mini-card"><div class="mini-row"><span class="m-k">OBJECTIF DU MOIS</span><b style="font-size:11px">83 %</b></div><div class="mini-row" style="margin-top:4px"><b>2 480 € <span style="color:#7b8c83;font-weight:600">sur 3 000 €</span></b></div><div class="m-goal"><i style="width:83%"></i></div></div>
+      <div class="mini-card"><span class="m-k">CLIENTS LES PLUS RENTABLES</span><div class="mini-row" style="margin-top:6px"><span>01 · Hôtel des Marquisats</span><b>612 €</b></div><div class="mini-row" style="margin-top:4px"><span>02 · Agence Lac &amp; Alpes</span><b>438 €</b></div><div class="mini-row" style="margin-top:4px"><span>03 · Imperial Palace</span><b>371 €</b></div></div>
+    </div>
+    <div class="ptab" aria-hidden="true"><span class="on"><svg><use href="#i-home"/></svg>Accueil</span><span><svg><use href="#i-cal"/></svg>Courses</span><span class="pfab"><svg><use href="#i-plus"/></svg></span><span><svg><use href="#i-wallet"/></svg>Finances</span><span><svg><use href="#i-more"/></svg>Plus</span></div>
+  </div></div></div></div><div class="dots-l" id="ldots"><i class="on"></i><i></i><i></i></div><p style="text-align:center;color:var(--hero-mut);font-size:12px;margin-top:10px">Écrans de démonstration, montants d’exemple.</p></div>
 </div></section>
 
 <section class="ls" id="fonctions"><div class="lw">
@@ -317,18 +397,22 @@ mm.add({motion:"(prefers-reduced-motion: no-preference)",desk:"(min-width: 901px
   const intro=gsap.timeline({onStart:done});
   intro.fromTo(".l-route .trace",{strokeDashoffset:1},{strokeDashoffset:0,duration:2.2,ease:"power2.inOut"},0)
     .fromTo(".l-route .pin",{scale:0,transformOrigin:"50% 50%"},{scale:1,duration:.5,stagger:.25,ease:"back.out(2)"},.6)
-    .fromTo(".l-hero .eyebrow,.l-hero .sub,.l-hero .btn-row,.l-hero .l-proof",{autoAlpha:0,y:18},{autoAlpha:1,y:0,stagger:.08},.1)
+    .fromTo(".l-hero .eyebrow,.l-hero .sub,.l-hero .btn-row,.l-hero .l-proof,.l-hero .l-install",{autoAlpha:0,y:18},{autoAlpha:1,y:0,stagger:.08},.1)
     .fromTo(".l-hero h1 .ln",{autoAlpha:0,yPercent:60},{autoAlpha:1,yPercent:0,stagger:.09,duration:1},.15)
-    .fromTo("[data-phone]",{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:1.2},.35);
+    .fromTo("[data-phone]",{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:1.2},.35)
+    .fromTo(".float-card .fc-in",{autoAlpha:0,scale:.85,y:16},{autoAlpha:1,scale:1,y:0,duration:.7,stagger:.18,ease:"back.out(1.6)"},1.1);
+  /* Les cartes flottent doucement autour du téléphone (boucle en pause hors écran). */
+  const floats=gsap.utils.toArray(".float-card").map((c,i)=>gsap.to(c,{y:i%2?10:-10,duration:2.6+i*.4,ease:"sine.inOut",yoyo:true,repeat:-1,delay:1.8+i*.2}));
 
   /* Voiture qui parcourt la route en boucle, en pause (avec le téléphone) quand le hero n’est plus visible. */
   let drive=null;
   if(window.MotionPathPlugin)drive=gsap.to(".l-route .car",{motionPath:{path:"#route-path",align:"#route-path",alignOrigin:[.5,.5]},duration:14,ease:"none",repeat:-1,delay:1.2});
-  ScrollTrigger.create({trigger:".l-hero",start:"top bottom",end:"bottom top",onToggle:self=>{drive&&(self.isActive?drive.play():drive.pause());window.slmPhoneLoop?.(self.isActive)}});
+  ScrollTrigger.create({trigger:".l-hero",start:"top bottom",end:"bottom top",onToggle:self=>{drive&&(self.isActive?drive.play():drive.pause());floats.forEach(f=>self.isActive?f.play():f.pause());window.slmPhoneLoop?.(self.isActive)}});
 
   /* 2. Parallaxe douce : le téléphone se redresse en défilant (ordinateur seulement). */
   if(desk){
-    gsap.fromTo("#phone",{rotateY:-14,rotateX:5},{rotateY:0,rotateX:0,y:-40,ease:"none",scrollTrigger:{trigger:".l-hero",start:"top top",end:"bottom top",scrub:.6}});
+    gsap.fromTo("#phone",{rotateY:-8,rotateX:2},{rotateY:0,rotateX:0,y:-40,ease:"none",scrollTrigger:{trigger:".l-hero",start:"top top",end:"bottom top",scrub:.6}});
+    gsap.utils.toArray(".float-card .fc-in").forEach((c,i)=>gsap.to(c,{yPercent:[-60,40,-90][i],ease:"none",scrollTrigger:{trigger:".l-hero",start:"top top",end:"bottom top",scrub:.8}}));
     gsap.to(".l-route",{yPercent:8,ease:"none",scrollTrigger:{trigger:".l-hero",start:"top top",end:"bottom top",scrub:true}});
   }
 

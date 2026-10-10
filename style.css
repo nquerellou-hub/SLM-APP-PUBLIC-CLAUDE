@@ -76,7 +76,7 @@ em{font-style:normal}
 .topbar{position:sticky;top:0;z-index:40;height:calc(var(--top-h) + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 16px 0;display:flex;align-items:center;gap:12px;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:saturate(1.6) blur(16px);-webkit-backdrop-filter:saturate(1.6) blur(16px);border-bottom:1px solid transparent;transition:border-color var(--d2),background var(--d2)}
 body.scrolled .topbar{border-bottom-color:var(--line);background:var(--glass)}
 .brand{display:flex;align-items:center;gap:8px;color:var(--ink);font-family:var(--f-display);font-weight:800;font-size:20px;letter-spacing:.02em;line-height:1}
-.brand::before{content:"";width:22px;height:22px;flex:none;border-radius:6px;background:var(--brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 12 6l6 12'/%3E%3Cpath d='M12 18v-3' stroke-dasharray='1.6 2.2'/%3E%3C/svg%3E") center/15px no-repeat;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.28)}
+:is(.topbar,.lnav,#lock,.auth-art,.side) .brand::before{content:"";width:22px;height:22px;flex:none;border-radius:6px;background:var(--brand) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 18 12 6l6 12'/%3E%3Cpath d='M12 18v-3' stroke-dasharray='1.6 2.2'/%3E%3C/svg%3E") center/15px no-repeat;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.28)}
 .brand small{font-family:var(--f-ui);font-size:9px;letter-spacing:.32em;font-weight:800;color:var(--ink-3);padding-top:2px}
 .top-title{font-weight:750;font-size:15.5px;opacity:0;transform:translateY(4px);transition:opacity var(--d2),transform var(--d2) var(--ease);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 body.scrolled .top-title{opacity:1;transform:none}
@@ -119,7 +119,6 @@ main#view{padding:8px 16px calc(var(--bottom-h) + 32px + env(safe-area-inset-bot
   .side a svg{width:20px;height:20px;flex:none}
   .side a:hover{background:var(--surface-3);color:var(--ink)}
   .side a.on{background:var(--surface);color:var(--brand);box-shadow:var(--shadow-1),inset 0 0 0 1px var(--line)}
-  .side a.on::before{content:"";position:absolute;left:-14px;top:10px;bottom:10px;width:3px;border-radius:0 3px 3px 0;background:var(--brand)}
   .side .sep{height:1px;background:var(--line);margin:10px 6px}
   .side .side-label{font-size:10.5px;letter-spacing:.16em;font-weight:800;color:var(--ink-3);padding:8px 12px 4px;text-transform:uppercase}
   .side .side-premium{margin-top:auto}
@@ -487,6 +486,8 @@ body.locked .topbar,body.locked .layout,body.locked .tabbar{display:none}
 .auth-art p{color:var(--night-mut);max-width:42ch;margin-top:14px}
 .auth-art .brand{color:#fff}
 .auth-art .brand::before{background-color:rgba(255,255,255,.14)}
+/* Écran de code ou de création du code (sans panneau illustré) : une seule colonne centrée */
+.auth>.auth-main:only-child{grid-column:1/-1}
 .auth-art canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.9}
 .auth-art>*{position:relative;z-index:1}
 .auth-art>canvas{position:absolute;z-index:0}
@@ -676,3 +677,25 @@ body.locked .topbar,body.locked .layout,body.locked .tabbar{display:none}
 /* Sélecteur segmenté rendu hors navigation (connexion) : l’état actif reste visible sans curseur glissant. */
 .seg:not(:has(.thumb)) button[aria-pressed="true"]{background:var(--surface);box-shadow:var(--shadow-1),inset 0 0 0 1px var(--line)}
 .ride .who .pill{flex:none}
+
+/* Espace admin : parcours Premium et raccourcis (blocs sans style jusqu’ici) */
+.compat .section-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.compat .section-heading h3{font-size:18px;font-weight:800;margin:2px 0 4px}
+.compat .admin-funnel-steps{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:stretch;margin-top:6px}
+.compat .admin-funnel-steps>div{display:grid;gap:2px;align-content:start;padding:14px;border-radius:var(--r-2);background:var(--surface-2);border:1px solid var(--line)}
+.compat .admin-funnel-steps>div span{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--brand)}
+.compat .admin-funnel-steps>div b{font-family:var(--f-display);font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
+.compat .admin-funnel-steps>div small{font-size:12.5px;line-height:1.35}
+.compat .admin-funnel-steps>i{align-self:center;font-style:normal;color:var(--ink-3);font-size:18px}
+@media (max-width:720px){.compat .admin-funnel-steps{grid-template-columns:minmax(0,1fr)}.compat .admin-funnel-steps>i{justify-self:center;transform:rotate(90deg)}}
+.compat .admin-funnel-note{font-size:12.5px;color:var(--ink-3)}
+.compat .admin-shortcut-icon{font-size:19px;line-height:1}
+.compat .tool-arrow,.compat .admin-user-arrow{color:var(--ink-3);font-size:22px;line-height:1}
+.compat .admin-hub{display:grid;gap:18px}
+.compat .admin-page-head .eyebrow{margin-bottom:2px}
+.compat .admin-dashboard-intro{display:grid;gap:4px;margin-top:6px}
+.compat .admin-dashboard-intro h3{font-size:20px;font-weight:800;letter-spacing:-.01em}
+.compat .admin-dashboard-intro p{color:var(--ink-2)}
+.compat .admin-summary{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.compat .admin-summary .kpi span{text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+.compat .admin-section-nav button span{font-variant-numeric:tabular-nums;opacity:.7}
