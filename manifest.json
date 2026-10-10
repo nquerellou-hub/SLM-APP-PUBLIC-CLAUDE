@@ -8,8 +8,8 @@
   "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
   "lang": "fr-FR",
-  "background_color": "#0e1511",
-  "theme_color": "#0e1511",
+  "background_color": "#f2f6f3",
+  "theme_color": "#27634a",
   "categories": ["business", "productivity", "finance"],
   "shortcuts": [
     { "name": "Nouvelle course", "url": "./#courses", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] },

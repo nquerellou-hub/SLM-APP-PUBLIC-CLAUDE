@@ -3,6 +3,10 @@
 Nouvelle interface complète, tunnel Premium refait et landing page dans le même thème.
 **Mêmes comptes, mêmes données Supabase que la V7** : rien à migrer dans la base. La V7 peut tourner en parallèle sur le même compte pendant les essais (les deux versions lisent et écrivent le même format).
 
+## Identité visuelle
+
+Vert SLM (#27634a) et blanc, surfaces en verre dépoli (transparence et flou), halos verts en fond. Les écrans Premium utilisent un dégradé vert, sans autre couleur. Mode sombre disponible (vert profond).
+
 ## Ce qui change
 
 - **Interface** : accueil avec la prochaine course et ses actions (itinéraire, appel, terminer), agenda par jour, fiche course, fiche client, finances par mois/année (vue d’ensemble, factures, dépenses), documents, paramètres regroupés. Barre basse avec bouton « + » central sur téléphone, menu latéral sur ordinateur, thème clair/sombre/automatique.
