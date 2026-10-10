@@ -16,6 +16,8 @@ Deno.serve(async (request) => {
   if (request.method === "OPTIONS") return new Response("ok", { headers: { ...corsHeaders, "Access-Control-Allow-Methods": "GET, POST, OPTIONS" } });
   try {
     if (cache && Date.now() - cache.at < 10 * 60 * 1000) return json(cache.body);
+    // Stripe pas encore configuré : réponse neutre, l’app et la landing gardent les prix de config.js.
+    if (!Deno.env.get("STRIPE_PREMIUM_PRICE_ID")) return json({ configured: false });
     const [monthly, annual] = await Promise.all([
       priceAmount(requiredEnv("STRIPE_PREMIUM_PRICE_ID")),
       priceAmount(Deno.env.get("STRIPE_PREMIUM_ANNUAL_PRICE_ID") || undefined),
