@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SLM Transfert · L’application des chauffeurs VTC et taxis</title>
 <meta name="description" content="Agenda, clients, factures PDF en un geste et la vraie rentabilité de chaque course. Gratuit pour démarrer. Premium avec essai offert.">
 <meta name="theme-color" content="#27634a">
+<meta name="color-scheme" content="light">
 <meta property="og:title" content="SLM Transfert · Vos courses, vos clients, votre marge">
 <meta property="og:description" content="L’application des chauffeurs VTC et taxis indépendants.">
 <link rel="icon" href="icon-192.png">
@@ -241,8 +242,96 @@ body.scrolled .lnav .lw{background:rgba(13,42,30,.72);backdrop-filter:saturate(1
 footer.lf{padding-block:40px;font-size:13px}
 footer.lf .lw{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--ink-3)}
 footer.lf a{color:var(--ink-2)}
-.sticky-cta{position:fixed;left:16px;right:16px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;display:none}
-@media (max-width:760px){body.scrolled .sticky-cta{display:flex;animation:rise .4s var(--ease)}}
+.m-only{display:none}
+/* Barre d’inscription fixe (mobile) */
+.sticky-bar{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:45;display:none;align-items:center;gap:12px;padding:10px 10px 10px 16px;border-radius:18px;background:rgba(13,42,30,.88);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);color:#fff;box-shadow:0 18px 40px -16px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.12);transform:translateY(140%);transition:transform var(--d3) var(--ease)}
+.sticky-bar span{flex:1;min-width:0;line-height:1.2}.sticky-bar b{display:block;font-size:14px}.sticky-bar small{color:var(--hero-mut);font-size:12px}
+.sticky-bar .btn{background:#fff;color:#1c4b37;outline:none;box-shadow:none;min-height:44px;padding:0 18px}
+
+/* ═══════════ Mobile : landing restructurée (≤ 760 px). L’affichage ordinateur n’est pas concerné. ═══════════ */
+@media (max-width:760px){
+  html,body{overflow-x:clip}
+  .m-only{display:block}
+  .sticky-bar{display:flex}
+  body.past-hero:not(.cta-near) .sticky-bar{transform:none}
+  .lw{padding-inline:18px}
+  .sign{margin:6px;border-radius:26px;outline-offset:-7px}
+  /* En-tête compact : logo + un seul bouton, jamais coupé */
+  .lnav{padding:env(safe-area-inset-top,0px) 6px 0}
+  .lnav .lw{height:56px;margin-top:6px;gap:10px;padding-inline:10px 8px;border-radius:18px}
+  .lnav .brand{font-size:18px;gap:7px;min-width:0}.lnav .brand small{display:none}
+  .lnav .right{gap:0;min-width:0}
+  .lnav .btn.gold.sm{min-height:38px;padding:0 14px;font-size:13px;white-space:nowrap}
+  /* Hero : promesse, un bouton principal, réassurance, puis l’application */
+  .l-hero{padding:calc(92px + env(safe-area-inset-top,0px)) 0 34px}
+  .l-hero .lw{gap:26px}
+  .l-hero .eyebrow{font-size:10.5px;letter-spacing:.14em}
+  .l-hero h1{font-size:clamp(36px,11.2vw,50px);line-height:.98;letter-spacing:-.045em}
+  .l-hero .sub{font-size:16px;margin:16px 0 22px;line-height:1.5}
+  .l-hero .btn-row{display:grid;gap:4px;max-width:none!important}
+  .l-hero .btn-row .btn.gold{min-height:56px;font-size:16.5px;border-radius:16px;box-shadow:0 18px 36px -16px rgba(0,0,0,.65)}
+  .l-hero .btn-row .btn.secondary{min-height:44px;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none;color:var(--mint);font-size:15px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
+  .l-micro{display:flex;justify-content:center;align-items:center;gap:7px;color:var(--hero-mut);font-size:13px;margin-top:6px;text-align:center}
+  .l-micro svg{color:var(--mint);width:16px;height:16px}
+  .l-proof{display:none}
+  .l-install{margin-top:18px;font-size:12.5px;padding:11px 12px}
+  .phone-stage{padding:6px 0 0}
+  .l-hero .dots-l{margin-top:12px}
+  /* Bandeau « en bref » */
+  .l-stats{padding:20px 0 4px}
+  .l-stats .lw{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .l-stats .lw>div{display:grid;gap:2px;align-content:start;padding:14px 10px;border-radius:18px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-1);text-align:center}
+  .l-stats b{font-family:var(--f-display);font-size:22px;font-weight:800;letter-spacing:-.03em;color:var(--brand);line-height:1.1}
+  .l-stats span{font-size:11.5px;line-height:1.3;color:var(--ink-2)}
+  /* Sections plus serrées */
+  .ls{padding-block:56px}
+  .ls h2{font-size:clamp(30px,8.6vw,40px);overflow-wrap:break-word}
+  .ls .lede{font-size:15.5px;margin-top:12px}
+  /* Votre journée : cartes à faire glisser */
+  .l-swipe{margin:18px 0 -40px;font-size:12.5px;font-weight:700;color:var(--ink-3);text-align:right}
+  .journey{margin-top:48px;margin-inline:-18px}
+  .journey .rail{display:none}
+  .trio{display:flex;grid-template-columns:none;gap:12px;padding:4px 18px 10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:18px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .trio::-webkit-scrollbar{display:none}
+  .trio article{flex:0 0 84%;scroll-snap-align:start;padding:22px 20px 24px}
+  .trio article::before{position:static;display:block;width:16px;height:16px;margin-bottom:4px}
+  /* Factures / Finances : la maquette d’abord, le texte ensuite */
+  .feat-row{margin-top:56px;gap:22px}
+  .feat-row>[data-feature-mock]{order:-1}
+  .feat-row.rev>:first-child{order:0}
+  .feat-row h3{font-size:26px}
+  .mock{padding:18px}
+  .mock .serif{font-size:38px!important}
+  .mock .kv b{white-space:normal;text-align:right}
+  /* Calculateur : le résultat en premier, puis les curseurs */
+  .calc{margin-top:26px;gap:22px}
+  .calc .calcout{order:-1;padding:20px 18px;gap:12px}
+  .calc .keep{font-size:clamp(46px,15vw,64px)}
+  .calc .ctrl{gap:18px}
+  .calc label{font-size:13.5px;gap:10px}
+  .calc .wf-row{font-size:13px}
+  .calc .calcout .btn{width:100%}
+  .calc .calcout .wf-row .track{background:rgba(255,255,255,.14)}
+  /* Tarifs : Premium en premier */
+  #bill-toggle{margin-inline:auto;max-width:none!important}
+  .price-grid{margin-top:24px;gap:14px}
+  .price.p{order:-1}
+  .price{padding:22px 20px}
+  .price .amt{font-size:46px}
+  /* Appel final et pied de page */
+  .l-cta h2{font-size:clamp(30px,8.6vw,38px)}
+  .l-cta .btn.lg{width:100%}
+  footer.lf{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  footer.lf .lw{flex-direction:column;align-items:center;text-align:center;gap:8px}
+  /* Garde-fous : aucun bloc plus large que l’écran, même avec un texte agrandi */
+  .lw>*,.calc>*,.price,.mock,.l-faq{min-width:0;max-width:100%}
+  .btn{white-space:normal;text-align:center;line-height:1.2;max-width:100%}
+  .l-hero .btn-row>*,.price-grid>*,.trio>*{min-width:0}
+  .lnav .btn.gold.sm{white-space:nowrap}
+  .calc label,.wf-row,.kv>div{overflow-wrap:anywhere}
+  .l-faq summary{font-size:15px}
+}
+@media (max-width:360px){.sticky-bar small{display:none}.sticky-bar .btn{white-space:nowrap}.l-stats span{font-size:10.5px}.l-stats b{font-size:19px}.lnav .btn.gold.sm{padding:0 11px}}
 </style>
 </head>
 <body class="landing">
@@ -280,6 +369,7 @@ footer.lf a{color:var(--ink-2)}
   <div class="lw">
   <div><span class="eyebrow" data-intro>Pour les chauffeurs VTC et taxis indépendants</span><h1><span class="ln" data-intro>Vos courses,</span> <span class="ln" data-intro>vos clients,</span> <span class="ln" data-intro><em>votre marge</em>.</span></h1><p class="sub" data-intro>Planifiez, roulez, facturez en un geste. Et sachez enfin ce que chaque course vous rapporte, après commissions et kilomètres.</p>
   <div class="btn-row" style="max-width:480px" data-intro><a class="btn gold lg" href="index.html#signup">Commencer gratuitement</a><a class="btn lg secondary" href="#marge">Calculer ma marge</a></div>
+  <p class="l-micro m-only" data-intro><svg><use href="#i-check2"/></svg>Gratuit, sans carte bancaire · prêt en 2 minutes</p>
   <div class="l-proof" data-intro><span><svg><use href="#i-check2"/></svg>Gratuit, sans carte bancaire</span><span><svg><use href="#i-sync"/></svg>Téléphone et ordinateur</span><span><svg><use href="#i-shield"/></svg>Vos données exportables à tout moment</span></div><p class="l-install" data-intro><svg><use href="#i-install"/></svg><span>S’installe comme une application sur <b>iPhone</b>, <b>Android</b> et <b>ordinateur</b>. Rappels de course inclus.</span></p></div>
   <div data-intro data-phone><div class="phone-stage">
     <div class="float-card fc-1" aria-hidden="true"><div class="fc-in"><span class="fc-ico"><svg><use href="#i-bell"/></svg></span><span><small>Rappel · dans 30 min</small><b>09:20 · Aéroport de Genève</b></span></div></div>
@@ -312,9 +402,11 @@ footer.lf a{color:var(--ink-2)}
   </div></div></div></div><div class="dots-l" id="ldots"><i class="on"></i><i></i><i></i></div><p style="text-align:center;color:var(--hero-mut);font-size:12px;margin-top:10px">Écrans de démonstration, montants d’exemple.</p></div>
 </div></section>
 
+<section class="l-stats m-only" aria-label="En bref"><div class="lw"><div><b>1 geste</b><span>pour envoyer la facture</span></div><div><b>0 €</b><span>pour démarrer</span></div><div><b>100 %</b><span>de vos données exportables</span></div></div></section>
+
 <section class="ls" id="fonctions"><div class="lw">
   <span class="eyebrow" data-reveal>Votre journée</span><h2 data-reveal>Du premier appel <em>à la facture payée</em>.</h2><p class="lede" data-reveal>Tout ce qu’un chauffeur indépendant gère entre deux trajets, au même endroit, pensé pour être utilisé d’une main.</p>
-  <div class="journey" id="journey"><div class="rail" aria-hidden="true"><i id="journey-progress"></i></div><div class="trio"><article class="lit" data-step><span class="when">AVANT LA COURSE</span><h3>Un agenda qui vous prévient</h3><p>Planifiez en quelques secondes, ou dictez la course. Rappels sur votre téléphone, même application fermée. Confirmation au client par WhatsApp ou SMS, déjà rédigée.</p></article><article class="lit" data-step><span class="when">PENDANT</span><h3>Tout sous le pouce</h3><p>Itinéraire Waze ou Maps, appel du client, message « je suis arrivé » : un seul geste depuis la course. Numéro de vol et notes toujours visibles.</p></article><article class="lit" data-step><span class="when">APRÈS</span><h3>La facture est déjà prête</h3><p>Terminez la course : la facture PDF est numérotée et prête à envoyer. Dépenses, TVA et cotisations estimées se calculent au fil du mois.</p></article></div></div>
+  <p class="l-swipe m-only" aria-hidden="true">Faites glisser →</p><div class="journey" id="journey"><div class="rail" aria-hidden="true"><i id="journey-progress"></i></div><div class="trio"><article class="lit" data-step><span class="when">AVANT LA COURSE</span><h3>Un agenda qui vous prévient</h3><p>Planifiez en quelques secondes, ou dictez la course. Rappels sur votre téléphone, même application fermée. Confirmation au client par WhatsApp ou SMS, déjà rédigée.</p></article><article class="lit" data-step><span class="when">PENDANT</span><h3>Tout sous le pouce</h3><p>Itinéraire Waze ou Maps, appel du client, message « je suis arrivé » : un seul geste depuis la course. Numéro de vol et notes toujours visibles.</p></article><article class="lit" data-step><span class="when">APRÈS</span><h3>La facture est déjà prête</h3><p>Terminez la course : la facture PDF est numérotée et prête à envoyer. Dépenses, TVA et cotisations estimées se calculent au fil du mois.</p></article></div></div>
   <div class="feat-row" data-feature><div data-feature-text><span class="eyebrow">Factures et devis</span><h3>Une facture conforme, sans ressaisie.</h3><ul><li><svg><use href="#i-check"/></svg><span>Numérotation continue, mentions légales, TVA ou franchise en base</span></li><li><svg><use href="#i-check"/></svg><span>Votre couleur, votre IBAN, vos conditions de paiement</span></li><li><svg><use href="#i-check"/></svg><span>Envoi en un geste par WhatsApp, SMS ou e-mail</span></li><li><svg><use href="#i-check"/></svg><span>Suivi des factures à encaisser</span></li></ul></div>
     <div class="mock" data-feature-mock><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px;letter-spacing:.14em;color:var(--ink-3)">FACTURE</b><span class="pill ok">payée</span></div><b class="serif" style="font-size:44px;line-height:1">95,00 €</b><div class="kv"><div><span>N°</span><b>F-2026-0142</b></div><div><span>Client</span><b>Hôtel des Marquisats</b></div><div><span>Prestation</span><b>Genève → Annecy</b></div><div><span>TVA</span><b>Non applicable, art. 293 B</b></div></div></div></div>
   <div class="feat-row rev" data-feature><div data-feature-text><span class="eyebrow">Finances</span><h3>Votre mois, lisible en un coup d’œil.</h3><ul><li><svg><use href="#i-check"/></svg><span>Chiffre d’affaires, dépenses et net estimé par mois ou par année</span></li><li><svg><use href="#i-check"/></svg><span>Cotisations micro-BIC ou réelles, TVA collectée et déductible</span></li><li><svg><use href="#i-check"/></svg><span>Export Excel complet pour votre comptable</span></li><li><svg><use href="#i-check"/></svg><span>Échéances de vos documents : carte pro, assurance, contrôle technique</span></li></ul></div>
@@ -351,7 +443,7 @@ footer.lf a{color:var(--ink-2)}
 <section class="ls night sign"><div class="lw l-cta"><span class="eyebrow" style="color:var(--mint)" data-reveal>Prêt à rouler</span><h2 data-reveal>Votre prochaine course mérite <em>mieux qu’un carnet</em>.</h2><a class="btn gold lg" href="index.html#signup" data-reveal>Créer mon compte gratuit</a><p style="color:var(--hero-mut);font-size:13px" data-reveal>Deux minutes pour démarrer. Vos données restent exportables.</p></div></section>
 </main>
 <footer class="lf"><div class="lw"><span>© <span id="yr"></span> SLM Transfert</span><span><a href="index.html#login">Se connecter</a> · <a href="index.html#signup">Créer un compte</a></span></div></footer>
-<a class="btn gold lg block sticky-cta" href="index.html#signup">Commencer gratuitement</a>
+<div class="sticky-bar" role="region" aria-label="Inscription"><span><b>Gratuit pour démarrer</b><small>Sans carte bancaire</small></span><a class="btn gold" href="index.html#signup">Commencer</a></div>
 
 <script src="config.js"></script>
 <script>
@@ -359,7 +451,8 @@ footer.lf a{color:var(--ink-2)}
 $("#yr").textContent=new Date().getFullYear();
 /* Parrainage : le code est gardé pour l’inscription dans l’application (même domaine). */
 try{const u=new URL(location.href),r=u.searchParams.get("ref");if(r){localStorage.setItem("slm_referral_code_pending",r.trim().toUpperCase());u.searchParams.delete("ref");history.replaceState(null,"",u.toString())}}catch{}
-addEventListener("scroll",()=>document.body.classList.toggle("scrolled",scrollY>40),{passive:true});
+addEventListener("scroll",()=>{document.body.classList.toggle("scrolled",scrollY>40);document.body.classList.toggle("past-hero",scrollY>innerHeight*.75)},{passive:true});
+try{const finals=[...document.querySelectorAll(".ls.night.sign:last-of-type,footer.lf,#tarifs .price-grid")];const seen=new Set();const io=new IntersectionObserver(es=>{es.forEach(e=>e.isIntersecting?seen.add(e.target):seen.delete(e.target));document.body.classList.toggle("cta-near",seen.size>0)},{threshold:.15});finals.forEach(el=>io.observe(el))}catch{}
 /* Téléphone : trois écrans en boucle (mis en pause hors écran quand GSAP est chargé) */
 const vs=[...document.querySelectorAll(".scr .v")],ds=[...document.querySelectorAll("#ldots i")];let k=0,phoneTimer=null;const show=i=>{vs.forEach((v,j)=>v.classList.toggle("on",j===i));ds.forEach((d,j)=>d.classList.toggle("on",j===i));k=i};
 window.slmPhoneLoop=on=>{clearInterval(phoneTimer);phoneTimer=null;if(on&&!RM)phoneTimer=setInterval(()=>show((k+1)%vs.length),3600)};slmPhoneLoop(true);ds.forEach((d,i)=>d.addEventListener("click",()=>show(i)));
@@ -397,7 +490,7 @@ mm.add({motion:"(prefers-reduced-motion: no-preference)",desk:"(min-width: 901px
   const intro=gsap.timeline({onStart:done});
   intro.fromTo(".l-route .trace",{strokeDashoffset:1},{strokeDashoffset:0,duration:2.2,ease:"power2.inOut"},0)
     .fromTo(".l-route .pin",{scale:0,transformOrigin:"50% 50%"},{scale:1,duration:.5,stagger:.25,ease:"back.out(2)"},.6)
-    .fromTo(".l-hero .eyebrow,.l-hero .sub,.l-hero .btn-row,.l-hero .l-proof,.l-hero .l-install",{autoAlpha:0,y:18},{autoAlpha:1,y:0,stagger:.08},.1)
+    .fromTo(".l-hero .eyebrow,.l-hero .sub,.l-hero .btn-row,.l-hero .l-proof,.l-hero .l-micro,.l-hero .l-install",{autoAlpha:0,y:18},{autoAlpha:1,y:0,stagger:.08},.1)
     .fromTo(".l-hero h1 .ln",{autoAlpha:0,yPercent:60},{autoAlpha:1,yPercent:0,stagger:.09,duration:1},.15)
     .fromTo("[data-phone]",{autoAlpha:0,y:50},{autoAlpha:1,y:0,duration:1.2},.35)
     .fromTo(".float-card .fc-in",{autoAlpha:0,scale:.85,y:16},{autoAlpha:1,scale:1,y:0,duration:.7,stagger:.18,ease:"back.out(1.6)"},1.1);

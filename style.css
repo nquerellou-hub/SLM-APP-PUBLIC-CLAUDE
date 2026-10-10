@@ -26,7 +26,9 @@
   --ease:cubic-bezier(.2,.8,.2,1); --ease-in:cubic-bezier(.6,0,.8,.2); --spring:cubic-bezier(.3,1.35,.5,1);
   --d1:140ms; --d2:240ms; --d3:380ms;
   --nav-w:252px; --top-h:60px; --bottom-h:68px;
-  color-scheme:light;
+  /* « only light » : empêche les navigateurs mobiles (mode sombre forcé des pages) d’inverser nos couleurs ;
+     notre propre thème sombre s’applique via prefers-color-scheme ci-dessous. */
+  color-scheme:only light;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#09130f; --bg-2:#0e1a15; --surface:#101c16; --surface-2:#14221b; --surface-3:#1a2b23;
@@ -711,3 +713,21 @@ body.locked .topbar,body.locked .layout,body.locked .tabbar{display:none}
 /* « Rester connecté » sur l’écran de connexion et l’écran du code */
 .switch.remember{padding:12px 14px;border-radius:var(--r-2);border:1px solid var(--line);background:var(--surface);text-align:left}
 .pin .switch.remember{width:100%}
+/* Mobile : barre du haut allégée (logo seul quand le titre de page apparaît) et boutons qui passent à la ligne au lieu de déborder */
+.btn{max-width:100%}
+@media (max-width:560px){
+  .brand small{display:none}
+  body.scrolled .topbar .brand{font-size:0;gap:0}
+  .top-title{flex:1}
+  .btn{white-space:normal;text-align:center;line-height:1.25;padding-block:6px}
+  .btn-row>.btn,.sheet-foot .btn{min-width:0}
+}
+/* Garde-fous de mise en page : une page ne s’élargit jamais au-delà de l’écran ; e-mails et numéros longs passent à la ligne. */
+.page,.compat,.sheet-body,.fields,.hub{grid-template-columns:minmax(0,1fr)}
+.page>*,.sheet-body>*,.head>*,.hello>*{min-width:0}
+.head h1,.hello h1,.sheet-head h2,.compat .page-head h2,.auth-box h1{overflow-wrap:anywhere}
+.card,.kpi,.banner,.tile,.item>span,.kv b,.facts b{overflow-wrap:anywhere}
+.kv b{white-space:normal}
+.pill{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.ride .rt{overflow-wrap:anywhere}
+@media (max-width:340px){.tabbar{padding-left:2px;padding-right:2px}.tabbar a,.tabbar button{font-size:9.5px}.tabbar a::before{width:44px;margin-left:-22px}}

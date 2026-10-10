@@ -1,4 +1,4 @@
-const V="slm-v8-1-2";
+const V="slm-v8-1-4";
 const FILES=["./","index.html","landing.html","config.js","core.js","app.js","cloud.js","push.js","billing.js","admin.js","style.css","manifest.json","icon-192.jpg","icon-192.png","icon-512.png","icon-maskable.png","apple-touch-icon.jpg"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});

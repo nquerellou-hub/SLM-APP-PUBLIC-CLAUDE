@@ -20,7 +20,7 @@ msgFact:"Bonjour {client}, merci pour votre trajet avec {nom}. Facture {num} : {
 msgArrive:"Bonjour, je suis votre chauffeur {nom}, je suis arrivé.",
 themeBase:"#f5f4ed",themeAccent:"#27634a",themeStyle:"minimal",blurOn:false,
 kpi_ca:true,kpi_net:true,kpi_n:true,kpi_km:true,kpi_dep:true,kpi_ekm:true,kpi_panier:true,kpi_marge:true,showObjectif:true,showChart:true,showNext:true,showUnpaid:true,showExport:true,
-pinOn:true,lockMin:15,appearance:"system"},
+pinOn:true,lockMin:15,appearance:"light"},
 courses:[],clients:[],depenses:[],factures:[],docs:[],notified:{},meta:{
   appVersion:APP_VERSION,
   settingsAt:0,
@@ -56,6 +56,8 @@ function fixDb(){
   delete db.meta.lastBackup;
   delete db.settings.backupDays;
   db.meta.settingsAt=+db.meta.settingsAt||0;
+  /* V8.1.4 : thème clair par défaut. Les comptes restés sur l’ancien défaut « Automatique » passent une fois en clair. */
+  if(!db.meta.themeLightV814){if(db.settings.appearance==="system")db.settings.appearance="light";db.meta.themeLightV814=true}
   db.meta.firstSyncDone=!!db.meta.firstSyncDone;
   db.meta.dirtyAt=+db.meta.dirtyAt||0;
   db.meta.cloudAt=+db.meta.cloudAt||0;
