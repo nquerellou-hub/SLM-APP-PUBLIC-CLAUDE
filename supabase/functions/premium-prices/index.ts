@@ -1,4 +1,4 @@
-// SLM Transfert V8 — prix Premium publics, lus directement dans Stripe.
+// Cabpilot V8 — prix Premium publics, lus directement dans Stripe.
 // Permet à l’application et à la landing d’afficher exactement le prix qui sera facturé.
 // À déployer avec --no-verify-jwt (aucune donnée personnelle n’est renvoyée).
 import { corsHeaders, json, requiredEnv, stripeRequest } from "../_shared/billing.ts";

@@ -6,7 +6,7 @@ Deno.serve(async (request) => {
 
   try {
     const user = await authenticatedUser(request);
-    if (!user) return json({ error: "Connectez-vous à votre compte SLM Transfert." }, 401);
+    if (!user) return json({ error: "Connectez-vous à votre compte Cabpilot." }, 401);
     const admin = adminClient();
     const { data: account, error } = await admin
       .from("billing_accounts")

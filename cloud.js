@@ -1,4 +1,4 @@
-/* SLM Transfert V8 — synchronisation Supabase (logique V7 inchangée, interface déplacée dans app.js) */
+/* Cabpilot V8 — synchronisation Supabase (logique V7 inchangée, interface déplacée dans app.js) */
 const SB_URL="https://ucmwtebwlbrmybxdjxlg.supabase.co";
 const SB_KEY="sb_publishable_Fc6ZGyUSjuHkdqCgAUtKiQ_qa9uWSQK";
 const CLOUD_ARR=["courses","clients","depenses","factures","docs"];
@@ -77,7 +77,7 @@ async function cloudPush(){
     if(!cloudUser||cloudUser.id!==userId)return;const{error}=await sb.from("app_state").upsert({user_id:userId,data:snap,updated_at:new Date(now).toISOString()});
     if(error)throw error;
     if(!cloudUser||cloudUser.id!==userId||db.meta?.ownerUserId!==userId)return;
-    try{if(typeof pushSyncSchedule==="function")await pushSyncSchedule(snap)}catch(e){if(typeof pushLocalKey==="function")localStorage.removeItem(pushLocalKey(userId));console.warn("SLM Transfert : rappels push non synchronisés",e)}
+    try{if(typeof pushSyncSchedule==="function")await pushSyncSchedule(snap)}catch(e){if(typeof pushLocalKey==="function")localStorage.removeItem(pushLocalKey(userId));console.warn("Cabpilot : rappels push non synchronisés",e)}
     db.meta.cloudAt=now;db.meta.firstSyncDone=true;const changedDuringPush=(+db.meta.dirtyAt||0)>snapshotDirtyAt;if(!changedDuringPush)delete db.meta.dirtyAt;else{clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>cloudPull(),1000)}await store(D_KEY,JSON.stringify(db));await store(cloudLocalKey(userId),JSON.stringify(db));
     cloudSet("Synchronisé : données + réglages · "+new Date(now).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}));
   }catch(e){cloudSet("Erreur d'envoi : "+(e.message||e))}finally{cloudBusy=false}

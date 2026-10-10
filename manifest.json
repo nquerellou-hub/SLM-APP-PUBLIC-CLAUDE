@@ -1,6 +1,6 @@
 {
-  "name": "SLM Transfert",
-  "short_name": "SLM Transfert",
+  "name": "Cabpilot",
+  "short_name": "Cabpilot",
   "description": "Courses, clients, factures et rentabilité pour chauffeurs VTC et taxis indépendants.",
   "start_url": "./",
   "scope": "./",

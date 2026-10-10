@@ -1,4 +1,4 @@
-/* SLM Transfert V8.1 — design system « Signalisation »
+/* Cabpilot V8.1 — design system « Signalisation »
    Vert SLM et blanc, comme un panneau de direction : lisible d’un coup d’œil, en voiture, en plein jour.
    Panneaux verts bordés d’un filet blanc, chiffres dessinés pour la route (Overpass), verre dépoli discret
    réservé aux barres fixes. Premium = dégradé vert, sans autre couleur.
@@ -734,3 +734,7 @@ body.locked .topbar,body.locked .layout,body.locked .tabbar{display:none}
 
 /* Accessibilité et retours de validation */
 .auth .faint a{text-decoration:underline}.field-error{color:var(--danger);font-size:13px;margin-top:6px}.field [aria-invalid="true"]{border-color:var(--danger)}button.link{min-height:32px}.form-error-summary{color:var(--danger);padding:12px;border:1px solid currentColor;border-radius:12px;margin-bottom:12px}
+
+/* Identité Cabpilot : même symbole dans le logiciel et sur la landing. */
+:is(.topbar,.lnav,#lock,.auth-art,.side) .brand::before{background:#0f2a1f url("cabpilot-icon.svg") center/cover no-repeat;box-shadow:none}
+#splash .mark{font-size:clamp(30px,9vw,44px)}

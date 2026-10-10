@@ -73,8 +73,8 @@ Deno.serve(async (request) => {
           course_id: courseId,
           minutes_before: minutes,
           due_at: new Date(dueAt).toISOString(),
-          title: safeText(item.title, 80, "Rappel SLM Transfert"),
-          body: safeText(item.body, 180, "Une course approche. Ouvrez SLM Transfert pour consulter les détails."),
+          title: safeText(item.title, 80, "Rappel Cabpilot"),
+          body: safeText(item.body, 180, "Une course approche. Ouvrez Cabpilot pour consulter les détails."),
           tag: safeText(item.tag, 120, `slm-${courseId}-${minutes}`),
           next_attempt_at: new Date().toISOString(),
         }];

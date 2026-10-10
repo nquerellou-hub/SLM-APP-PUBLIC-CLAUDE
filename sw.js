@@ -1,5 +1,5 @@
-const V="slm-v8-6-3";
-const FILES=["./","index.html","landing.html","config.js","core.js","app.js","cloud.js","push.js","billing.js","admin.js","style.css","manifest.json","icon-192.jpg","icon-192.png","icon-512.png","icon-maskable.png","apple-touch-icon.jpg"];
+const V="cabpilot-brand-1";
+const FILES=["cabpilot-icon.svg","./","index.html","landing.html","config.js","core.js","app.js","cloud.js","push.js","billing.js","admin.js","style.css","manifest.json","icon-192.jpg","icon-192.png","icon-512.png","icon-maskable.png","apple-touch-icon.jpg"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener("fetch",e=>{
@@ -10,8 +10,8 @@ self.addEventListener("fetch",e=>{
 });
 self.addEventListener("push",e=>{
   let message={};
-  try{message=e.data?e.data.json():{}}catch{message={body:e.data?.text()||"Ouvrez SLM Transfert pour consulter vos rappels."}}
-  const title=String(message.title||"Rappel SLM Transfert").slice(0,80);
+  try{message=e.data?e.data.json():{}}catch{message={body:e.data?.text()||"Ouvrez Cabpilot pour consulter vos rappels."}}
+  const title=String(message.title||"Rappel Cabpilot").slice(0,80);
   const body=String(message.body||"Une course approche.").slice(0,180);
   e.waitUntil(self.registration.showNotification(title,{body,icon:"icon-192.png",badge:"icon-192.png",tag:String(message.tag||"slm-course-reminder").slice(0,120),renotify:false,data:{url:message.url||"./#courses"}}));
 });

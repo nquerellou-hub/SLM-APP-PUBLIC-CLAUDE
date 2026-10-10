@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Logiciel de gestion taxi et VTC gratuit | SLM Transfert</title>
+<title>Logiciel de gestion taxi et VTC gratuit | Cabpilot</title>
 <meta name="description" content="L’outil de gestion des taxis et VTC indépendants : courses, clients, factures, dépenses, TVA et export comptable dans votre téléphone. Gratuit, sans App Store.">
 <meta name="theme-color" content="#f4f6f1">
 <meta name="color-scheme" content="light">
 <meta property="og:type" content="website">
-<meta property="og:title" content="SLM Transfert · L’outil de gestion des taxis et VTC indépendants">
+<meta property="og:title" content="Cabpilot · L’outil de gestion des taxis et VTC indépendants">
 <meta property="og:description" content="Courses, clients, factures, dépenses et TVA dans votre téléphone. Gratuit.">
 <meta property="og:image" content="icon-512.png">
 <link rel="icon" href="icon-192.png">
@@ -18,10 +18,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Overpass:wght@700;800;900&display=swap">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
- {"@type":"SoftwareApplication","name":"SLM Transfert","applicationCategory":"BusinessApplication","operatingSystem":"iOS, Android, Windows, macOS (navigateur)","description":"Outil de gestion pour taxis et VTC indépendants : agenda des courses, clients, factures et devis PDF, dépenses et justificatifs, TVA, cotisations estimées et export comptable.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}},
+ {"@type":"SoftwareApplication","name":"Cabpilot","applicationCategory":"BusinessApplication","operatingSystem":"iOS, Android, Windows, macOS (navigateur)","description":"Outil de gestion pour taxis et VTC indépendants : agenda des courses, clients, factures et devis PDF, dépenses et justificatifs, TVA, cotisations estimées et export comptable.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}},
  {"@type":"FAQPage","mainEntity":[
   {"@type":"Question","name":"C’est vraiment gratuit ?","acceptedAnswer":{"@type":"Answer","text":"Oui, sans limite de courses ni de factures, et sans carte bancaire. Premium est une option pour analyser votre marge."}},
-  {"@type":"Question","name":"Pourquoi l’application n’est pas sur l’App Store ou Google Play ?","acceptedAnswer":{"@type":"Answer","text":"SLM s’installe directement depuis le navigateur : plus rapide, toujours à jour, et le même compte fonctionne sur iPhone, Android et ordinateur."}},
+  {"@type":"Question","name":"Pourquoi l’application n’est pas sur l’App Store ou Google Play ?","acceptedAnswer":{"@type":"Answer","text":"Cabpilot s’installe directement depuis le navigateur : plus rapide, toujours à jour, et le même compte fonctionne sur iPhone, Android et ordinateur."}},
   {"@type":"Question","name":"Mon comptable pourra-t-il utiliser mes données ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Toute votre activité s’exporte dans un classeur Excel : courses, factures, dépenses et TVA."}},
   {"@type":"Question","name":"Comment fonctionne l’essai Premium ?","acceptedAnswer":{"@type":"Answer","text":"Tout est débloqué pendant l’essai et rien n’est prélevé si vous résiliez avant la fin, depuis l’application."}}
  ]}
@@ -30,7 +30,7 @@
 <script>(function(){if("IntersectionObserver" in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("rv-on")})();</script>
 <style>
 /* ═══════════════════════════════════════════════════════════════════
-   SLM Transfert — landing « Outil de gestion »
+   Cabpilot — landing « Outil de gestion »
    Skills ECC : frontend-design-direction (le produit d’abord), motion-patterns
    (jetons de mouvement partagés, décalage 50–100 ms, apparitions une seule fois,
    entrée + sortie pour chaque changement d’écran, fenêtre accessible),
@@ -288,7 +288,7 @@ img,svg{max-width:100%;flex:none}
 .rv-on .step:not(.lit) .ui.mini i b{transform:scaleX(0)}
 .ui.mini .n i b{background:#e07b6c}.ui.mini .r i b{background:var(--amber)}
 
-/* Avant / avec SLM : un interrupteur */
+/* Avant / avec Cabpilot : un interrupteur */
 .vs-wrap{max-width:640px;margin:36px auto 0}
 .switch{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:5px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--s-1)}
 .switch .thumb{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:12px;background:var(--red);transform:translateX(0);transition:transform var(--dur-normal) var(--ease-spring),background var(--dur-normal)}
@@ -587,7 +587,7 @@ body.lock{overflow:hidden}
       <a class="nav-login" href="index.html#login">Se connecter</a>
       <a class="cta" href="index.html#signup" data-install aria-label="Installer l’application"><svg aria-hidden="true"><use href="#i-dl"/></svg><span>Installer</span></a>
     </nav>
-    <a class="brand" href="#top" aria-label="SLM Transfert, accueil"><img src="icon-192.png" alt="" width="38" height="38"><span>SLM Transfert</span></a>
+    <a class="brand" href="#top" aria-label="Cabpilot, accueil"><img src="icon-192.png" alt="" width="38" height="38"><span>Cabpilot</span></a>
   </div>
 </header>
 
@@ -613,7 +613,7 @@ body.lock{overflow:hidden}
     <div>
       <span class="eyebrow" data-in style="--i:0"><b>GRATUIT</b>Taxis et VTC indépendants</span>
       <h1 data-in style="--i:1">L’outil de gestion des taxis et VTC <mark>indépendants</mark>.</h1>
-      <p class="lead" data-in style="--i:2">Courses, clients, factures, dépenses et TVA réunis dans votre téléphone. Vous conduisez, SLM tient vos comptes.</p>
+      <p class="lead" data-in style="--i:2">Courses, clients, factures, dépenses et TVA réunis dans votre téléphone. Vous conduisez, Cabpilot tient vos comptes.</p>
       <div class="actions" data-in style="--i:3">
         <a class="cta" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a>
         <a class="alt" href="index.html#signup">Pas envie d’installer ? Utiliser dans le navigateur</a>
@@ -710,7 +710,7 @@ body.lock{overflow:hidden}
   </div>
 </section>
 
-<!-- ═══ Une journée avec SLM ═══ -->
+<!-- ═══ Une journée avec Cabpilot ═══ -->
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="c" data-rv><p class="kick">Une journée</p><h2 class="h2">La gestion se fait <em>pendant que vous roulez</em>.</h2></div>
@@ -727,12 +727,12 @@ body.lock{overflow:hidden}
   </div>
 </section>
 
-<!-- ═══ Avant / avec SLM ═══ -->
+<!-- ═══ Avant / avec Cabpilot ═══ -->
 <section class="sec" style="padding-top:0">
   <div class="wrap c">
     <div data-rv><p class="kick">La différence</p><h2 class="h2">Fini le carnet, <em>le fichier Excel et la calculette</em>.</h2></div>
     <div class="vs-wrap" data-rv>
-      <div class="switch" id="vs" data-v="sans" role="group" aria-label="Comparer"><span class="thumb" aria-hidden="true"></span><button type="button" data-v="sans" aria-pressed="true">Sans SLM</button><button type="button" data-v="avec" aria-pressed="false">Avec SLM</button></div>
+      <div class="switch" id="vs" data-v="sans" role="group" aria-label="Comparer"><span class="thumb" aria-hidden="true"></span><button type="button" data-v="sans" aria-pressed="true">Sans Cabpilot</button><button type="button" data-v="avec" aria-pressed="false">Avec Cabpilot</button></div>
       <div class="vs-card" aria-live="polite">
         <div class="vs-p no" data-p="sans"><ul><li><svg aria-hidden="true"><use href="#i-x"/></svg>Courses notées sur un carnet ou dans les SMS</li><li><svg aria-hidden="true"><use href="#i-x"/></svg>Factures refaites le soir sur ordinateur</li><li><svg aria-hidden="true"><use href="#i-x"/></svg>Tickets de carburant perdus dans la boîte à gants</li><li><svg aria-hidden="true"><use href="#i-x"/></svg>TVA et comptabilité en vrac en fin de mois</li></ul></div>
         <div class="vs-p yes" data-p="avec" hidden><ul><li><svg aria-hidden="true"><use href="#i-check"/></svg>Toutes les courses dans un agenda, avec rappels</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Facture PDF envoyée en un geste, depuis la course</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Dépenses rangées avec leur TVA</li><li><svg aria-hidden="true"><use href="#i-check"/></svg>Export Excel propre pour le comptable</li></ul></div>
@@ -746,11 +746,11 @@ body.lock{overflow:hidden}
   <div class="wrap">
     <div class="c" data-rv><p class="kick">Installation</p><h2 class="h2">Installée en <em>trois touches</em>.</h2><p class="sub">Pas de store à ouvrir : l’appli s’installe directement depuis cette page.</p>
       <div class="os" role="group" aria-label="Votre téléphone" style="--o:0"><span class="thumb" aria-hidden="true"></span><button type="button" data-os="android" aria-pressed="true">Android</button><button type="button" data-os="ios" aria-pressed="false">iPhone</button></div></div>
-    <ol class="st-grid" id="steps3" tabindex="0" aria-label="Les étapes pour utiliser SLM" data-os="android">
+    <ol class="st-grid" id="steps3" tabindex="0" aria-label="Les étapes pour utiliser Cabpilot" data-os="android">
       <li class="st cur" data-rv style="--i:0">
         <div class="st-vis" aria-hidden="true">
           <div class="v-and mini-pg"><span class="mp-h">L’outil de gestion des taxis et VTC</span><span class="mp-l"></span><span class="mp-l s"></span><span class="mp-btn hit"><svg><use href="#i-dl"/></svg>Installer gratuitement<i class="tap"></i></span></div>
-          <div class="v-ios mini-sf"><span class="sf-url"><svg><use href="#i-lock"/></svg>SLM Transfert</span><span class="mp-l"></span><span class="mp-l s"></span><span class="sf-bar"><svg><use href="#i-back"/></svg><svg><use href="#i-fwd"/></svg><span class="sf-share hit"><svg><use href="#i-share"/></svg><i class="tap"></i></span><svg><use href="#i-book"/></svg><svg><use href="#i-tabs"/></svg></span></div>
+          <div class="v-ios mini-sf"><span class="sf-url"><svg><use href="#i-lock"/></svg>Cabpilot</span><span class="mp-l"></span><span class="mp-l s"></span><span class="sf-bar"><svg><use href="#i-back"/></svg><svg><use href="#i-fwd"/></svg><span class="sf-share hit"><svg><use href="#i-share"/></svg><i class="tap"></i></span><svg><use href="#i-book"/></svg><svg><use href="#i-tabs"/></svg></span></div>
         </div>
         <div class="st-txt"><span class="st-n">1</span>
           <h3 class="v-and">Touchez « Installer »</h3><p class="v-and">Le bouton vert, en haut de cette page.</p>
@@ -758,7 +758,7 @@ body.lock{overflow:hidden}
       </li>
       <li class="st" data-rv style="--i:1">
         <div class="st-vis" aria-hidden="true">
-          <div class="v-and mini-dlg"><img src="icon-192.png" alt=""><b>Installer l’application ?</b><small>SLM Transfert</small><span class="dl-b"><span>Annuler</span><span class="go hit">Installer<i class="tap"></i></span></span></div>
+          <div class="v-and mini-dlg"><img src="icon-192.png" alt=""><b>Installer l’application ?</b><small>Cabpilot</small><span class="dl-b"><span>Annuler</span><span class="go hit">Installer<i class="tap"></i></span></span></div>
           <div class="v-ios mini-sh"><span class="row">Copier<svg><use href="#i-copy"/></svg></span><span class="row">Ajouter aux favoris<svg><use href="#i-book"/></svg></span><span class="row go hit">Sur l’écran d’accueil<svg><use href="#i-plus-sq"/></svg><i class="tap"></i></span></div>
         </div>
         <div class="st-txt"><span class="st-n">2</span>
@@ -770,7 +770,7 @@ body.lock{overflow:hidden}
           <div class="st-phone"><div class="phone" data-src="p-agenda"><div class="ph"><div class="ph-notch"></div><div class="ph-sb"><span>08:12</span><span>5G</span></div></div></div></div>
           <span class="st-ok"><svg><use href="#i-check"/></svg>Installée</span>
         </div>
-        <div class="st-txt"><span class="st-n">3</span><h3>C’est prêt</h3><p>SLM s’ouvre depuis votre écran d’accueil, en plein écran, comme une appli.</p></div>
+        <div class="st-txt"><span class="st-n">3</span><h3>C’est prêt</h3><p>Cabpilot s’ouvre depuis votre écran d’accueil, en plein écran, comme une appli.</p></div>
       </li>
     </ol>
     <div class="st-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
@@ -800,7 +800,7 @@ body.lock{overflow:hidden}
     <div data-rv><p class="kick">Questions</p><h2 class="h2">Avant de <em>vous lancer</em>.</h2></div>
     <div class="faq">
       <details><summary>C’est vraiment gratuit ?</summary><p>Oui, sans limite de courses ni de factures, et sans carte bancaire. Premium est une option pour analyser votre marge.</p></details>
-      <details><summary>Pourquoi l’application n’est pas sur l’App Store ou Google Play ?</summary><p>SLM s’installe directement depuis le navigateur : plus rapide, toujours à jour, et le même compte fonctionne sur iPhone, Android et ordinateur.</p></details>
+      <details><summary>Pourquoi l’application n’est pas sur l’App Store ou Google Play ?</summary><p>Cabpilot s’installe directement depuis le navigateur : plus rapide, toujours à jour, et le même compte fonctionne sur iPhone, Android et ordinateur.</p></details>
       <details><summary>Mon comptable pourra-t-il utiliser mes données ?</summary><p>Oui. Toute votre activité s’exporte dans un classeur Excel : courses, factures, dépenses et TVA.</p></details>
       <details><summary>Comment fonctionne l’essai Premium ?</summary><p>Tout est débloqué pendant l’essai et rien n’est prélevé si vous résiliez avant la fin, depuis l’application.</p></details>
     </div>
@@ -812,7 +812,7 @@ body.lock{overflow:hidden}
     <div class="end-txt">
       <span class="eyebrow dk"><b>GRATUIT</b>Taxis et VTC indépendants</span>
       <h2 class="h2">Votre activité, <em>enfin en ordre</em>.</h2>
-      <p>Installez SLM gratuitement. Rien à importer : notez simplement votre prochaine course.</p>
+      <p>Installez Cabpilot gratuitement. Rien à importer : notez simplement votre prochaine course.</p>
       <a class="cta" href="index.html#signup" data-install><svg aria-hidden="true"><use href="#i-dl"/></svg><span class="lbl">Installer gratuitement</span></a>
       <p class="note"><span><svg aria-hidden="true"><use href="#i-check"/></svg>Gratuit</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>Sans carte bancaire</span><span><svg aria-hidden="true"><use href="#i-check"/></svg>iPhone, Android, ordinateur</span></p>
     </div>
@@ -826,13 +826,13 @@ body.lock{overflow:hidden}
   </div>
 </section>
 </main>
-<footer><div class="wrap"><span>© <span id="yr"></span> SLM Transfert</span><span><a href="index.html#login">Se connecter</a> · <a href="index.html#signup">Créer un compte</a></span></div></footer>
+<footer><div class="wrap"><span>© <span id="yr"></span> Cabpilot</span><span><a href="index.html#login">Se connecter</a> · <a href="index.html#signup">Créer un compte</a></span></div></footer>
 
-<div class="dock" role="region" aria-label="Installer l’application"><img src="icon-192.png" alt=""><span><b>SLM Transfert</b><small>Gestion taxi et VTC · gratuit</small></span><a class="cta" href="index.html#signup" data-install>Installer</a></div>
+<div class="dock" role="region" aria-label="Installer l’application"><img src="icon-192.png" alt=""><span><b>Cabpilot</b><small>Gestion taxi et VTC · gratuit</small></span><a class="cta" href="index.html#signup" data-install>Installer</a></div>
 
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-t" hidden>
   <div class="sheet-in">
-    <h3 id="sheet-t"><img src="icon-192.png" alt="">Installer SLM</h3>
+    <h3 id="sheet-t"><img src="icon-192.png" alt="">Installer Cabpilot</h3>
     <ol class="how" id="sheet-how"></ol>
     <a class="alt-link" href="index.html#signup">Continuer dans le navigateur</a>
     <button type="button" class="close" data-close>Fermer</button>
@@ -885,7 +885,7 @@ try{new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(!auto)return;i
 /* Éventail de fin : copies des écrans de la visite guidée (décoratives) */
 $$(".phone[data-src]").forEach(ph=>{const src=document.getElementById(ph.dataset.src);if(!src)return;const c=src.cloneNode(true);["id","role","aria-labelledby","hidden"].forEach(a=>c.removeAttribute(a));c.classList.add("on");ph.querySelector(".ph").appendChild(c)});
 
-/* ── Avant / avec SLM : bascule, et démonstration automatique une fois à l’écran ── */
+/* ── Avant / avec Cabpilot : bascule, et démonstration automatique une fois à l’écran ── */
 const vs=$("#vs");let vsTouched=false;
 const setVs=v=>{vs.dataset.v=v;$$("#vs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v));$$(".vs-p").forEach(p=>p.hidden=p.dataset.p!==v)};
 $$("#vs button").forEach(b=>b.addEventListener("click",()=>{vsTouched=true;setVs(b.dataset.v)}));
@@ -900,10 +900,10 @@ const lbls=()=>$$("[data-install] .lbl");
 if(!isMobile&&!standalone)lbls().forEach(l=>l.textContent="Créer mon compte gratuit");
 addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;lbls().forEach(l=>l.textContent="Installer gratuitement")});
 const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("on"),3600)};
-addEventListener("appinstalled",()=>{deferred=null;toast("SLM est installée. Ouvrez-la depuis votre écran d’accueil.")});
+addEventListener("appinstalled",()=>{deferred=null;toast("Cabpilot est installée. Ouvrez-la depuis votre écran d’accueil.")});
 const SHARE='<kbd><svg width="16" height="16" role="img" aria-label="Partager"><use href="#i-share"/></svg></kbd>';
-const STEPS={ios:isSafari?[`Touchez Partager ${SHARE} en bas de l’écran`,"Choisissez « Sur l’écran d’accueil »","Touchez « Ajouter » puis ouvrez SLM"]:["Ouvrez cette page dans Safari",`Touchez Partager ${SHARE} puis « Sur l’écran d’accueil »`,"Touchez « Ajouter » puis ouvrez SLM"],
-  android:/SamsungBrowser/i.test(UA)?["Touchez le menu <kbd>≡</kbd> en bas de l’écran","Choisissez « Ajouter la page à » puis « Écran d’accueil »","Ouvrez SLM depuis votre écran d’accueil"]:["Ouvrez le menu du navigateur <kbd>⋮</kbd>","Choisissez « Installer l’application » ou « Ajouter à l’écran d’accueil »","Ouvrez SLM depuis votre écran d’accueil"]};
+const STEPS={ios:isSafari?[`Touchez Partager ${SHARE} en bas de l’écran`,"Choisissez « Sur l’écran d’accueil »","Touchez « Ajouter » puis ouvrez Cabpilot"]:["Ouvrez cette page dans Safari",`Touchez Partager ${SHARE} puis « Sur l’écran d’accueil »`,"Touchez « Ajouter » puis ouvrez Cabpilot"],
+  android:/SamsungBrowser/i.test(UA)?["Touchez le menu <kbd>≡</kbd> en bas de l’écran","Choisissez « Ajouter la page à » puis « Écran d’accueil »","Ouvrez Cabpilot depuis votre écran d’accueil"]:["Ouvrez le menu du navigateur <kbd>⋮</kbd>","Choisissez « Installer l’application » ou « Ajouter à l’écran d’accueil »","Ouvrez Cabpilot depuis votre écran d’accueil"]};
 /* Fenêtre : piège du focus, Échap, défilement bloqué, arrière-plan inerte, focus rendu à la fermeture */
 const sheet=$("#sheet"),bg=()=>$$("#hd,main,footer,.dock");let lastFocus=null;
 const openSheet=kind=>{lastFocus=document.activeElement;$("#sheet-how").innerHTML=STEPS[kind].map(s=>`<li><span>${s}</span></li>`).join("");sheet.hidden=false;document.body.classList.add("lock");bg().forEach(el=>el.inert=true);requestAnimationFrame(()=>requestAnimationFrame(()=>sheet.classList.add("open")));sheet.querySelector(".alt-link").focus({preventScroll:true})};

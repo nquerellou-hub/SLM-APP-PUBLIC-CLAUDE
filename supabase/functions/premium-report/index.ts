@@ -73,7 +73,7 @@ Deno.serve(async (request) => {
   if (request.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (request.method !== "POST") return json({ error: "Méthode non autorisée." }, 405);
   const user = await authenticatedUser(request);
-  if (!user) return json({ error: "Connectez-vous à votre compte SLM Transfert." }, 401);
+  if (!user) return json({ error: "Connectez-vous à votre compte Cabpilot." }, 401);
 
   try {
     const admin = adminClient();
