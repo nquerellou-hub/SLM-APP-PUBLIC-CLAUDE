@@ -508,30 +508,31 @@ body.lock{overflow:hidden}
 @media (max-width:350px){.cta{padding:0 18px;font-size:16px}.top .cta span{display:none}.tab{font-size:10.5px}.tab svg{width:16px;height:16px}.dock small{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition-duration:1ms!important;transition-delay:0s!important}}
 
-/* Navigation SLM : actions à gauche, marque à droite. */
+/* Navigation compacte : liens à gauche et marque à droite. */
 .top{background:var(--surface);border-bottom-color:var(--line)}
-.top .wrap{height:auto;min-height:96px;justify-content:space-between;gap:28px;padding-block:18px}
+.top .wrap{height:auto;min-height:68px;justify-content:space-between;gap:24px;padding-block:10px;position:relative}
 .top nav{display:flex;align-items:center;gap:10px;min-width:0}
-.top nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;white-space:nowrap;font-size:14px}
+.top nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;white-space:nowrap;font-size:14px;line-height:1.4}
 .top nav a:hover{background:var(--g-soft)}
 .top nav .nav-login{border:1px solid var(--line);margin-left:12px}
 .top nav .cta{min-height:44px;background:var(--cta);color:#fff;gap:8px;border:1px solid var(--cta)}
 .top nav .cta:hover{background:var(--cta-press);color:#fff}
-.top .brand{margin:0;flex-shrink:0;font-size:21px;gap:12px}
-.top .brand img{width:46px;height:46px;border-radius:13px}
-@media(max-width:800px){
-  .top .wrap{gap:16px;padding-block:14px}
-  .top nav{gap:6px}.top nav a{padding:10px 12px;font-size:13px}
-  .top nav .nav-login{margin-left:0}
-  .top .brand{font-size:17px;gap:8px}.top .brand img{width:38px;height:38px}
-}
-@media(max-width:640px){
-  .top .wrap{align-items:center;gap:10px;min-height:116px}
-  .top nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;flex:1;max-width:290px}
-  .top nav a{min-height:44px;padding:9px 7px;font-size:12px}
-  .top nav .cta{padding:9px 7px;font-size:12px;gap:5px}
-  .top .brand{flex-direction:column;align-items:flex-end;gap:6px;font-size:12px;white-space:nowrap}
-  .top .brand img{width:36px;height:36px;border-radius:10px}
+.top nav .cta span{display:inline}
+.top .brand{margin:0;flex-shrink:0;font-size:19px;gap:10px;white-space:nowrap}
+.top .brand img{width:38px;height:38px;border-radius:11px}
+.top .nav-toggle{display:none}
+@media(max-width:760px){
+ .top .wrap{min-height:64px;padding-block:10px;gap:12px}
+ .top .brand{font-size:16px;gap:9px;margin-left:auto}
+ .top .brand img{width:34px;height:34px;border-radius:10px}
+ .top .nav-toggle{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0 13px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:700 14px var(--f-u);cursor:pointer}
+ .top .nav-toggle svg{width:18px;height:18px}
+ .top nav{display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;max-height:calc(100dvh - 100px - env(safe-area-inset-top,0px));overflow:auto;padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 12px 26px #0f2a1f20;gap:5px}
+ .top nav.is-open{display:flex;flex-direction:column;align-items:stretch}
+ .top nav a{min-height:46px;padding:12px 14px;justify-content:flex-start;font-size:14px}
+ .top nav .nav-login{margin:5px 0 0}
+ .top nav .cta{justify-content:center;padding:12px 14px;font-size:14px}
+ .top .nav-toggle:focus-visible{outline:3px solid var(--g);outline-offset:3px}
 }
 
 </style>
@@ -580,14 +581,30 @@ body.lock{overflow:hidden}
 
 <header class="top" id="hd">
   <div class="wrap">
-    <nav aria-label="Navigation principale">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="landing-navigation"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Menu</button>
+    <nav id="landing-navigation" aria-label="Navigation principale">
       <a href="#modules">Fonctions</a><a href="#tarifs">Tarifs</a>
       <a class="nav-login" href="index.html#login">Se connecter</a>
       <a class="cta" href="index.html#signup" data-install aria-label="Installer l’application"><svg aria-hidden="true"><use href="#i-dl"/></svg><span>Installer</span></a>
     </nav>
-    <a class="brand" href="#top" aria-label="SLM Transfert, accueil"><img src="icon-192.png" alt="" width="46" height="46"><span>SLM Transfert</span></a>
+    <a class="brand" href="#top" aria-label="SLM Transfert, accueil"><img src="icon-192.png" alt="" width="38" height="38"><span>SLM Transfert</span></a>
   </div>
 </header>
+
+<script>
+/* Menu mobile indépendant des animations et de l’installation. */
+(()=>{
+ const button=document.querySelector('.nav-toggle'),nav=document.getElementById('landing-navigation');
+ const mobile=matchMedia('(max-width:760px)');
+ function close(focus=false){nav.classList.remove('is-open');button.setAttribute('aria-expanded','false');if(focus&&mobile.matches)button.focus()}
+ button.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(open));nav.classList.toggle('is-open',open)});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&button.getAttribute('aria-expanded')==='true'){e.preventDefault();close(true)}});
+ document.addEventListener('click',e=>{if(!nav.contains(e.target)&&!button.contains(e.target))close()});
+ nav.addEventListener('focusout',()=>{setTimeout(()=>{if(!nav.contains(document.activeElement)&&document.activeElement!==button)close()},0)});
+ nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>close(true)));
+ mobile.addEventListener('change',()=>{const focused=document.activeElement;if(mobile.matches&&nav.contains(focused))close(true);else{close();if(!mobile.matches&&focused===button)nav.querySelector('a').focus()}});
+})();
+</script>
 
 <main id="top">
 <!-- ═══ Premier écran : l’outil de gestion, en visite guidée ═══ -->
@@ -610,10 +627,10 @@ body.lock{overflow:hidden}
         <div class="scr on" id="p-agenda" role="tabpanel" aria-labelledby="t-agenda">
           <div class="s-h"><b>Agenda</b><small>OCTOBRE 2026</small></div>
           <div class="wk" style="--n:0"><span>L<b>12</b></span><span>M<b>13</b><i></i></span><span>M<b>14</b><i></i></span><span class="on">J<b>15</b><i></i></span><span>V<b>16</b><i></i></span><span>S<b>17</b></span><span>D<b>18</b><i></i></span></div>
-          <div class="s-next" style="--n:1"><small>PROCHAINE COURSE · DANS 1 H 10</small><div class="tm">09:20</div><div class="rt">Aéroport de Genève → Annecy</div><div class="s-row" style="margin-top:3px"><span style="font-size:11px;color:#bcd3c6">Hôtel des Marquisats · 2 pass.</span><b>95 €</b></div><div class="s-pills"><span class="w">Itinéraire</span><span>Appeler</span><span>WhatsApp</span></div></div>
-          <div class="s-li" style="--n:2"><b class="t">11:45</b><span><b>Julie Durand</b><small>Gare d’Annecy → Talloires</small></span><span class="chip">Confirmée</span></div>
-          <div class="s-li" style="--n:3"><b class="t">15:30</b><span><b>Agence Lac &amp; Alpes</b><small>Annecy → Megève</small></span><span class="chip">Confirmée</span></div>
-          <div class="s-li" style="--n:4"><b class="t">19:10</b><span><b>Marc Petit</b><small>Annecy → Aéroport de Lyon</small></span><span class="chip w">À confirmer</span></div>
+          <div class="s-next" style="--n:1"><small>PROCHAINE COURSE · DANS 1 H 10</small><div class="tm">09:20</div><div class="rt">Paris-CDG → Carlton Paris</div><div class="s-row" style="margin-top:3px"><span style="font-size:11px;color:#bcd3c6">Carlton Paris · 2 pass.</span><b>95 €</b></div><div class="s-pills"><span class="w">Itinéraire</span><span>Appeler</span><span>WhatsApp</span></div></div>
+          <div class="s-li" style="--n:2"><b class="t">11:45</b><span><b>Julie Durand</b><small>Paris-Orly → Ritz Paris</small></span><span class="chip">Confirmée</span></div>
+          <div class="s-li" style="--n:3"><b class="t">15:30</b><span><b>Hôtel Le Bristol Paris</b><small>Le Bristol Paris → Paris-CDG</small></span><span class="chip">Confirmée</span></div>
+          <div class="s-li" style="--n:4"><b class="t">19:10</b><span><b>Marc Petit</b><small>Ritz Paris → Paris-Orly</small></span><span class="chip w">À confirmer</span></div>
           <div class="s-sum" style="--n:5"><span>4 courses aujourd’hui</span><b>418 € prévus</b></div>
           <div class="s-tab" aria-hidden="true"><span class="on"><svg><use href="#i-cal"/></svg>Agenda</span><span><svg><use href="#i-file"/></svg>Factures</span><span class="f"><svg><use href="#i-plus"/></svg></span><span><svg><use href="#i-receipt"/></svg>Dépenses</span><span><svg><use href="#i-chart"/></svg>Finances</span></div>
         </div>
@@ -621,28 +638,28 @@ body.lock{overflow:hidden}
           <div class="s-h"><b>Factures</b><small>OCTOBRE 2026</small></div>
           <div class="s-tot col" style="--n:0"><div class="s-row"><span><small>ENCAISSÉ</small><b>1 868 €</b></span><span style="text-align:right"><small>EN ATTENTE</small><b class="am">312 €</b></span></div><div class="prog"><i style="width:86%"></i></div></div>
           <div class="flt" style="--n:1"><span class="on">Toutes</span><span>Payées</span><span>En attente</span><span>Devis</span></div>
-          <div class="s-li" style="--n:2"><b class="t">0142</b><span><b>Hôtel des Marquisats</b><small>Genève → Annecy · 95 €</small></span><span class="chip">Payée</span></div>
-          <div class="s-li" style="--n:3"><b class="t">0141</b><span><b>Agence Lac &amp; Alpes</b><small>Annecy → Megève · 140 €</small></span><span class="chip w">Envoyée</span></div>
-          <div class="s-li" style="--n:4"><b class="t">0140</b><span><b>Julie Durand</b><small>Gare → Talloires · 38 €</small></span><span class="chip">Payée</span></div>
+          <div class="s-li" style="--n:2"><b class="t">0142</b><span><b>Carlton Paris</b><small>Paris-CDG → Carlton Paris · 95 €</small></span><span class="chip">Payée</span></div>
+          <div class="s-li" style="--n:3"><b class="t">0141</b><span><b>Hôtel Le Bristol Paris</b><small>Le Bristol Paris → Paris-CDG · 140 €</small></span><span class="chip w">Envoyée</span></div>
+          <div class="s-li" style="--n:4"><b class="t">0140</b><span><b>Julie Durand</b><small>Paris-Orly → Ritz Paris · 38 €</small></span><span class="chip">Payée</span></div>
           <div class="s-li" style="--n:5"><b class="t">D-31</b><span><b>Imperial Palace</b><small>Devis mariage · 3 trajets</small></span><span class="chip b">Devis</span></div>
-          <div class="s-li" style="--n:6"><b class="t">0139</b><span><b>Clinique d’Argonay</b><small>Annecy → Genève · 120 €</small></span><span class="chip">Payée</span></div>
+          <div class="s-li" style="--n:6"><b class="t">0139</b><span><b>Hôtel de Crillon</b><small>Hôtel de Crillon → Paris-CDG · 120 €</small></span><span class="chip">Payée</span></div>
           <div class="s-tab" aria-hidden="true"><span><svg><use href="#i-cal"/></svg>Agenda</span><span class="on"><svg><use href="#i-file"/></svg>Factures</span><span class="f"><svg><use href="#i-plus"/></svg></span><span><svg><use href="#i-receipt"/></svg>Dépenses</span><span><svg><use href="#i-chart"/></svg>Finances</span></div>
         </div>
         <div class="scr" id="p-depenses" role="tabpanel" aria-labelledby="t-depenses" hidden>
           <div class="s-h"><b>Dépenses</b><small>OCTOBRE 2026</small></div>
-          <div class="s-tot col" style="--n:0"><div class="s-row"><span><small>DÉPENSES DU MOIS</small><b>716,40 €</b></span><span class="chip">TVA déd. 98 €</span></div><div class="stk"><i style="--w:46%;--c:#f3b23c"></i><i style="--w:40%;--c:#7fd1a8"></i><i style="--w:6%;--c:#e07b6c"></i><i style="--w:8%;--c:#8fb8ff"></i></div><div class="lg"><span style="--c:#f3b23c">Carburant</span><span style="--c:#7fd1a8">Entretien</span><span style="--c:#e07b6c">Péages</span><span style="--c:#8fb8ff">Lavage</span></div></div>
-          <div class="s-li" style="--n:1"><b class="t ic" style="--c:#fdf1d8;--k:#8a5a00"><svg aria-hidden="true"><use href="#i-fuel"/></svg></b><span><b>Carburant</b><small>Total Annecy · justificatif</small></span><b>82,30 €</b></div>
-          <div class="s-li" style="--n:2"><b class="t ic" style="--c:#fbe5e2;--k:#8a2f26"><svg aria-hidden="true"><use href="#i-road"/></svg></b><span><b>Péage</b><small>A41 Genève · justificatif</small></span><b>14,60 €</b></div>
-          <div class="s-li" style="--n:3"><b class="t ic" style="--c:#e6efff;--k:#2c4f8f"><svg aria-hidden="true"><use href="#i-drop"/></svg></b><span><b>Lavage</b><small>Station Seynod</small></span><b>18,00 €</b></div>
+          <div class="s-tot col" style="--n:0"><div class="s-row"><span><small>DÉPENSES DU MOIS</small><b>716,40 €</b></span><span class="chip">TVA déd. 98 €</span></div><div class="stk"><i style="--w:46%;--c:#f3b23c"></i><i style="--w:40%;--c:#7fd1a8"></i><i style="--w:6%;--c:#e07b6c"></i><i style="--w:8%;--c:#8fb8ff"></i></div><div class="lg"><span style="--c:#f3b23c">Carburant</span><span style="--c:#7fd1a8">Entretien</span><span style="--c:#e07b6c">Parking</span><span style="--c:#8fb8ff">Lavage</span></div></div>
+          <div class="s-li" style="--n:1"><b class="t ic" style="--c:#fdf1d8;--k:#8a5a00"><svg aria-hidden="true"><use href="#i-fuel"/></svg></b><span><b>Carburant</b><small>Total Paris · justificatif</small></span><b>82,30 €</b></div>
+          <div class="s-li" style="--n:2"><b class="t ic" style="--c:#fbe5e2;--k:#8a2f26"><svg aria-hidden="true"><use href="#i-road"/></svg></b><span><b>Parking</b><small>Parking Paris-CDG · justificatif</small></span><b>14,60 €</b></div>
+          <div class="s-li" style="--n:3"><b class="t ic" style="--c:#e6efff;--k:#2c4f8f"><svg aria-hidden="true"><use href="#i-drop"/></svg></b><span><b>Lavage</b><small>Station Paris</small></span><b>18,00 €</b></div>
           <div class="s-li" style="--n:4"><b class="t ic" style="--c:#e2f2e9;--k:#0f5135"><svg aria-hidden="true"><use href="#i-wrench"/></svg></b><span><b>Entretien</b><small>Révision 60 000 km</small></span><b>289,00 €</b></div>
-          <div class="s-li" style="--n:5"><b class="t ic" style="--c:#fdf1d8;--k:#8a5a00"><svg aria-hidden="true"><use href="#i-fuel"/></svg></b><span><b>Carburant</b><small>Esso Seynod · justificatif</small></span><b>76,10 €</b></div>
+          <div class="s-li" style="--n:5"><b class="t ic" style="--c:#fdf1d8;--k:#8a5a00"><svg aria-hidden="true"><use href="#i-fuel"/></svg></b><span><b>Carburant</b><small>Esso Paris · justificatif</small></span><b>76,10 €</b></div>
           <div class="s-tab" aria-hidden="true"><span><svg><use href="#i-cal"/></svg>Agenda</span><span><svg><use href="#i-file"/></svg>Factures</span><span class="f"><svg><use href="#i-plus"/></svg></span><span class="on"><svg><use href="#i-receipt"/></svg>Dépenses</span><span><svg><use href="#i-chart"/></svg>Finances</span></div>
         </div>
         <div class="scr" id="p-finances" role="tabpanel" aria-labelledby="t-finances" hidden>
           <div class="s-h"><b>Finances</b><small>OCTOBRE 2026</small></div>
           <div class="s-tot col" style="--n:0"><div class="s-row"><span><small>CHIFFRE D’AFFAIRES</small><b>2 480,00 €</b></span><span class="chip">46 courses</span></div><div class="s-bars" aria-hidden="true"><i style="height:58%;--n:0"></i><i style="height:66%;--n:1"></i><i style="height:61%;--n:2"></i><i style="height:74%;--n:3"></i><i style="height:82%;--n:4"></i><i style="height:100%;--n:5"></i></div><div class="mo"><span>MAI</span><span>JUIN</span><span>JUIL.</span><span>AOÛT</span><span>SEPT.</span><span>OCT.</span></div></div>
           <div class="fin" style="--n:1"><div><small>DÉPENSES</small><b>716 €</b></div><div><small>TVA À REVERSER</small><b>315 €</b></div><div><small>COTISATIONS EST.</small><b>533 €</b></div><div><small>RÉSULTAT EST.</small><b class="gr">916 €</b></div></div>
-          <div class="s-card top" style="--n:2"><small class="k">MEILLEURS CLIENTS</small><div class="s-row"><span>Hôtel des Marquisats</span><b>612 €</b></div><div class="s-row"><span>Agence Lac &amp; Alpes</span><b>438 €</b></div><div class="s-row"><span>Clinique d’Argonay</span><b>360 €</b></div></div>
+          <div class="s-card top" style="--n:2"><small class="k">MEILLEURS CLIENTS</small><div class="s-row"><span>Carlton Paris</span><b>612 €</b></div><div class="s-row"><span>Hôtel Le Bristol Paris</span><b>438 €</b></div><div class="s-row"><span>Hôtel de Crillon</span><b>360 €</b></div></div>
           <div class="s-li" style="--n:3"><b class="t ic" style="--c:#e2f2e9;--k:#0f5135"><svg aria-hidden="true"><use href="#i-sheet"/></svg></b><span><b>Export Excel d’octobre</b><small>Pour votre comptable</small></span><span class="chip">Prêt</span></div>
           <div class="s-tab" aria-hidden="true"><span><svg><use href="#i-cal"/></svg>Agenda</span><span><svg><use href="#i-file"/></svg>Factures</span><span class="f"><svg><use href="#i-plus"/></svg></span><span><svg><use href="#i-receipt"/></svg>Dépenses</span><span class="on"><svg><use href="#i-chart"/></svg>Finances</span></div>
         </div>
@@ -699,7 +716,7 @@ body.lock{overflow:hidden}
     <div class="c" data-rv><p class="kick">Une journée</p><h2 class="h2">La gestion se fait <em>pendant que vous roulez</em>.</h2></div>
     <div class="day" id="day">
       <article class="step"><span class="dot" aria-hidden="true">1</span><div><p class="when">La veille</p><h3>La course est notée</h3><p>Le rappel arrivera avant le départ, même application fermée.</p></div>
-        <div class="ui" aria-hidden="true"><div class="notif"><img src="icon-192.png" alt=""><span><b>Course dans 30 min</b><small>09:20 · Aéroport de Genève → Annecy</small></span></div><div class="notif"><img src="icon-192.png" alt=""><span><b>Demain 07:45</b><small>Gare d’Annecy → Talloires</small></span></div></div></article>
+        <div class="ui" aria-hidden="true"><div class="notif"><img src="icon-192.png" alt=""><span><b>Course dans 30 min</b><small>09:20 · Paris-CDG → Carlton Paris</small></span></div><div class="notif"><img src="icon-192.png" alt=""><span><b>Demain 07:45</b><small>Paris-Orly → Ritz Paris</small></span></div></div></article>
       <article class="step"><span class="dot" aria-hidden="true">2</span><div><p class="when">À l’arrivée</p><h3>La facture part</h3><p>Créée en terminant la course, envoyée par WhatsApp, SMS ou e-mail.</p></div>
         <div class="ui" aria-hidden="true"><div class="bub">Bonjour, voici votre facture. Merci !<small>10:13 ✓✓</small></div><div class="bub f"><span class="pdf">PDF</span><span><b style="font-size:12px">Facture-F-2026-0142.pdf</b><small>1 page · 38 Ko</small></span></div></div></article>
       <article class="step"><span class="dot" aria-hidden="true">3</span><div><p class="when">À la pompe</p><h3>La dépense est rangée</h3><p>Montant, catégorie, TVA : enregistré en quelques secondes.</p></div>
@@ -803,8 +820,8 @@ body.lock{overflow:hidden}
       <div class="phone f-l" data-src="p-factures"><div class="ph"><div class="ph-notch"></div><div class="ph-sb"><span>10:13</span><span>5G</span></div></div></div>
       <div class="phone f-r" data-src="p-finances"><div class="ph"><div class="ph-notch"></div><div class="ph-sb"><span>18:30</span><span>5G</span></div></div></div>
       <div class="phone f-c" data-src="p-agenda"><div class="ph"><div class="ph-notch"></div><div class="ph-sb"><span>08:12</span><span>5G</span></div></div></div>
-      <div class="bub-n n1"><img src="icon-192.png" alt=""><span><b>Facture payée</b><small>Hôtel des Marquisats · + 95 €</small></span></div>
-      <div class="bub-n n2"><img src="icon-192.png" alt=""><span><b>Course dans 30 min</b><small>09:20 · Genève → Annecy</small></span></div>
+      <div class="bub-n n1"><img src="icon-192.png" alt=""><span><b>Facture payée</b><small>Carlton Paris · + 95 €</small></span></div>
+      <div class="bub-n n2"><img src="icon-192.png" alt=""><span><b>Course dans 30 min</b><small>09:20 · Paris-CDG → Carlton Paris</small></span></div>
     </div>
   </div>
 </section>
