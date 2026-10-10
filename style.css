@@ -699,3 +699,15 @@ body.locked .topbar,body.locked .layout,body.locked .tabbar{display:none}
 .compat .admin-summary{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
 .compat .admin-summary .kpi span{text-transform:uppercase;letter-spacing:.06em;font-size:11px}
 .compat .admin-section-nav button span{font-variant-numeric:tabular-nums;opacity:.7}
+/* Interrupteurs on/off compacts (heures de rappel, cases des réglages) */
+.checks label{justify-content:space-between}
+.checks input[type=checkbox]{-webkit-appearance:none;appearance:none;order:2;width:34px;height:20px;border-radius:99px;background:var(--line-2);position:relative;flex:none;cursor:pointer;margin:0;transition:background var(--d2)}
+.checks input[type=checkbox]::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform var(--d2) var(--spring)}
+.checks input[type=checkbox]:checked{background:var(--brand)}
+.checks input[type=checkbox]:checked::after{transform:translateX(14px)}
+.checks input[type=checkbox]:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.checks label:has(input:checked){border-color:color-mix(in srgb,var(--brand) 35%,var(--line));background:var(--brand-soft)}
+#reminder-preset{margin-bottom:4px}
+/* « Rester connecté » sur l’écran de connexion et l’écran du code */
+.switch.remember{padding:12px 14px;border-radius:var(--r-2);border:1px solid var(--line);background:var(--surface);text-align:left}
+.pin .switch.remember{width:100%}

@@ -5,7 +5,14 @@ const CLOUD_ARR=["courses","clients","depenses","factures","docs"];
 const TERMS_VERSION="2026-10-07-v1";
 const CLOUD_USAGE_EVENTS=new Set(["app_opened","page_home","page_courses","page_history","page_clients","page_plus","page_factures","page_compta","page_documents","page_billing","page_settings","page_tools","course_created","client_created","invoice_created","expense_created","premium_promo_shown","premium_cta_clicked","premium_gate_opened","checkout_started"]);
 let sb=null,cloudUser=null,cloudBusy=false,cloudTimer=null,cloudMsg="",cloudPreparedUserId=null,cloudPreparing=null,cloudAuthReady=null,cloudStarting=false;
-try{if(window.supabase)sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:"slm_sb_auth"}})}catch(e){sb=null}
+/* « Rester connecté sur cet appareil » : la session est conservée (localStorage, comportement par défaut, inchangé)
+   ou limitée à la fenêtre (sessionStorage). Le second réglage permet d’ouvrir cet appareil sans code. */
+const SLM_REMEMBER_KEY="slm_remember",SLM_NOPIN_KEY="slm_device_nopin";
+const slmRemember=()=>{try{return localStorage.getItem(SLM_REMEMBER_KEY)!=="0"}catch{return true}};
+const deviceNoPin=()=>{try{return localStorage.getItem(SLM_NOPIN_KEY)==="1"}catch{return false}};
+function slmSetRemember(on){try{localStorage.setItem(SLM_REMEMBER_KEY,on?"1":"0");if(on)localStorage.setItem(SLM_NOPIN_KEY,"1");else localStorage.removeItem(SLM_NOPIN_KEY)}catch{}}
+const slmAuthStorage={getItem(k){try{return localStorage.getItem(k)??sessionStorage.getItem(k)}catch{return null}},setItem(k,v){try{if(slmRemember()){localStorage.setItem(k,v);sessionStorage.removeItem(k)}else{sessionStorage.setItem(k,v);localStorage.removeItem(k)}}catch{}},removeItem(k){try{localStorage.removeItem(k)}catch{}try{sessionStorage.removeItem(k)}catch{}}};
+try{if(window.supabase)sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:"slm_sb_auth",storage:slmAuthStorage}})}catch(e){sb=null}
 const cloudSet=m=>{cloudMsg=m;const value=String(m||"").toLocaleLowerCase("fr-FR");const state=/erreur|échec|impossible|refusée/.test(value)?"error":/attente|en cours|vérification|indisponible|hors ligne|déconnecté|non connecté/.test(value)?"waiting":/synchron|à jour|connecté|récupéré|fusionnées|restauré/.test(value)?"ok":"neutral";try{for(const id of ["cloudStatus","accountCloudStatus"]){const el=document.getElementById(id);if(el){el.textContent=m;el.dataset.state=state;el.setAttribute("role","status");el.setAttribute("aria-live","polite")}}}catch{}};
 function cloudTrackUsageEvent(event){if(!sb||!cloudUser||!CLOUD_USAGE_EVENTS.has(event))return Promise.resolve(false);return sb.rpc("track_usage_event",{p_event:event}).then(({data,error})=>!error&&!!data).catch(()=>false)}
 const hasLocalData=()=>db&&CLOUD_ARR.some(k=>Array.isArray(db[k])&&db[k].length>0);
@@ -104,7 +111,7 @@ async function cloudPull(manual){
 }
 async function cloudLogin(){
   if(!sb)return toast("Supabase indisponible (connexion internet ?)");const email=(document.getElementById("cl_mail")||{}).value||"",pw=(document.getElementById("cl_pw")||{}).value||"";
-  if(!email||!pw)return toast("E-mail et mot de passe requis");try{const{data,error}=await sb.auth.signInWithPassword({email:email.trim(),password:pw});if(error)throw error;cloudUser=data.user;if(typeof adminCheckAccess==="function")adminCheckAccess();if(document.getElementById("cloud-auth-screen"))return cloudOpenApp();toast("Connecté");await cloudPull(true);refresh()}catch(error){const message="Connexion refusée : "+(error?.message||"vérifiez votre connexion");if(document.getElementById("cloud-auth-screen"))return cloudAuthUI("login",message);toast(message)}
+  if(!email||!pw)return toast("E-mail et mot de passe requis");const rem=document.getElementById("cl_remember");if(rem)slmSetRemember(rem.checked);try{const{data,error}=await sb.auth.signInWithPassword({email:email.trim(),password:pw});if(error)throw error;cloudUser=data.user;if(typeof adminCheckAccess==="function")adminCheckAccess();if(document.getElementById("cloud-auth-screen"))return cloudOpenApp();toast("Connecté");await cloudPull(true);refresh()}catch(error){const message="Connexion refusée : "+(error?.message||"vérifiez votre connexion");if(document.getElementById("cloud-auth-screen"))return cloudAuthUI("login",message);toast(message)}
 }
 async function cloudSignup(){
   if(!sb)return toast("Supabase indisponible (connexion internet ?)");
@@ -113,7 +120,7 @@ async function cloudSignup(){
   const usageConsent=!!document.getElementById("cl_analytics")?.checked;
   if(!termsAccepted)return toast("Pour créer votre compte, vous devez accepter les conditions d’utilisation.");
   if(!email.trim()||!password)return toast("Saisissez votre e-mail et un mot de passe");
-  if(password.length<8)return toast("Choisissez un mot de passe d’au moins 8 caractères");
+  if(password.length<8)return toast("Choisissez un mot de passe d’au moins 8 caractères");const rem=document.getElementById("cl_remember");if(rem)slmSetRemember(rem.checked);
   try{
     const{data,error}=await sb.auth.signUp({email:email.trim(),password,options:{emailRedirectTo:`${location.origin}${location.pathname}#billing`,data:{terms_accepted:true,terms_version:TERMS_VERSION,terms_accepted_at:new Date().toISOString(),usage_analytics_consent:usageConsent}}});
     if(error)throw error;
@@ -125,7 +132,7 @@ function cloudSignupTermsChanged(input){const button=document.getElementById("cl
 async function cloudForgotPassword(){if(!sb)return toast("Supabase indisponible");const email=(document.getElementById("cl_mail")||{}).value||"";if(!email.trim())return toast("Saisissez votre adresse e-mail d’abord");const{error}=await sb.auth.resetPasswordForEmail(email.trim(),{redirectTo:`${location.origin}${location.pathname}`});if(error)return toast("Envoi impossible : "+error.message);toast("E-mail de réinitialisation envoyé")}
 function cloudAuthSwitch(mode){const email=(document.getElementById("cl_mail")||{}).value||"";cloudAuthUI(mode).then(()=>{const field=document.getElementById("cl_mail");if(field)field.value=email})}
 async function cloudOpenApp(){if(cloudStarting)return;if(!cloudUser)return cloudAuthUI();cloudStarting=true;$("#lock").classList.remove("auth-lock");try{await boot();if(typeof adminCheckAccess==="function")adminCheckAccess();if(typeof billingAppReady==="function")billingAppReady()}catch(error){cloudSet("Impossible d’ouvrir l’application : "+(error?.message||"erreur locale"));await cloudAuthUI("login","Impossible d’ouvrir vos données. Vérifiez la connexion et réessayez.")}finally{cloudStarting=false}}
-async function cloudLogout(){if(cloudUser&&db){ensureMeta();db.meta.ownerUserId=cloudUser.id;await store(cloudLocalKey(cloudUser.id),JSON.stringify(db))}if(typeof removePushForLogout==="function")await removePushForLogout();if(sb)await sb.auth.signOut();cloudUser=null;cloudPreparedUserId=null;cloudSet("Déconnecté");await cloudAuthUI("login","Vous êtes déconnecté.")}
+async function cloudLogout(){try{localStorage.removeItem(SLM_NOPIN_KEY)}catch{}if(cloudUser&&db){ensureMeta();db.meta.ownerUserId=cloudUser.id;await store(cloudLocalKey(cloudUser.id),JSON.stringify(db))}if(typeof removePushForLogout==="function")await removePushForLogout();if(sb)await sb.auth.signOut();cloudUser=null;cloudPreparedUserId=null;cloudSet("Déconnecté");await cloudAuthUI("login","Vous êtes déconnecté.")}
 async function cloudApplyImportedData(imported,userId){
   if(!sb||!cloudUser)throw new Error("Connectez-vous au compte destinataire avant la restauration.");
   const targetUserId=userId||cloudUser.id;
